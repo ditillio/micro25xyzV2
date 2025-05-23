@@ -1,0 +1,258 @@
+---
+schema: EconSchema
+version: 1
+aspectRatio: 1.5
+
+params:
+
+  - {name: x1, value: 3, min: 0, max: 9, round: 0.1}
+  - {name: x2, value: 3, min: 0, max: 9, round: 0.1}
+  - {name: s, value: 5, min: 0, max: 10}
+
+  - {name: showMORE, value: false}
+  - {name: showLESS, value: false}
+
+# consumption levels on 45° line
+  - {name: c1, value: 1}
+  - {name: c2, value: 2}
+  - {name: c3, value: 3}
+  - {name: c4, value: 4}
+  - {name: c5, value: 5}
+  - {name: c6, value: 6}
+  - {name: c7, value: 7}
+  - {name: c8, value: 8}
+  - {name: c9, value: 9}
+
+
+calcs:
+# utility at selected bundle
+  u: (params.x1) * (params.x2) + (params.s) * ( (params.x1) + (params.x2) )
+
+# MU and MRS at selected bundle
+  MU1: (params.x2) + (params.s)
+  MU2: (params.x1) + (params.s)
+  MRS: (calcs.MU1)/(calcs.MU2)
+
+# utility levels
+  u1: ((params.c1)*(params.c1))+((params.s)*((params.c1)+(params.c1)))
+  u2: ((params.c2)*(params.c2))+((params.s)*((params.c2)+(params.c2)))
+  u3: ((params.c3)*(params.c3))+((params.s)*((params.c3)+(params.c3)))
+  u4: ((params.c4)*(params.c4))+((params.s)*((params.c4)+(params.c4)))
+  u5: ((params.c5)*(params.c5))+((params.s)*((params.c5)+(params.c5)))
+  u6: ((params.c6)*(params.c6))+((params.s)*((params.c6)+(params.c6)))
+  u7: ((params.c7)*(params.c7))+((params.s)*((params.c7)+(params.c7)))
+  u8: ((params.c8)*(params.c8))+((params.s)*((params.c8)+(params.c8)))
+  u9: ((params.c9)*(params.c9))+((params.s)*((params.c9)+(params.c9)))
+
+  xequiv: ((9)+(params.s)*(6))/(params.s)
+
+layout:
+  OneGraphPlusSidebar:
+    graph:
+
+      xAxis:
+        orient: bottom
+        min: 0
+        max: 9.5
+        ticks: 0
+      yAxis:
+        orient: left
+        min: 0
+        max: 9.5
+        ticks: 0
+
+
+      objects:
+
+      - Label:
+            coordinates: [9.5, 0]
+            text: "` \\\\text{Pesce (kg)} `"
+            position: l
+      - Label:
+            coordinates: [0, 9.5]
+            text: "` \\\\text{Carne (kg)}  `"
+
+
+
+# Indifference Curve at bundle
+      - Curve:
+          fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
+          color: Black
+          strokeWidth: 1.5
+          min: 0.01
+      
+# Indifference Map
+      - Curve:
+          fn:   ((calcs.u1)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.01
+      - Curve:
+          fn:   ((calcs.u2)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+      - Curve:
+          fn:   ((calcs.u3)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+      - Curve:
+          fn:   ((calcs.u4)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+      - Curve:
+          fn:   ((calcs.u5)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+      - Curve:
+          fn:   ((calcs.u6)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+      - Curve:
+          fn:   ((calcs.u7)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+      - Curve:
+          fn:   ((calcs.u8)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+      - Curve:
+          fn:   ((calcs.u9)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.25
+
+            
+      # Bundle
+      - Point:
+          coordinates: [params.x1, params.x2]
+          droplines:
+            horizontal: params.x2.toFixed(1)
+            vertical: params.x1.toFixed(1)
+          color: Blue
+          strokeWidth: 0.5
+          r: 4
+          draggable: true
+
+# tangent at bundle
+      - Line:
+          point: [params.x1,params.x2]
+          slope: -(calcs.MRS)
+          color: Blue
+          min: params.x1-100
+          max: params.x1+100
+          strokeWidth: 0.7
+          lineStyle: dashed
+
+
+
+    sidebar:
+
+      controls:
+
+      - title: Utilità marginali e saggio marginale di sostituzione (beni sostituti)
+        description: Selezionare un valore del parametro 𝑠 per vedere come cambia la mappa di curve di indifferenza
+                    al variare del parametro. Selezionare poi un paniere
+                       per calcolare utilità marginali e 
+                    saggio marginale di sostituzione di 𝑋 con 𝑌 in quel paniere.
+
+        # checkboxes:
+        # - param: showMORE
+        #   label: "\\text{Mostra panieri preferiti ad $A$}"
+        # - param: showLESS
+        #   label: "\\text{Mostra panieri a cui $A$ è preferito}"
+
+        divs:
+          - html: "` Le utilità marginali sono
+                    $$
+                    MU_X = Y + ${params.s} 
+                          \\\\qquad 
+                    MU_Y = X + ${params.s} 
+                    $$
+                    e quindi il saggio marginale di sostituzione di $X$ con $Y$ è
+                    $$
+                    MRS_{XY} = \\\\dfrac{Y + ${params.s}}{X + ${params.s}}
+                    $$  `"
+            show: params.s > 0
+
+          - html: "` Le utilità marginali sono
+                    $$
+                    MU_X = Y 
+                          \\\\qquad 
+                    MU_Y = X 
+                    $$
+                    e quindi il saggio marginale di sostituzione di $X$ con $Y$ è
+                    $$
+                    MRS_{XY} = \\\\dfrac{Y}{X}
+                    $$  `"
+            show: params.s == 0
+
+        sliders:
+        - param: s
+          label: s
+        - param: x1
+          label: X
+        - param: x2
+          label: Y
+
+
+
+
+
+
+
+
+    explanation:
+      divs:
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
+                  e carne, le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY+${params.s}(X+Y)$$
+                  Diversamente dal caso Cobb-Douglas, in questo caso le curve
+                  d'indifferenza toccano gli assi. Per esempio, si può verificare che 
+                  quando $s=4$ il paniere $(2,2)$
+                  e il paniere $(5,0)$, che si trova
+                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
+                  (entrambi danno un'utilità pari a $20$).
+                    `"
+          show: params.s > 1
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
+                  e carne, le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY+(X+Y)$$
+                  Diversamente dal caso Cobb-Douglas, in questo caso le curve
+                  d'indifferenza toccano gli assi. Per esempio, il paniere $(2,2)$
+                  e il paniere $(8,0)$, che si trova
+                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
+                  (entrambi danno un'utilità pari a $8$).
+                    `"
+          show: params.s == 1
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
+                  e carne, le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY$$
+                  Tali preferenze sono identiche a quelle della Figura 2.2.`"
+          show: params.s == 0
+
+        - html: "` `"
+
+        - html: "` In corrispondenza del paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
+                    le utilità marginali sono
+                    $$
+                    MU_X=${calcs.MU1.toFixed(2)}
+                    \\\\qquad
+                    MU_Y=${calcs.MU2.toFixed(2)}
+                    $$
+                   `"
+
+        - html: "` 
+                   Il saggio marginale di sostituzione di $X$ con $Y$ 
+                    (valore assoluto della pendenza della retta tratteggiata) è quindi
+                   $$
+                   MRS_{XY} = \\\\dfrac{${calcs.MU1.toFixed(2)}}{${calcs.MU2.toFixed(2)}}
+                      = ${calcs.MRS.toFixed(2)}
+                   $$
+                   `"
+
+
+
+
+

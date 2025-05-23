@@ -1,0 +1,295 @@
+---
+schema: EconSchema
+version: 1
+aspectRatio: 0.8
+params:
+
+# income and prices
+  - {name: m, value: 30, min: 10, max: 50, round: 10}
+  - {name: p1, value: 4, min: 1, max: 10, round: 0.5}
+  - {name: p2, value: 4, min: 1, max: 10, round: 0.5}
+
+# consumption levels on 45° line
+  - {name: c1, value: 1}
+  - {name: c2, value: 2}
+  - {name: c3, value: 3}
+  - {name: c4, value: 4}
+  - {name: c5, value: 5}
+  - {name: c6, value: 6}
+  - {name: c7, value: 7}
+  - {name: c8, value: 8}
+  - {name: c9, value: 9}
+
+  - {name: a, value: 1, min: 1, max: 3}
+  - {name: b, value: 1, min: 1, max: 3}
+
+
+calcs:
+
+# optimum and indirect utility
+  x1opt: ((params.a)/((params.a)+(params.b)))*(params.m)/(params.p1)
+  x2opt: ((params.b)/((params.a)+(params.b)))*(params.m)/(params.p2)
+  umax: (calcs.x1opt)^(params.a) * (calcs.x2opt)^(params.b)
+
+# expenditure on X
+  E1: ((params.a)/((params.a)+(params.b)))*(params.m)
+
+# utility levels
+  u1: ((params.c1)^(params.a))*((params.c1)^(params.b))
+  u2: ((params.c2)^(params.a))*((params.c2)^(params.b))
+  u3: ((params.c3)^(params.a))*((params.c3)^(params.b))
+  u4: ((params.c4)^(params.a))*((params.c4)^(params.b))
+  u5: ((params.c5)^(params.a))*((params.c5)^(params.b))
+  u6: ((params.c6)^(params.a))*((params.c6)^(params.b))
+  u7: ((params.c7)^(params.a))*((params.c7)^(params.b))
+  u8: ((params.c8)^(params.a))*((params.c8)^(params.b))
+  u9: ((params.c9)^(params.a))*((params.c9)^(params.b))
+
+# budget line intercepts
+  xintercept: params.m/params.p1
+  yintercept: params.m/params.p2
+
+
+
+
+layout:
+  TwoVerticalGraphsPlusSidebar:
+
+
+    topGraph:
+      xAxis:
+        max: 9.5
+        ticks: 0
+      yAxis:
+        max: 9.5
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [9.33, 0]
+            text: "` \\\\text{unità di $X$} `"
+            position: l
+      - Label:
+            coordinates: [0, 9.5]
+            text: "` \\\\text{unità di $Y$}  `"
+
+# Indifference Map
+      - ContourMap:
+          levels: [calcs.u1, calcs.u2, calcs.u3, calcs.u4, calcs.u5, calcs.u6, calcs.u7, calcs.u8, calcs.u9]
+          yMax: 10
+          xMax: 10
+          strokeWidth: 0.25
+          fn: ((x)^(params.a))*((y)^(params.b))
+
+# budget line
+      - Line:
+          point: [0,calcs.yintercept]
+          slope: -params.p1/params.p2
+          color: Green
+          strokeWidth: 1.5
+          max: calcs.xintercept
+      - Point:
+          coordinates: [calcs.xintercept, 0]
+          droplines: {vertical: calcs.xintercept.toFixed(2), horizontal: }
+          color: black
+          r: 0
+      - Point:
+          coordinates: [0, calcs.yintercept]
+          droplines: {vertical: , horizontal: calcs.yintercept.toFixed(2)}
+          color: black
+          r: 0
+
+# optimal bundle
+      - Point:
+          coordinates: [calcs.x1opt, calcs.x2opt]
+          droplines:
+            horizontal: calcs.x2opt.toFixed(2)
+            vertical: calcs.x1opt.toFixed(2)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+
+# Indifference curve at optimal bundle
+      - Curve:
+          fn: ((calcs.umax)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1.5
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    bottomGraph:
+      xAxis:
+        max: 9.5
+        ticks: 0
+      yAxis:
+        max: 9.5
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [9.33, 0]
+            text: "` \\\\text{unità di $X$} `"
+            position: l
+      - Label:
+            coordinates: [0, 9.5]
+            text: "` \\\\text{euro/unità di $X$}  `"
+
+# demand function
+      - Curve:
+          fn: ((params.a)/((params.a)+(params.b)))*(params.m)/(x)
+          color: Blue
+          strokeWidth: 1.5
+          min: 0.04
+          label:
+            text: "` X = \\\\dfrac{${calcs.E1.toFixed(2)}}{P_X} `"
+            x: 9.5
+            position: l
+
+# legenda
+      - Label:
+            coordinates: [7, 6.5]
+            text: "` \\\\text{curva di} `"
+            position: c
+            color: Blue
+      - Label:
+            coordinates: [7, 6]
+            text: "` \\\\text{domanda individuale} `"
+            position: c
+            color: Blue
+      - Label:
+            coordinates: [7, 5.5]
+            text: "` \\\\text{del bene $X$} `"
+            position: c
+            color: Blue
+
+# optimal choice (params.UF=0)
+      - Point:
+          coordinates: [calcs.x1opt, params.p1]
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+      - Point:
+          coordinates: [calcs.x1opt, 1000]
+          droplines:
+            vertical: calcs.x1opt.toFixed(2)
+          color: Blue
+          r: 0
+          strokeWidth: 0.5
+      - Point:
+          coordinates: [calcs.x1opt, params.p1]
+          droplines:
+            horizontal: params.p1.toFixed(1)
+          color: Green
+          r: 0
+          strokeWidth: 0.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    sidebar:
+      controls:
+      - title: Scelta ottima e funzione di domanda individuale del bene 𝑋 (Cobb-Douglas)
+
+        description: Selezionare i parametri della funzione di utilità.
+                      Selezionare poi reddito e prezzi per calcolare
+                      la scelta ottima del consumatore (grafico di sopra) e la funzione
+                      di domanda individuale (grafico di sotto) del bene 𝑋.
+
+        divs:
+          - html: "`  `"
+          - html: "` Vincolo di bilancio:
+                    $$
+                    ${params.p1.toFixed(1)}X+${params.p2.toFixed(1)}Y = ${params.m.toFixed(0)}
+                    $$
+                     `"
+
+          - html: "`  `"
+          - html: "` Condizione di tangenza:
+                    $$
+                    ${params.p1.toFixed(1)}X/(${params.p2.toFixed(1)}Y) = ${params.a}/${params.b}
+                    $$
+                     `"
+
+          - html: "`  `"
+          - html: "` Scelta ottima:
+                    $$
+                    X=${calcs.x1opt.toFixed(2)} \\\\qquad Y=${calcs.x2opt.toFixed(2)}
+                    $$
+                     `"
+
+
+
+
+        sliders:
+        - param: a
+          label: a
+        - param: b
+          label: b
+        - param: m
+          label: M
+        - param: p1
+          label: P_X
+        - param: p2
+          label: P_Y
+
+
+
+
+
+
+
+
+
+
+
+    # explanation:
+
+    #     divs:
+
+    #       - html: "`
+    #             `"
+
+
+
+
+
+

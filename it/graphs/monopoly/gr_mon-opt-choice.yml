@@ -1,0 +1,330 @@
+---
+schema: EconSchema
+version: 1
+params:
+
+- {name: cap, value: 20, min: 0, max: 30}
+
+- {name: dslope, value: 0.01, min: 0.01, max: 0.02, round: 0.01} # abs value of slope of inverse demand
+- {name: dint, value: 10, min: 8, max: 12} # intercept of inverse demand
+- {name: fc, value: 0} # fixed cost 
+- {name: mc, value: 2, min: 1, max: 4} #  marginal cost (constant)
+
+- {name: mcslope, value: 0.5} # slope of marginal cost function
+
+- {name: dslopefix, value: 0.01} # abs value of slope of inverse demand
+- {name: dintfix, value: 10, min: 8, max: 12} # intercept of inverse demand
+- {name: mcfix, value: 0.5} # slope of marginal cost function
+
+- {name: Q, value: 300, min: 0, max: 1000, round: 5} # intercept of inverse demand
+
+- {name: showCS, value: 0}
+- {name: showPS, value: 0}
+- {name: showDWL, value: 0}
+
+- {name: tgl, value: 200} #  half-length of tangent line
+
+calcs:
+
+  P: (params.dint)-(params.dslope)*(params.Q)
+  R: (calcs.P)*(params.Q)
+  Qcomp: ((params.dint)-(params.mc))/(params.dslope) # competitive quantity
+
+  maxQ: (1.1)*(params.dintfix)/(params.dslopefix) # max displayed quantity
+  maxP: (1.15)*(params.dintfix) # max displayed price
+  minP: -(0.2)*(calcs.maxP) # max displayed price
+  maxR: ((params.dintfix)-(params.dslopefix)*((params.dintfix)/(2*(params.dslopefix))))*(params.dintfix)/(2*(params.dslopefix)) # max revenues
+  maxC: (params.mcfix)*(calcs.maxQ) # max costs
+  maxEUR: (1.1)*max((calcs.maxR),(calcs.maxC)) # max displayed revenues and costs
+
+  Q0: ( (params.dint) - (params.cap) ) / (params.dslope) # quantity demanded at price cap
+  Qmon: ( (params.dint) - (params.mc) ) / ( (2)*(params.dslope) ) # monopolistic quantity
+  Pmon: (params.dint)-(params.dslope)*(calcs.Qmon) # monopolistic price
+  Pcomp: ( (params.dint)*(params.mcslope) ) / ( (params.dslope) + (params.mcslope) ) # competitive price
+
+  eqP: min ( params.cap , calcs.Pmon ) # equilibrium price
+  eqQ: min(max(calcs.Q0,calcs.Qmon),(params.cap)/(params.mcslope)) # equilibrium quantity
+
+
+
+
+
+aspectRatio: 0.75
+
+layout:
+
+  type: TwoVerticalGraphsPlusSidebar
+
+  def:
+
+
+    topGraph:
+      xAxis:
+        orient: bottom
+        min: 0
+        max: calcs.maxQ
+        ticks: 0
+      yAxis:
+        orient: left
+        min: 0
+        max: calcs.maxEUR
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [calcs.maxQ, 0]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, calcs.maxrev]
+            text: "` \\\\text{€}  `"
+            xPixelOffset: -5
+
+# revenue
+      - Curve:
+          fn: ( (params.dint) - (params.dslope)*(x) ) * (x)
+          color: Green
+          strokeWidth: 2
+          position: bl
+          label:
+            text: R
+            x: (0.9)*(calcs.maxQ)
+      - Point:
+          coordinates: [params.Q, calcs.R]
+          color: Green
+          droplines:
+            vertical: params.Q
+          r: 3.5
+
+# cost
+      - Line:
+          yIntercept: params.fc
+          slope: params.mc
+          color: Red
+          strokeWidth: 2
+          position: c
+          label:
+            # text: "` C = ${params.fc} + ${params.mc} Q `"
+            text: "` C  `"
+            x: calcs.maxQ
+      - Point:
+          coordinates: [params.Q, (params.fc)+(params.mc)*(params.Q)]
+          color: Red
+          r: 3.5
+
+
+
+
+# tangent to R at chosen quantity
+      - Segment:
+          a: [(params.Q)-(params.tgl),((calcs.P)*(params.Q))-((params.dint)-(2)*(params.dslope)*(params.Q))*(params.tgl)]
+          b: [(params.Q)+(params.tgl),((calcs.P)*(params.Q))+((params.dint)-(2)*(params.dslope)*(params.Q))*(params.tgl)]
+          color: Green
+          lineStyle: dotted
+
+
+
+
+
+    bottomGraph:
+      xAxis:
+        orient: bottom
+        min: 0
+        max: calcs.maxQ
+        ticks: 0
+      yAxis:
+        orient: left
+        min: calcs.minP
+        max: calcs.maxP
+        ticks: 0
+      objects:
+      - Label:
+            coordinates: [calcs.maxQ, 0]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, calcs.maxP]
+            text: "` \\\\text{€/unità}  `"
+            xPixelOffset: -5
+      - Point:
+          coordinates: [0, 0]
+          droplines:
+            horizontal: 0
+          color: black
+          r: 0
+
+
+# market demand function
+      - Line:
+          yIntercept: params.dint
+          slope: -params.dslope
+          color: Blue
+          max: (params.dint)/(params.dslope)
+          strokeWidth: 2
+          position: bl
+          label:
+            text: D
+            x: (0.9)*(calcs.maxQ)
+      - Point:
+          coordinates: [0, params.dint]
+          droplines:
+            horizontal: params.dint
+          color: Blue
+          r: 0
+
+# monopolist marginal cost function
+      - Line:
+          yIntercept: params.mc
+          slope: 0
+          color: Red
+          strokeWidth: 2
+          position: bl
+          label:
+            text: MC
+            x: (0.9)*(calcs.maxQ)
+      - Point:
+          coordinates: [0, params.mc]
+          droplines:
+            horizontal: params.mc
+          color: Red
+          r: 0
+
+# marginal revenue
+      - Line:
+          yIntercept: params.dint
+          slope: -(2)*(params.dslope)
+          color: Green
+          strokeWidth: 2
+          position: c
+          label:
+            text: MR
+            y: calcs.minP
+
+
+# chosen point
+      - Point:
+          coordinates: [params.Q, calcs.P]
+          color: Blue
+          r: 3.5
+          show: params.Q !== calcs.Qmon
+      - Point:
+          coordinates: [params.Q, calcs.P]
+          droplines:
+            vertical: params.Q
+            horizontal: calcs.P.toFixed(2)
+          color: Black
+          r: 0
+          show: params.Q !== calcs.Qmon
+
+      - Label:
+          coordinates: [calcs.maxQ, calcs.maxP]
+          text: \text{\LARGE BINGO!}
+          color: green
+          position: c
+          bgcolor: none
+          show: params.Q == calcs.Qmon
+
+
+# monopolistic equilibrium
+      - Point:
+          coordinates: [calcs.Qmon, calcs.Pmon]
+          droplines:
+            vertical: "` Q^M=${calcs.Qmon} `"
+            horizontal: "` P^M=${calcs.Pmon} `"
+          color: Blue
+          r: 3.5
+          show: params.Q == calcs.Qmon
+
+
+
+
+
+# consumer surplus
+      - Area:
+          fn1: (params.dint) - (params.dslope)*(x)
+          fn2: max(params.mc,calcs.P)
+          fill: blue
+          min: 0
+          max: min(params.Q,calcs.Qcomp)
+          show: params.showCS == 1
+
+# monopolist profit
+      - Area:
+          fn1: calcs.P
+          fn2: params.mc
+          fill: green
+          min: 0
+          max: params.Q
+          show: params.showPS == 1 && calcs.P >= params.mc
+      - Area:
+          fn1: params.mc
+          fn2: calcs.P
+          fill: red
+          min: 0
+          max: params.Q
+          show: params.showPS == 1 && calcs.P < params.mc
+
+# deadweight loss (when Q <= Qcomp)
+      - Area:
+          fn1: (params.dint) - (params.dslope)*(x)
+          fn2: (params.mc)
+          fill: grey
+          min: params.Q
+          max: calcs.Qcomp
+          show: params.showDWL == 1
+
+
+
+
+
+
+
+    sidebar:
+      controls:
+
+      - title: Scelta ottima del monopolista
+        sliders:
+        - param: Q
+          label: Q
+        - param: dint
+          label: a
+        - param: dslope
+          label: b
+        - param: mc
+          label: c
+        checkboxes:
+        - param: showCS
+          label: "` \\\\text{Mostra surplus del consumatore} `"
+        - param: showPS
+          label: "` \\\\text{Mostra profitto del monopolista} `"
+        - param: showDWL
+          label: "` \\\\text{Mostra perdita secca} `"
+
+        divs:
+        - html: "` `"
+        - html: "` bla bla `"
+        - html: "` bla bla il prezzo è $P^M=${calcs.Pmon}$ e la quantità prodotta $Q^M=${calcs.Qmon}$. `"
+
+    # explanation:
+    #   divs:
+    #     - html: "` In presenza di un prezzo massimo $P_\\\\text{max}=${params.cap}$ la curva di ricavo 
+    #               marginale $MR$ è piatta fino alla quantità domandata al prezzo massimo, ovvero
+    #                $Q=${((params.dint)-(params.cap))/(params.dslope)}$. 
+    #               In corrispondenza di quella quantità, la curva $MR$ presenta una discontinuità.
+    #               Oltre quella quantità, la curva coincide con la curva $MR$ in assenza di interventi.   `"
+
+
+
+
+
+
+
+
+
+
+
+
+

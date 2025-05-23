@@ -1,0 +1,173 @@
+params:
+- {name: showCS, value: false}
+- {name: op1, value: 0.15}
+- {name: op2, value: 0.1}
+- {name: ops, value: 0.2}
+
+- {name: x, value: 100, min: 0, max: 290}
+- {name: a, value: 3, min: 2, max: 4, round: 0.1}
+- {name: b, value: 0.01, min: 0, max: 0.02, round: 0.001}
+
+- {name: alpha, value: 0.5, min: 0.5, max: 1, round: 0.5}
+- {name: w, value: 64, min: 40, max: 80, round: 1}
+- {name: fc, value: 100, min: 0, max: 200, round: 5}
+- {name: maxcost, value: 950}
+- {name: maxprice, value: 4}
+
+calcs:
+  p: (params.a) - (params.b)*(params.x)
+  r: (calcs.p) * (params.x)
+  l: ((params.x)/(params.a))^(1/(params.alpha))
+  vc: params.w * calcs.l
+  tc: params.w * calcs.l + params.fc
+  aaa: (params.alpha)^(-1)
+
+aspectRatio: 1.4
+
+layout:
+  TwoVerticalGraphsPlusSidebar:
+
+    topGraph: 
+      xAxis:
+        max: 300
+        ticks: none
+      yAxis:
+        max: params.maxprice
+        ticks: none
+
+      objects:
+
+        - Label:
+                coordinates: [300, 0]
+                text: "` \\\\text{Output (kg)}  `"
+                xPixelOffset: 0
+                position: l
+
+        - Label:
+                coordinates: [0, params.maxprice]
+                text: "` \\\\text{Euro / kg} `"
+                yPixelOffset: 0
+                xPixelOffset: 0
+                position: c
+
+# firm's demand function (b > 0)
+        - Line:
+            point: [0,3]
+            slope: -(params.b)
+            color: Blue
+            label:
+              text: "` P = ${params.a} - ${params.b.toFixed(3)} Q `"
+              x: min( 195 , params.a/params.b)
+              position: bl
+            drag: 
+              - directions: y
+                param: b
+                expression: "(params.a - drag.y)/drag.x"
+            show: params.b > 0
+
+# firm's demand function (b = 0)
+        - Line:
+            point: [0,3]
+            slope: -(params.b)
+            color: Blue
+            label:
+              text: "` P = ${params.a}  `"
+              x: 195
+              position: bl
+            drag: 
+              - directions: y
+                param: b
+                expression: "(params.a - drag.y)/drag.x"
+            show: params.b == 0
+
+# points
+        - Point:
+            coordinates: [params.x,calcs.p]
+            droplines: {vertical: params.x, horizontal: calcs.p.toFixed(1)}
+            color: Blue
+            r: 4
+            drag:
+            - horizontal: x
+
+
+
+
+
+
+
+
+
+    bottomGraph: 
+      xAxis:
+        max: 300
+        ticks: none
+      yAxis:
+        max: 400
+        ticks: none
+
+      objects:
+
+        - Label:
+                coordinates: [300, 0]
+                text: "` \\\\text{Output (kg)}  `"
+                xPixelOffset: 0
+
+        - Label:
+                coordinates: [0, 400]
+                text: "` \\\\text{Euro} `"
+                yPixelOffset: 0
+                xPixelOffset: 0
+                position: c
+
+# firm's total revenue function (b>0)
+        - Curve:
+            fn: ( (params.a) - (params.b)*(x) ) * (x)
+            color: Green
+            label:
+              text: "` R = ( ${params.a} - ${params.b.toFixed(3)} Q ) \\\\times Q `"
+              x: 240
+              position: bl
+            strokeWidth: 1.7
+            max: 295
+
+# firm's total revenue function (b=0)
+        - Curve:
+            fn: ( (params.a) - (params.b)*(x) ) * (x)
+            color: Green
+            label:
+              text: "` R = ${params.a} Q `"
+              x: 120
+              position: bl
+            strokeWidth: 1.7
+            max: 295
+            show: params.b == 0
+
+# points
+        - Point:
+            coordinates: [params.x,calcs.r]
+            droplines: {vertical: params.x, horizontal: calcs.r.toFixed(1)}
+            r: 4
+            color: Green
+            drag:
+            - horizontal: x
+
+
+
+    sidebar:
+      controls:
+      - title: Revenue and inverse demand for a non-price-taking firm
+        description: Move the inverse demand function 
+                      (blu curve in the top graph) to see how the revenue function
+                      changes (bottom graph). Move the slider below (or drag the blue point in the
+                      top graph, or the green point in the bottom graph) to see how unit price (top graph)
+                      and revenue (bottom graph) vary, as the quantity <i>Q</i> varies.  
+        sliders:
+        - param: x
+          label: Q
+        divs:
+        - html: "`  `"
+        - html: "` When inverse demand for the firm's product is decreasing,
+                  the revenue function has an inverted U-shape. `"
+          show: params.b > 0
+        - html: "` `"
+        - html: "` `"
