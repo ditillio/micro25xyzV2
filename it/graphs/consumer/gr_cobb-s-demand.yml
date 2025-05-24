@@ -1,7 +1,7 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 0.7
+aspectRatio: 0.6
 params:
 
   - {name: s, value: 5, min: 0, max: 10}
@@ -30,6 +30,9 @@ params:
 
 calcs:
 
+# price ratio
+  r: (params.p1)/(params.p2)
+
 # budget line intercepts
   xintercept: params.m/params.p1
   yintercept: params.m/params.p2
@@ -44,6 +47,12 @@ calcs:
   x2opt: max(0,min(calcs.yintercept,calcs.x2int))
   umax: (((calcs.x1opt)+(params.s))^(params.a))*(((calcs.x2opt)+(params.s))^(params.b))
 
+
+# MRS at corner Y=0
+  MRScornerX: ((params.a)/(params.b))*(((0)+(params.s))/(((params.m)/(params.p1))+(params.s)))
+
+# MRS at corner X=0
+  MRScornerY: ((params.a)/(params.b))*((((params.m)/(params.p2))+(params.s))/((0)+(params.s)))
 
 # price of X above which X=0
   maxP1: (params.a)*((params.p2)+(params.m)/(params.s))/(params.b)
@@ -155,7 +164,7 @@ layout:
         max: 9.5
         ticks: 0
       yAxis:
-        max: 9.5
+        max: 12
         ticks: 0
 
       objects:
@@ -165,7 +174,7 @@ layout:
             text: "` \\\\text{unità di $X$} `"
             position: l
       - Label:
-            coordinates: [0, 9.5]
+            coordinates: [0, 12]
             text: "` \\\\text{euro/unità di $X$}  `"
 
 
@@ -281,54 +290,69 @@ layout:
 
     sidebar:
       controls:
-      - title: Scelta ottima e funzione di domanda individuale del bene 𝑋 (beni sostituti)
+      - title: Scelta ottima e funzione di domanda individuale del bene 𝑋
 
-        description: Selezionare un valore del parametro 𝑠. Selezionare poi reddito e prezzi per calcolare
-                      la scelta ottima del consumatore e la funzione di domanda del bene 𝑋.
-
-      - title: "` `"
+        # description: Selezionare un valore del parametro 𝑠. Selezionare poi reddito e prezzi per calcolare
+        #               la scelta ottima del consumatore e la funzione di domanda del bene 𝑋.
 
         divs:
 
-          - html: "`  `"
-
-          - html: "` I valori selezionati sono tali che
+          - html: "` Il rapporto tra i prezzi è
                     $$
-                    P_Y-P_X=${calcs.pricediff.toFixed(1)} \\\\qquad M/s = ${calcs.Dpricediff.toFixed(2)}
+                    \\\\dfrac{P_X}{P_Y}
+                    =
+                    \\\\dfrac{${params.p1.toFixed(1)}}{${params.p2.toFixed(1)}}
+                    = ${calcs.r.toFixed(2)}
                     $$
-                  `"
+                      `"
 
-          - html: "` Siamo quindi nel caso (i). `"
-            show: calcs.pricediff > calcs.Dpricediff
+          - html: "` Nel paniere $(${calcs.xintercept.toFixed(2)},0)$ abbiamo
+                    $$
+                    MRS_{XY} = \\\\dfrac{${params.a}}{${params.b}}\\\\times\\\\dfrac{0+${params.s}}{${calcs.xintercept.toFixed(2)}+${params.s}} =
+                               ${calcs.MRScornerX.toFixed(2)}
+                    $$
+                    Nel paniere $(0,${calcs.yintercept.toFixed(2)})$ abbiamo
+                    $$
+                    MRS_{XY} = \\\\dfrac{${params.a}}{${params.b}}\\\\times\\\\dfrac{${calcs.yintercept.toFixed(2)}+${params.s}}{0+${params.s}} =
+                               ${calcs.MRScornerY.toFixed(2)}
+                    $$
+
+                      `"
+
+          - html: "` $\\\\color{${colors.red}} \\\\text{Siamo quindi nel caso (i).}$ `"
+            show: params.p1 < calcs.minP1
 
 
-          - html: "` Siamo quindi nel caso (ii). `"
-            show: (calcs.pricediff)+(calcs.Dpricediff)<0
+          - html: "` $\\\\color{${colors.red}} \\\\text{Siamo quindi nel caso (ii).}$ `"
+            show: params.p1 > calcs.maxP1
 
-          - html: "` Siamo quindi nel caso (iii). `"
-            show: calcs.pricediff <= calcs.Dpricediff && (calcs.pricediff)+(calcs.Dpricediff) >= 0
+          - html: "` $\\\\color{${colors.red}} \\\\text{Siamo quindi nel caso (iii).}$ `"
+            show: params.p1 <= calcs.maxP1 && params.p1 >= calcs.minP1
 
           - html: <br>
-            show: calcs.pricediff <= calcs.Dpricediff && (calcs.pricediff)+(calcs.Dpricediff) >= 0
+            show: params.p1 <= calcs.maxP1 && params.p1 >= calcs.minP1
 
           - html: "` Vincolo di bilancio:
                     $$
-                    ${params.p1.toFixed(1)}X+${params.p2.toFixed(1)}Y = ${params.m.toFixed(0)}
+                    ${params.p1.toFixed(1)}\\\\times X
+                    +
+                    ${params.p2.toFixed(1)}\\\\times Y = ${params.m.toFixed(0)}
                     $$
                      `"
-            show: calcs.pricediff <= calcs.Dpricediff && (calcs.pricediff)+(calcs.Dpricediff) >= 0
+            show: params.p1 <= calcs.maxP1 && params.p1 >= calcs.minP1
 
           - html: "` Condizione di tangenza:
                     $$
-                    ${params.p1.toFixed(1)}(X+${params.s})=${params.p2.toFixed(1)}(Y+${params.s})
+                    ${params.b}\\\\times ${params.p1.toFixed(1)}\\\\times (X+${params.s})
+                    =
+                    ${params.a}\\\\times${params.p2.toFixed(1)}\\\\times (Y+${params.s})
                     $$
                      `"
-            show: calcs.pricediff <= calcs.Dpricediff && (calcs.pricediff)+(calcs.Dpricediff) >= 0
+            show: params.p1 <= calcs.maxP1 && params.p1 >= calcs.minP1
 
-          - html: <br>
-
-          - html: "` Scelta ottima:
+          - html: "` $\\\\color{${colors.blue}} \\\\text{Scelta ottima:}$
                     $$
+                    \\\\color{${colors.blue}}
                     X=${calcs.x1opt.toFixed(2)} \\\\qquad Y=${calcs.x2opt.toFixed(2)}
                     $$
                      `"
