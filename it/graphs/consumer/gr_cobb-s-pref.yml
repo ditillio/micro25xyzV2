@@ -23,26 +23,34 @@ params:
   - {name: c8, value: 8}
   - {name: c9, value: 9}
 
+  - {name: a, value: 1, min: 1, max: 3}
+  - {name: b, value: 1, min: 1, max: 3}
+
+
 
 calcs:
+
 # utility at selected bundle
-  u: (params.x1) * (params.x2) + (params.s) * ( (params.x1) + (params.x2) )
+  u: (((params.x1)+(params.s))^(params.a))*(((params.x2)+(params.s))^(params.b))
 
 # MU and MRS at selected bundle
-  MU1: (params.x2) + (params.s)
-  MU2: (params.x1) + (params.s)
+  MU1: (params.a)*(((params.x1)+(params.s))^((params.a)-1))*(((params.x2)+(params.s))^((params.b)))
+  MU2: (params.b)*(((params.x1)+(params.s))^((params.a)))*(((params.x2)+(params.s))^((params.b)-1))
   MRS: (calcs.MU1)/(calcs.MU2)
 
+
+
+
 # utility levels
-  u1: ((params.c1)*(params.c1))+((params.s)*((params.c1)+(params.c1)))
-  u2: ((params.c2)*(params.c2))+((params.s)*((params.c2)+(params.c2)))
-  u3: ((params.c3)*(params.c3))+((params.s)*((params.c3)+(params.c3)))
-  u4: ((params.c4)*(params.c4))+((params.s)*((params.c4)+(params.c4)))
-  u5: ((params.c5)*(params.c5))+((params.s)*((params.c5)+(params.c5)))
-  u6: ((params.c6)*(params.c6))+((params.s)*((params.c6)+(params.c6)))
-  u7: ((params.c7)*(params.c7))+((params.s)*((params.c7)+(params.c7)))
-  u8: ((params.c8)*(params.c8))+((params.s)*((params.c8)+(params.c8)))
-  u9: ((params.c9)*(params.c9))+((params.s)*((params.c9)+(params.c9)))
+  u1: (((params.c1)+(params.s))^(params.a))*(((params.c1)+(params.s))^(params.b))
+  u2: (((params.c2)+(params.s))^(params.a))*(((params.c2)+(params.s))^(params.b))
+  u3: (((params.c3)+(params.s))^(params.a))*(((params.c3)+(params.s))^(params.b))
+  u4: (((params.c4)+(params.s))^(params.a))*(((params.c4)+(params.s))^(params.b))
+  u5: (((params.c5)+(params.s))^(params.a))*(((params.c5)+(params.s))^(params.b))
+  u6: (((params.c6)+(params.s))^(params.a))*(((params.c6)+(params.s))^(params.b))
+  u7: (((params.c7)+(params.s))^(params.a))*(((params.c7)+(params.s))^(params.b))
+  u8: (((params.c8)+(params.s))^(params.a))*(((params.c8)+(params.s))^(params.b))
+  u9: (((params.c9)+(params.s))^(params.a))*(((params.c9)+(params.s))^(params.b))
 
   xequiv: ((9)+(params.s)*(6))/(params.s)
 
@@ -75,53 +83,36 @@ layout:
 
 
 # Indifference Curve at bundle
-      - Curve:
-          fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
-          color: Black
+      # - Curve:
+      #     fn: -(params.s)+((calcs.u)/(((x)+(params.s))^(params.a)))^(1/(params.b))
+      #     color: Black
+      #     strokeWidth: 1.5
+      #     min: 0.01
+      #     show: params.s == 0
+      # - Curve:
+      #     fn: -(params.s)+((calcs.u)/(((x)+(params.s))^(params.a)))^(1/(params.b))
+      #     color: Black
+      #     strokeWidth: 1.5
+      #     show: params.s > 0
+
+
+      - ContourMap:
+          levels: [calcs.u]
+          yMax: 10
+          xMax: 10
+          fn: (((x)+(params.s))^(params.a))*(((y)+(params.s))^(params.b))
           strokeWidth: 1.5
-          min: 0.01
-      
+
+
 # Indifference Map
-      - Curve:
-          fn:   ((calcs.u1)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.01
-      - Curve:
-          fn:   ((calcs.u2)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
-          strokeWidth: 0.25
-      - Curve:
-          fn:   ((calcs.u3)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
-          strokeWidth: 0.25
-      - Curve:
-          fn:   ((calcs.u4)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
-          strokeWidth: 0.25
-      - Curve:
-          fn:   ((calcs.u5)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
-          strokeWidth: 0.25
-      - Curve:
-          fn:   ((calcs.u6)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
-          strokeWidth: 0.25
-      - Curve:
-          fn:   ((calcs.u7)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
-          strokeWidth: 0.25
-      - Curve:
-          fn:   ((calcs.u8)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
-          strokeWidth: 0.25
-      - Curve:
-          fn:   ((calcs.u9)-(params.s)*(x))/((x)+(params.s))
-          color: Grey
+      - ContourMap:
+          levels: [calcs.u1, calcs.u2, calcs.u3, calcs.u4, calcs.u5, calcs.u6, calcs.u7, calcs.u8, calcs.u9]
+          yMax: 10
+          xMax: 10
+          fn: (((x)+(params.s))^(params.a))*(((y)+(params.s))^(params.b))
           strokeWidth: 0.25
 
-            
-      # Bundle
+# Bundle
       - Point:
           coordinates: [params.x1, params.x2]
           droplines:
@@ -163,13 +154,18 @@ layout:
         divs:
           - html: "` Le utilità marginali sono
                     $$
-                    MU_X = Y + ${params.s} 
-                          \\\\qquad 
-                    MU_Y = X + ${params.s} 
+                    MU_X = ${params.a} \\\\times (X + ${params.s})^{${params.a}-1}
+                                      \\\\times (Y + ${params.s})^{${params.b}} 
+                    $$
+                    $$
+                    MU_Y = ${params.b} \\\\times (X + ${params.s})^{${params.a}}
+                                      \\\\times (Y + ${params.s})^{${params.b}-1} 
                     $$
                     e quindi il saggio marginale di sostituzione di $X$ con $Y$ è
                     $$
-                    MRS_{XY} = \\\\dfrac{Y + ${params.s}}{X + ${params.s}}
+                    MRS_{XY} = \\\\dfrac{MU_X}{MU_Y} =
+                               \\\\dfrac{${params.a}}{${params.b}} \\\\times
+                               \\\\dfrac{Y + ${params.s}}{X + ${params.s}}
                     $$  `"
             show: params.s > 0
 
@@ -186,6 +182,10 @@ layout:
             show: params.s == 0
 
         sliders:
+        - param: a
+          label: \alpha
+        - param: b
+          label: \beta
         - param: s
           label: s
         - param: x1
@@ -205,41 +205,20 @@ layout:
         - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
                   e carne, le preferenze del consumatore
                   sono descritte dalla funzione di utilità 
-                  $$U(X,Y)=XY+${params.s}(X+Y)$$
-                  Diversamente dal caso Cobb-Douglas, in questo caso le curve
-                  d'indifferenza toccano gli assi. Per esempio, si può verificare che 
-                  quando $s=4$ il paniere $(2,2)$
-                  e il paniere $(5,0)$, che si trova
-                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
-                  (entrambi danno un'utilità pari a $20$).
+                  $$U(X,Y)=(X+${params.s})^{${params.a}} \\\\times (Y+${params.s})^{${params.b}} $$
                     `"
-          show: params.s > 1
-        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
-                  e carne, le preferenze del consumatore
-                  sono descritte dalla funzione di utilità 
-                  $$U(X,Y)=XY+(X+Y)$$
-                  Diversamente dal caso Cobb-Douglas, in questo caso le curve
-                  d'indifferenza toccano gli assi. Per esempio, il paniere $(2,2)$
-                  e il paniere $(8,0)$, che si trova
-                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
-                  (entrambi danno un'utilità pari a $8$).
-                    `"
-          show: params.s == 1
-        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
-                  e carne, le preferenze del consumatore
-                  sono descritte dalla funzione di utilità 
-                  $$U(X,Y)=XY$$
-                  Tali preferenze sono identiche a quelle della Figura 2.2.`"
-          show: params.s == 0
 
         - html: "` `"
 
         - html: "` In corrispondenza del paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
                     le utilità marginali sono
                     $$
-                    MU_X=${calcs.MU1.toFixed(2)}
-                    \\\\qquad
-                    MU_Y=${calcs.MU2.toFixed(2)}
+                    MU_X=${params.a} \\\\times (X + ${params.s})^{${params.a}-1}
+                                      \\\\times (Y + ${params.s})^{${params.b}}=${calcs.MU1.toFixed(2)}
+                    $$
+                    $$
+                    MU_Y=${params.b} \\\\times (X + ${params.s})^{${params.a}}
+                                      \\\\times (Y + ${params.s})^{${params.b}-1}=${calcs.MU2.toFixed(2)}
                     $$
                    `"
 

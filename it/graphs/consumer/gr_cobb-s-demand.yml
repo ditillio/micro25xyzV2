@@ -3,12 +3,14 @@ schema: EconSchema
 version: 1
 aspectRatio: 0.7
 params:
-  - {name: x1, value: 4, min: 0.5, max: 9, round: 0.5}
-  - {name: x2, value: 4, min: 0.5, max: 9, round: 0.5}
+
+  - {name: s, value: 5, min: 0, max: 10}
+  - {name: a, value: 1, min: 1, max: 3}
+  - {name: b, value: 1, min: 1, max: 3}
 
 
 # income and prices
-  - {name: m, value: 20, min: 10, max: 50, round: 5}
+  - {name: m, value: 30, min: 10, max: 50, round: 5}
   - {name: p1, value: 5, min: 1, max: 10, round: 0.5}
   - {name: p2, value: 5, min: 1, max: 10, round: 0.5}
 
@@ -24,8 +26,6 @@ params:
   - {name: c8, value: 8}
   - {name: c9, value: 9}
 
-  - {name: s, value: 10, min: 5, max: 15}
-
 
 
 calcs:
@@ -36,32 +36,32 @@ calcs:
 
 
 # optimal bundle when interior
-  x1int: ( (params.m) + (params.s) * ( params.p2 - params.p1 ) ) / ( 2 * params.p1 )
-  x2int: ( (params.m) + (params.s) * ( params.p1 - params.p2 ) ) / ( 2 * params.p2 )
-
+  x1int: ((params.a)*(params.m)+(params.a)*(params.s)*(params.p2)-(params.b)*(params.s)*(params.p1))/(((params.a)+(params.b))*(params.p1))
+  x2int: ((params.b)*(params.m)+(params.b)*(params.s)*(params.p1)-(params.a)*(params.s)*(params.p2))/(((params.b)+(params.a))*(params.p2))
 
 # optimal bundle and indirect utility
   x1opt: max(0,min(calcs.xintercept,calcs.x1int))
   x2opt: max(0,min(calcs.yintercept,calcs.x2int))
-  umax: ((calcs.x1opt)*(calcs.x2opt))+((params.s)*((calcs.x1opt)+(calcs.x2opt)))
+  umax: (((calcs.x1opt)+(params.s))^(params.a))*(((calcs.x2opt)+(params.s))^(params.b))
+
 
 # price of X above which X=0
-  maxP1: (params.p2)+(params.m)/(params.s)
+  maxP1: (params.a)*((params.p2)+(params.m)/(params.s))/(params.b)
 # price of X below which Y=0
-  minP1: max(0,(params.p2)-(params.m)/(params.s))
+  minP1: max(0,(params.a)*((params.p2)-((params.b)/(params.a))*(params.m)/(params.s))/(params.b))
 # demand of X when PX=minP1
   x1min: (params.m)/(calcs.minP1)
 
 # utility levels
-  u1: ((params.c1)*(params.c1))+((params.s)*((params.c1)+(params.c1)))
-  u2: ((params.c2)*(params.c2))+((params.s)*((params.c2)+(params.c2)))
-  u3: ((params.c3)*(params.c3))+((params.s)*((params.c3)+(params.c3)))
-  u4: ((params.c4)*(params.c4))+((params.s)*((params.c4)+(params.c4)))
-  u5: ((params.c5)*(params.c5))+((params.s)*((params.c5)+(params.c5)))
-  u6: ((params.c6)*(params.c6))+((params.s)*((params.c6)+(params.c6)))
-  u7: ((params.c7)*(params.c7))+((params.s)*((params.c7)+(params.c7)))
-  u8: ((params.c8)*(params.c8))+((params.s)*((params.c8)+(params.c8)))
-  u9: ((params.c9)*(params.c9))+((params.s)*((params.c9)+(params.c9)))
+  u1: (((params.c1)+(params.s))^(params.a))*(((params.c1)+(params.s))^(params.b))
+  u2: (((params.c2)+(params.s))^(params.a))*(((params.c2)+(params.s))^(params.b))
+  u3: (((params.c3)+(params.s))^(params.a))*(((params.c3)+(params.s))^(params.b))
+  u4: (((params.c4)+(params.s))^(params.a))*(((params.c4)+(params.s))^(params.b))
+  u5: (((params.c5)+(params.s))^(params.a))*(((params.c5)+(params.s))^(params.b))
+  u6: (((params.c6)+(params.s))^(params.a))*(((params.c6)+(params.s))^(params.b))
+  u7: (((params.c7)+(params.s))^(params.a))*(((params.c7)+(params.s))^(params.b))
+  u8: (((params.c8)+(params.s))^(params.a))*(((params.c8)+(params.s))^(params.b))
+  u9: (((params.c9)+(params.s))^(params.a))*(((params.c9)+(params.s))^(params.b))
 
 # case check
   pricediff: (params.p2) - (params.p1)
@@ -95,7 +95,7 @@ layout:
           yMax: 10
           xMax: 10
           strokeWidth: 0.25
-          fn: (x)*(y)+(params.s)*((x)+(y))
+          fn: (((x)+(params.s))^(params.a))*(((y)+(params.s))^(params.b))
 
 # budget line
       - Line:
@@ -127,7 +127,7 @@ layout:
 
 # Indifference curve at optimal bundle
       - Curve:
-          fn: ((calcs.umax)-((params.s)*(x)))/((x)+(params.s))
+          fn: ((calcs.umax)/(((x)+(params.s))^(params.a)))^(1/(params.b))-(params.s)
           color: Black
           strokeWidth: 1.5
       
@@ -169,9 +169,10 @@ layout:
             text: "` \\\\text{euro/unità di $X$}  `"
 
 
+
 # demand function
       - Curve:
-          fn: ((params.m)+(params.s)*(params.p2))/((2)*(x)+(params.s))
+          fn: (params.a)*((params.m)+(params.s)*(params.p2))/(((params.a)+(params.b))*(x)+(params.b)*(params.s))
           color: Blue
           max: (params.m)/(calcs.minP1)
           strokeWidth: 2.5
@@ -183,7 +184,7 @@ layout:
           strokeWidth: 2.5
           show: calcs.minP1 > 0
       - Curve:
-          fn: ((params.m)+(params.s)*(params.p2))/((2)*(x)+(params.s))
+          fn: (params.a)*((params.m)+(params.s)*(params.p2))/(((params.a)+(params.b))*(x)+(params.b)*(params.s))
           color: Blue
           strokeWidth: 2.5
           show: calcs.minP1 == 0
@@ -334,6 +335,10 @@ layout:
 
 
         sliders:
+        - param: a
+          label: \alpha
+        - param: b
+          label: \beta
         - param: s
           label: s
         - param: m
