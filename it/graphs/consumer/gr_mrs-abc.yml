@@ -5,22 +5,24 @@ version: 1
 params:
 
 # Alice bundles
-  - {name: x1a, value: 4, min: 1, max: 9, round: 1}
-  - {name: x2a, value: 4, min: 1, max: 9, round: 1}
-  - {name: x1aa, value: 8, min: 1, max: 9, round: 1}
-  - {name: x2aa, value: 2, min: 1, max: 9, round: 1}
+  - {name: x1a, value: 1, min: 0, max: 9, round: 0.5}
+  - {name: x2a, value: 8, min: 0, max: 9, round: 0.5}
+  - {name: x1aa, value: 4, min: 0, max: 9, round: 0.5}
+  - {name: x2aa, value: 2, min: 0, max: 9, round: 0.5}
 
 # Bruno bundles
-  - {name: x1b, value: 4, min: 1, max: 9, round: 1}
-  - {name: x2b, value: 4, min: 1, max: 9, round: 1}
-  - {name: x1bb, value: 8, min: 1, max: 9, round: 1}
-  - {name: x2bb, value: 2, min: 1, max: 9, round: 1}
+  - {name: x1b, value: 1, min: 0, max: 9, round: 0.5}
+  - {name: x2b, value: 8, min: 0, max: 9, round: 0.5}
+  - {name: x1bb, value: 4, min: 0, max: 9, round: 0.5}
+  - {name: x2bb, value: 2, min: 0, max: 9, round: 0.5}
 
 # Carmen bundles
-  - {name: x1c, value: 4, min: 1, max: 9, round: 1}
-  - {name: x2c, value: 4, min: 1, max: 9, round: 1}
-  - {name: x1cc, value: 8, min: 1, max: 9, round: 1}
-  - {name: x2cc, value: 2, min: 1, max: 9, round: 1}
+  - {name: x1c, value: 1, min: 0, max: 9, round: 0.5}
+  - {name: x2c, value: 8, min: 0, max: 9, round: 0.5}
+  - {name: x1cc, value: 4, min: 0, max: 9, round: 0.5}
+  - {name: x2cc, value: 2, min: 0, max: 9, round: 0.5}
+  - {name: s, value: 5}
+
 
 # consumption levels of X
   - {name: c1, value: 1}
@@ -48,9 +50,9 @@ calcs:
   MRSb: ((2)/(1))*((params.x2b)/(params.x1b))
 
 # Carmen utility and MRS at selected bundle
-  uc: ((params.x1c)^(1))*((params.x2c)^(2))
-  ucc: ((params.x1cc)^(1))*((params.x2cc)^(2))
-  MRSc: ((1)/(2))*((params.x2c)/(params.x1c))
+  uc: ((params.x1c)+(params.s))*((params.x2c)+(params.s))
+  ucc: ((params.x1cc)+(params.s))*((params.x2cc)+(params.s))
+  MRSc: ((params.x2c)+(params.s))/((params.x1c)+(params.s))
 
 
 # Alice utility levels
@@ -76,15 +78,15 @@ calcs:
   u9b: ((params.c9)^(2))*((params.c9)^(1))
 
 # Carmen utility levels
-  u1c: ((params.c1)^(1))*((params.c1)^(2))
-  u2c: ((params.c2)^(1))*((params.c2)^(2))
-  u3c: ((params.c3)^(1))*((params.c3)^(2))
-  u4c: ((params.c4)^(1))*((params.c4)^(2))
-  u5c: ((params.c5)^(1))*((params.c5)^(2))
-  u6c: ((params.c6)^(1))*((params.c6)^(2))
-  u7c: ((params.c7)^(1))*((params.c7)^(2))
-  u8c: ((params.c8)^(1))*((params.c8)^(2))
-  u9c: ((params.c9)^(1))*((params.c9)^(2))
+  u1c: ((params.c1)+(params.s))^(2)
+  u2c: ((params.c2)+(params.s))^(2)
+  u3c: ((params.c3)+(params.s))^(2)
+  u4c: ((params.c4)+(params.s))^(2)
+  u5c: ((params.c5)+(params.s))^(2)
+  u6c: ((params.c6)+(params.s))^(2)
+  u7c: ((params.c7)+(params.s))^(2)
+  u8c: ((params.c8)+(params.s))^(2)
+  u9c: ((params.c9)+(params.s))^(2)
 
 
 layout:
@@ -106,10 +108,20 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{kg} `"
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
       - Label:
-            coordinates: [0, 9.5]
-            text: "` \\\\text{d m$^2$}  `"
+            coordinates: [9.5, 0]
+            text: "` \\\\text{ di $X$} `"
+            yPixelOffset: -5
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{ di $Y$} `"
+            yPixelOffset: -5
 
 # Alice indifference map
       - Curve: {fn: ((calcs.u1a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
@@ -204,10 +216,20 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{kg} `"
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
       - Label:
-            coordinates: [0, 9.5]
-            text: "` \\\\text{d m$^2$}  `"
+            coordinates: [9.5, 0]
+            text: "` \\\\text{ di $X$} `"
+            yPixelOffset: -5
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{ di $Y$} `"
+            yPixelOffset: -5
 
 
 # Bruno Indifference Map
@@ -296,21 +318,31 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{kg} `"
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
       - Label:
-            coordinates: [0, 9.5]
-            text: "` \\\\text{d m$^2$}  `"
+            coordinates: [9.5, 0]
+            text: "` \\\\text{ di $X$} `"
+            yPixelOffset: -5
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{ di $Y$} `"
+            yPixelOffset: -5
 
 # Carmen Indifference Map
-      - Curve: {fn: ((calcs.u1c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
-      - Curve: {fn: ((calcs.u2c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
-      - Curve: {fn: ((calcs.u3c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
-      - Curve: {fn: ((calcs.u4c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
-      - Curve: {fn: ((calcs.u5c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
-      - Curve: {fn: ((calcs.u6c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
-      - Curve: {fn: ((calcs.u7c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
-      - Curve: {fn: ((calcs.u8c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
-      - Curve: {fn: ((calcs.u9c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+
+# Indifference Map
+      - ContourMap:
+          levels: [calcs.u1c, calcs.u2c, calcs.u3c, calcs.u4c, calcs.u5c, calcs.u6c, calcs.u7c, calcs.u8c, calcs.u9c]
+          yMax: 10
+          xMax: 10
+          fn: ((x)+(params.s))*((y)+(params.s))
+          strokeWidth: 0.25
+
 
 # Carmen bundles
       - Point:
@@ -339,25 +371,20 @@ layout:
             bgcolor: none
 
 # Carmen indifference curve at bundle A
-      - Curve:
-          fn: ((calcs.uc)/((x)^(1)))^(1/(2))
-          color: Black
-          strokeWidth: 1
-# Carmen indifference curve at bundle B
-      - Curve:
-          fn: ((calcs.ucc)/((x)^(1)))^(1/(2))
-          color: Black
+      - ContourMap:
+          levels: [calcs.uc]
+          yMax: 10
+          xMax: 10
+          fn: ((x)+(params.s))*((y)+(params.s))
           strokeWidth: 1
 
-# # tangent at bundle
-#       - Line:
-#           point: [params.x1c,params.x2c]
-#           slope: -(calcs.MRSc)
-#           color: Blue
-#           min: params.x1c-30
-#           max: params.x1c+30
-#           strokeWidth: 0.5
-#           lineStyle: dashed
+# Carmen indifference curve at bundle B
+      - ContourMap:
+          levels: [calcs.ucc]
+          yMax: 10
+          xMax: 10
+          fn: ((x)+(params.s))*((y)+(params.s))
+          strokeWidth: 1
 
 
 
@@ -369,7 +396,7 @@ layout:
 
 
     leftControls:
-      title: Alice ( 𝑎 = 1, 𝑏 = 1  )
+      title: Alice ( 𝛼 = 1, 𝛽 = 1, 𝜎 = 0 )
       divs:
       - html: "` Trascinare i panieri $A$ e $B$ per vedere quale è preferito da Alice. `"
       - html: "` Alice è indifferente tra $A$ e $B$. `"
@@ -382,7 +409,7 @@ layout:
       - html: "` $U(${params.x1aa},${params.x2aa})=${params.x1aa} \\\\times ${params.x2aa} = ${calcs.uaa}$ `"
 
     middleControls:
-      title: Bruno ( 𝑎 = 2, 𝑏 = 1  )
+      title: Bruno ( 𝛼 = 2, 𝛽 = 1, 𝜎 = 0 )
       divs:
       - html: "` Trascinare i panieri $A$ e $B$ per vedere quale Bruno preferisce. `"
       - html: "` Bruno è indifferente tra $A$ e $B$. `"
@@ -395,7 +422,7 @@ layout:
       - html: "` $U(${params.x1bb},${params.x2bb})=${params.x1bb}^2 \\\\times ${params.x2bb} = ${calcs.ubb}$ `"
 
     rightControls:
-      title: Carmen ( 𝑎 = 1, 𝑏 = 2  )
+      title: Carmen ( 𝛼 = 1, 𝛽 = 1, 𝜎 = 5 )
       divs:
       - html: "` Trascinare i panieri $A$ e $B$ per vedere quale Carmen preferisce. `"
       - html: "` Carmen è indifferente tra $A$ e $B$. `"
@@ -404,8 +431,10 @@ layout:
         show: calcs.uc > calcs.ucc
       - html: "` Carmen preferisce $B$ ad $A$. `"
         show: calcs.uc < calcs.ucc
-      - html: "` $U(${params.x1c},${params.x2c})=${params.x1c} \\\\times ${params.x2c}^2 = ${calcs.uc}$ `"
-      - html: "` $U(${params.x1cc},${params.x2cc})=${params.x1cc} \\\\times ${params.x2cc}^2 = ${calcs.ucc}$ `"
+      - html: "` $U(${params.x1c},${params.x2c})=(${params.x1c}+${params.s}) 
+                    \\\\times (${params.x2c}+${params.s}) = ${calcs.uc}$ `"
+      - html: "` $U(${params.x1cc},${params.x2cc})=(${params.x1cc}+${params.s}) 
+                    \\\\times (${params.x2cc}+${params.s}) = ${calcs.ucc}$ `"
 
 
 
