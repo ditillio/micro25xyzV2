@@ -188,7 +188,7 @@ layout:
         - param: b
           label: \beta
         - param: s
-          label: s
+          label: \sigma
         - param: x1
           label: X
         - param: x2
