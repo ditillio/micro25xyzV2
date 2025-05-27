@@ -1,7 +1,7 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 1.2
+aspectRatio: 1.3
 params:
 
 - {name: dlt, value: 0.5} # dotted drop lines thickness
@@ -9,15 +9,15 @@ params:
 - {name: p1, value: 4}
 - {name: p1new, value: 9}
 - {name: p2, value: 4}
-- {name: m, value: 360}
+- {name: m, value: 36}
 
 - {name: a, value: 1}
 - {name: b, value: 1}
 
 - {name: showCVEV, value: 0}
 
-- {name: s, value: 80, min: 0, max: 300, round: 10}
-- {name: t, value: 40, min: 0, max: 320, round: 10}
+- {name: s, value: 8, min: 0, max: 30, round: 1}
+- {name: t, value: 4, min: 0, max: 32, round: 1}
 
 
 calcs:
@@ -98,22 +98,22 @@ layout:
       xAxis:
         max: calcs.maxX
         ticks: 0
-        title: Cibo (chili)
       yAxis:
         max: calcs.maxY
         ticks: 0
-        title: Alloggio (decine di metri quadri)
+
+
+
       objects:
 
-      # - Label:
-      #       coordinates: [calcs.maxX, 0]
-      #       text: "` \\\\text{Cibo (kg)} `"
-      #       yPixelOffset: 0
-      #       position: l
-      # - Label:
-      #       coordinates: [0, calcs.maxY]
-      #       text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
-      #       yPixelOffset: 0
+      - Label:
+            coordinates: [calcs.maxX, 0]
+            text: "` \\\\text{Consumo (kg)} `"
+            position: l
+      - Label:
+            coordinates: [0, calcs.maxY]
+            text: "` \\\\text{Alloggio (d m$^2$)}  `"
+
 
 # old optimal bundle
       - Point:
@@ -365,33 +365,18 @@ layout:
 
       - title: Variazione compensativa
         description: Trova la compensazione necessaria a riportare il consumatore al livello di
-                        utilità che aveva prima il prezzo del cibo aumentasse. 
+                        utilità che aveva prima il prezzo del consumo aumentasse. 
         sliders:
         - param: s
           label: "` \\\\text{Sussidio} `"
         divs:
-          - html: "` `"
-          - html: "` Una compensazione di ${params.s} euro aumenta il reddito del consumatore a 
-                      ${(params.m)+(params.s)} euro. `"
-          - html: "` <i>Ciò però non basta a riportare il consumatore al livello di benessere 
-                      precedente.</i> `"
-            show: calcs.scheck < 0
-          - html: "` <i>Ciò è esattamente quanto basta a riportare il consumatore al livello di benessere 
-                      precedente.</i> `"
-            show: calcs.scheck == 0
-          - html: "` <i>Ciò però è più di quanto serve a riportare il consumatore al livello di benessere 
-                      precedente.</i> `"
-            show: calcs.scheck > 0
-          - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $C$ 
-                       $$ X=${calcs.x1s.toFixed(1)}  \\\\qquad  Y=${calcs.x2s.toFixed(1)}  $$ `"
-          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $A$. `"
-            show: calcs.scheck < 0
-          - html: "` che si trova sulla curva di indifferenza passante per $A$. `"
-            show: calcs.scheck == 0
-          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $A$. `"
-            show: calcs.scheck > 0
-          - html: "` `"
-          - html: "` `"
+          - html: <br><br>
+          - html: "`
+                  $$
+                  \\\\color{${colors.red}} CV = ${calcs.CV.toFixed(0)}
+                  $$
+                  `"
+            show: calcs.scheck.toFixed(0) == 0
         show: params.showCVEV == 1
 
         # checkboxes:
@@ -413,32 +398,90 @@ layout:
 
       - title: Variazione equivalente
         description: Trova la compensazione necessaria a riportare il consumatore al livello di
-                        utilità che aveva prima che aumentasse il prezzo del cibo. 
+                        utilità che aveva prima che aumentasse il prezzo del consumo. 
         sliders:
         - param: t
           label: "` \\\\text{Tassa} `"
         divs:
-          - html: "` `"
-          - html: "` Con una riduzione di reddito di ${params.s} euro  il reddito del consumatore a 
-                      ${(params.m)-(params.t)} euro. `"
-          - html: "` <i>Questa variazione di reddito non è equivalente all'aumento di prezzo del cibo
-                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</i> `"
-            show: calcs.tcheck !== 0
-          - html: "` <i>Questa variazione di reddito è equivalente all'aumento di prezzo del cibo
-                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</i> `"
+          - html: <br><br>
+          - html: "`
+                  $$
+                  \\\\color{${colors.red}} EV = ${calcs.EV.toFixed(0)}
+                  $$
+                  `"
             show: calcs.tcheck.toFixed(0) == 0
-          - html: "` Infatti, quando $P_X=${params.p1}$ e $P_Y=${params.p2}$, la scelta ottima è il 
+        show: params.showCVEV == 2
+
+
+    explanation:
+
+        divs:
+
+
+          - html: <br><br><br><br><br><br><br>
+            show: params.showCVEV == 0
+
+
+
+
+          - html: "` `"
+          - html: "` Un sussidio lump-sum di ${params.s} euro aumenta il reddito del consumatore a 
+                      ${(params.m)+(params.s)} euro. `"
+            show: params.showCVEV == 1
+          - html: "` <i><b>Ciò però non basta a riportare il consumatore al livello di benessere 
+                      precedente.</b></i> `"
+            show: calcs.scheck < 0 && params.showCVEV == 1
+          - html: "` <i><b>Ciò è esattamente quanto basta a riportare il consumatore al livello di benessere 
+                      precedente.</b></i> `"
+            show: calcs.scheck == 0 && params.showCVEV == 1
+          - html: "` <i><b>Ciò però è più di quanto serve a riportare il consumatore al livello di benessere 
+                      precedente.</b></i> `"
+            show: calcs.scheck > 0 && params.showCVEV == 1
+          - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $C$ 
+                       $$ X=${calcs.x1s.toFixed(1)}  \\\\qquad  Y=${calcs.x2s.toFixed(1)}  $$ `"
+          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $A$. `"
+            show: calcs.scheck < 0 && params.showCVEV == 1
+          - html: "` che si trova sulla curva di indifferenza passante per $A$. `"
+            show: calcs.scheck == 0 && params.showCVEV == 1
+          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $A$. `"
+            show: calcs.scheck > 0 && params.showCVEV == 1
+          - html: "` `"
+          - html: "` `"
+
+
+
+
+
+          - html: "` Una tassa lump-sum di ${params.t} euro riduce il reddito del consumatore a 
+                      ${(params.m)-(params.t)} euro. `"
+            show: params.showCVEV == 2
+          - html: "` 
+                  <i><b>Questa variazione di reddito non è equivalente all'aumento di prezzo del consumo
+                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</b></i>
+                  `"
+            show: calcs.tcheck !== 0 && params.showCVEV == 2
+          - html: "` <i><b>Questa variazione di reddito è equivalente all'aumento di prezzo del consumo
+                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</b></i> `"
+            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
+          - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il 
                     paniere rappresentato dal punto $E$ 
                        $$ X=${calcs.x1t.toFixed(1)}  \\\\qquad  Y=${calcs.x2t.toFixed(1)}  $$ `"
+            show: params.showCVEV == 2
           - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $B$. `"
-            show: calcs.tcheck > 0
+            show: calcs.tcheck > 0 && params.showCVEV == 2
           - html: "` che si trova sulla curva di indifferenza passante per $B$. `"
-            show: calcs.tcheck.toFixed(0) == 0
+            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
           - html: "` che si trova su una curva di indifferenza più alta di quella passante per $B$. `"
-            show: calcs.tcheck < 0
+            show: calcs.tcheck < 0 && params.showCVEV == 2
           - html: "` `"
           - html: "` `"
-        show: params.showCVEV == 2
+
+
+
+
+
+
+
 
         # checkboxes:
         # - param: showCV
