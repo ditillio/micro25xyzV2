@@ -439,6 +439,7 @@ layout:
             show: calcs.scheck > 0 && params.showCVEV == 1
           - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $C$ 
                        $$ X=${calcs.x1s.toFixed(1)}  \\\\qquad  Y=${calcs.x2s.toFixed(1)}  $$ `"
+            show: params.showCVEV == 1
           - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $A$. `"
             show: calcs.scheck < 0 && params.showCVEV == 1
           - html: "` che si trova sulla curva di indifferenza passante per $A$. `"
