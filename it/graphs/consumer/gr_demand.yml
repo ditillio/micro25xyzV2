@@ -364,7 +364,7 @@ layout:
         - param: b
           label: \beta
         - param: s
-          label: s
+          label: \sigma
         - param: m
           label: M
         - param: p1
