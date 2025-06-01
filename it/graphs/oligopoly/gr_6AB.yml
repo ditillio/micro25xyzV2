@@ -1,17 +1,15 @@
 
 schema: EconSchema
 params:
-- {name: op1, value: 0.15}
-- {name: op2, value: 0.1}
-- {name: ops, value: 0.2}
-- {name: s, value: 0.5, min: -1, max: 1, round: 0.1}
-- {name: a, value: 18, min: 16, max: 20, round: 1}
-- {name: c, value: 1, min: 0, max: 3, round: 0.5}
-- {name: m, value: 10, min: 10, max: 20}
+- {name: a, value: 11, min: 8, max: 20, round: 2}
+- {name: b, value: 1, min: 0.1, max: 1, round: 0.1}
+- {name: s, value: 1, min: 0, max: 1, round: 0.25}
+- {name: c, value: 2, min: 0, max: 8, round: 0.5}
 
 calcs:
-  nash: params.m*(params.a-params.c)/(2+params.s)
-  monquantity: params.m*(params.a-params.c)/(2)
+  nash: ((params.a)-(params.c))/((params.b)*(2+params.s))
+  mono: ((params.a)-(params.c))/((params.b)*(2))
+  maxQ: ((params.a)-(params.c))/((params.b)*(params.s)) # vertical intercept of BR2
 
 #aspectRatio: 1
 
@@ -19,106 +17,139 @@ layout:
   OneGraphPlusSidebar:
     graph:
       xAxis:
-        ticks: 5
-        max: 199
+        ticks: 0
+        max: 10
       yAxis:
-        max: 199
-        ticks: 5
+        max: 10
+        ticks: 0
       objects:
 
       - Label:
-                coordinates: [199, 0]
-                text: "` X_1 `"
-                yPixelOffset: 0
-                xPixelOffset: -5
-                position: l
+            coordinates: [10, 0]
+            text: "` \\\\text{quantità} `"
+            yPixelOffset: 10
+            position: l
       - Label:
-                coordinates: [0, 199]
-                text: "` X_2  `"
-                xPixelOffset: -10
+            coordinates: [10, 0]
+            text: "` \\\\text{impresa 2} `"
+            yPixelOffset: -10
+            position: l
+      - Label:
+            coordinates: [0,10]
+            text: "` \\\\text{quantità} `"
+            yPixelOffset: 10
+      - Label:
+            coordinates: [0,10]
+            text: "` \\\\text{impresa 1} `"
+            yPixelOffset: -10
 
 # BR1
-      - Curve:
-          fn: (params.a-params.s*(y)/params.m-params.c)/(2/params.m)
-          ind: y
+      - Line:
+          point: [0,calcs.mono]
+          slope: -(params.s)/2
           label:
             text: BR_1
-            y: 21
+            x: min(50,(0.7)*(calcs.maxQ))
           color: Blue
           strokeWidth: 1.5
           show: params.s !== 0
 
 # BR2
-      - Curve:
-          fn: (params.a-params.s*(x)/params.m-params.c)/(2/params.m)
+      - Line:
+          point: [calcs.mono,0]
+          slope: -2/(params.s)
           label:
             text: BR_2
-            x: 22
-#            position: b
+            y: min(50,(0.7)*(calcs.maxQ))
           color: Red
           strokeWidth: 1.5
           show: params.s !== 0
+
+# intercepts
+      - Point: {coordinates: [0, calcs.mono], r: 0, droplines: {horizontal: calcs.mono.toFixed(2)}, color: Blue} 
+      - Point: {coordinates: [calcs.maxQ, 0], r: 0, droplines: {vertical: calcs.maxQ.toFixed(2)}, color: Blue} 
+      - Point: {coordinates: [0, calcs.maxQ], r: 0, droplines: {horizontal: calcs.maxQ.toFixed(2)}, color: Red} 
+      - Point: {coordinates: [calcs.mono, 0], r: 0, droplines: {vertical: calcs.mono.toFixed(2)}, color: Red} 
 
 
 # equilibrium
       - Point:
           coordinates: [calcs.nash, calcs.nash]
+          r: 4
           droplines:
-            horizontal: calcs.nash.toFixed(1)
-            vertical: calcs.nash.toFixed(1)
+            horizontal: calcs.nash.toFixed(2)
+            vertical: calcs.nash.toFixed(2)
+          strokeWidth: 0.5
           color: Green
 
-# monopoly
-      - Point:
-          coordinates: [calcs.monquantity, calcs.monquantity]
-          droplines:
-            horizontal: calcs.monquantity.toFixed(1)
-            vertical: calcs.monquantity.toFixed(1)
-          color: Green
-          show: params.s == 0
+# # monopoly
+#       - Point:
+#           coordinates: [calcs.monquantity, calcs.monquantity]
+#           droplines:
+#             horizontal: calcs.monquantity.toFixed(1)
+#             vertical: calcs.monquantity.toFixed(1)
+#           color: Green
+#           show: params.s == 0
 
-      - Line:
-          point: [calcs.monquantity,0]
-          point2: [calcs.monquantity,calcs.monquantity]
-          color: Blue
-          strokeWidth: 1.5
-          show: params.s == 0
-          label:
-            text: BR_1
-            y: 22
+#       - Line:
+#           point: [calcs.monquantity,0]
+#           point2: [calcs.monquantity,calcs.monquantity]
+#           color: Blue
+#           strokeWidth: 1.5
+#           show: params.s == 0
+#           label:
+#             text: BR_1
+#             y: 22
 
-      - Line:
-          point: [0,calcs.monquantity]
-          point2: [calcs.monquantity,calcs.monquantity]
-          color: Red
-          strokeWidth: 1.5
-          show: params.s == 0
-          label:
-            text: BR_2
-            x: 22
+#       - Line:
+#           point: [0,calcs.monquantity]
+#           point2: [calcs.monquantity,calcs.monquantity]
+#           color: Red
+#           strokeWidth: 1.5
+#           show: params.s == 0
+#           label:
+#             text: BR_2
+#             x: 22
+
+
+
 
     sidebar:
+
       controls:
-      - title: Concorrenza sui prezzi - sostituti e complementi
+
+      - title: Equilibrio di Cournot-Nash
 #        checkboxes:
 #        - param: showCS
 #          label: "\\text{Mostra e calcola surplus dei consumatori.}"
+
         sliders:
-        - param: s
-          label: \sigma
         - param: a
           label: a
+        - param: b
+          label: b
+        - param: s
+          label: s
         - param: c
           label: c
-        - param: m
-          label: M
+
         divs:
-        - html: "` Poiché $\\\\gamma=${params.s.toFixed(1)}>0$, i due beni sono <strong>sostituti</strong>.
-                  Dato che  $\\\\alpha=${params.a.toFixed(0)}$, le funzioni di domanda 
-                  inversa nei due mercati sono
-                  $$ P_1 = ${params.a.toFixed(0)} - X_1 - ${params.s.toFixed(1)} X_2 $$
-                  $$ P_2 = ${params.a.toFixed(0)} - X_2 - ${params.s.toFixed(1)} X_1 $$
-                  Tenendo in considerazione che $c=${params.c}$, i prezzi di equilibrio sono 
-                  $$ P^*_1 = ${calcs.nash.toFixed(1)}  \\\\qquad P^*_2 = ${calcs.nash.toFixed(1)}  $$
-                  `"
-          show: params.s > 0
+        - html: "` `"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
