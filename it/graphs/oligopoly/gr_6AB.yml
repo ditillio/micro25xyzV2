@@ -25,12 +25,12 @@ layout:
       objects:
 
       - Label:
-            coordinates: [10, 0]
+            coordinates: [9.8, 0]
             text: "` \\\\text{quantità} `"
             yPixelOffset: 10
             position: l
       - Label:
-            coordinates: [10, 0]
+            coordinates: [9.8, 0]
             text: "` \\\\text{impresa 2} `"
             yPixelOffset: -10
             position: l
@@ -49,7 +49,7 @@ layout:
           slope: -(params.s)/2
           label:
             text: BR_1
-            x: min(50,(0.7)*(calcs.maxQ))
+            x: min(50,(0.85)*(calcs.maxQ))
           color: Blue
           strokeWidth: 1.5
           show: params.s !== 0
@@ -60,7 +60,7 @@ layout:
           slope: -2/(params.s)
           label:
             text: BR_2
-            y: min(50,(0.7)*(calcs.maxQ))
+            y: min(50,(0.85)*(calcs.maxQ))
           color: Red
           strokeWidth: 1.5
           show: params.s !== 0
@@ -128,8 +128,8 @@ layout:
           label: a
         - param: b
           label: b
-        - param: s
-          label: s
+        # - param: s
+        #   label: s
         - param: c
           label: c
 

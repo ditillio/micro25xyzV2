@@ -48,7 +48,7 @@ parts:
       - folder: 3
         title:
           en: Production, Costs and Firm Choice
-          it: Produzione, costi e scelte delle imprese
+          it: Produzione, costi e scelte delle imprese concorrenziali
         sections:
 
           - title:
@@ -63,9 +63,6 @@ parts:
           - title:
               en: Price-Taking Firms' Supply
               it: Offerta delle imprese price-taker
-          - title:
-              en: Title of Section 3.1
-              it: Offerta e benessere OLD
       - folder: 4
         title:
           en: Equilibrium in Competitive Markets
@@ -105,11 +102,11 @@ parts:
               en: Basic Concepts of Game Theory
               it: Concetti di base di teoria dei giochi
           - title:
-              en: Competition on Quantity - Cournot Model
-              it: Concorrenza sulle quantità - modello di Cournot
+              en: Competition on Quantity
+              it: Concorrenza sulle quantità
           - title:
-              en: Competition on Price - Bertrand Model
-              it: Concorrenza sui prezzi - modello di Bertrand  
+              en: Competition on Price
+              it: Concorrenza sui prezzi  
   - folder: III
     title: 
       en: Government Intervention, Externalities and Public Goods

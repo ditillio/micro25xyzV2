@@ -126,7 +126,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Domanda per il prodotto e ricavo totale nel caso di un'impresa price-taker
+      - title: Domanda per il prodotto e ricavo totale di un'impresa price-taker
         description: Spostare la curva di domanda inversa per il prodotto dell'impresa
                       (retta blu nel grafico di sopra) per vedere come varia la funzione
                       di ricavo totale (grafico di sotto). Spostare il cursore qui sotto (o muovere il punto blu nel grafico

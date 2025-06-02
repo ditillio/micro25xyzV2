@@ -5,7 +5,7 @@ params:
 - {name: ops, value: 0.2}
 - {name: x, value: 120, min: 0, max: 200}
 - {name: a, value: 80, min: 60, max: 100, round: 5}
-- {name: alpha, value: 0.5, min: 0.5, max: 1, round: 0.5}
+- {name: alpha, value: 0.5, min: 0.3, max: 0.7, round: 0.1}
 - {name: w, value: 64, min: 40, max: 80, round: 1}
 - {name: fc, value: 100, min: 0, max: 200, round: 5}
 
@@ -256,8 +256,8 @@ layout:
         sliders:
         - param: a
           label: A
-        - param: alpha
-          label: \alpha
+        # - param: alpha
+        #   label: \alpha
         - param: fc
           label: FC
         - param: w
