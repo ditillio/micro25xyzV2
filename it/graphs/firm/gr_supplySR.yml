@@ -18,7 +18,6 @@ calcs:
   mc: calcs.xopt / 50
   avc: (calcs.xopt) / 100
   atc: calcs.xopt / 100 + (params.fc) / calcs.xopt
-  zzz: max(calcs.mc,calcs.atc)
 
 aspectRatio: 1.2
 
@@ -75,9 +74,8 @@ layout:
             fn: ( 2 * params.w / ( params.a * params.a ) ) * (x)
             color: Red
             label:
-              text: S \; ( = MC)
+              text: S^i_{SR} \; ( = MC)
               x: 210
-              position: l
             strokeWidth: 2
 
 # average variable cost curve

@@ -5,7 +5,7 @@ params:
 - {name: ops, value: 0.2}
 - {name: a, value: 80, min: 40, max: 100}
 - {name: w, value: 64, min: 40, max: 80}
-- {name: p, value: 2.5, min: 0.5, max: 5, round: 0.01}
+- {name: p, value: 2.5, min: 0.5, max: 5, round: 0.1}
 - {name: fc, value: 100, min: 50, max: 200}
 
 calcs:
@@ -54,23 +54,23 @@ layout:
         - Point:
             coordinates: [calcs.xopt, params.p]
             color: Red
-            r: 7
+            r: 6
             droplines:
               vertical: calcs.xopt.toFixed(2)
             show: params.p > calcs.acmin
 
         - Point:
-            coordinates: [0, params.p]
+            coordinates: [0.3, params.p]
             color: Red
-            r: 7
+            r: 6
             droplines:
               vertical: calcs.xopt.toFixed(2)
             show: params.p < calcs.acmin
 
         - Point:
-            coordinates: [0, params.p]
+            coordinates: [0.3, params.p]
             color: Red
-            r: 7
+            r: 6
             droplines:
               vertical: 0.00
             show: params.p.toFixed(2) == calcs.acmin.toFixed(2)
@@ -78,7 +78,7 @@ layout:
         - Point:
             coordinates: [calcs.qeff, params.p]
             color: Red
-            r: 7
+            r: 6
             droplines:
               vertical: calcs.qeff.toFixed(2)
             show: params.p.toFixed(2) == calcs.acmin.toFixed(2)
@@ -102,7 +102,7 @@ layout:
             fn: ( 2 * params.w / ( params.a * params.a ) ) * (x)
             color: Red
             label:
-              text: S
+              text: S^i_{LR}
               x: 210
               position: l
             strokeWidth: 3
@@ -118,11 +118,13 @@ layout:
             coordinates: [0.5, calcs.acmin]
             color: Red
             r: 3.5
+            show: params.p !== calcs.acmin
 
         - Point:
             coordinates: [calcs.qeff, calcs.acmin]
             color: Red
             r: 3.5
+            show: params.p !== calcs.acmin
 
 # marginal cost curve
         - Curve:

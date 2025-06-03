@@ -72,11 +72,8 @@ parts:
               en: Market Demand and Supply in Equilibrium
               it: Domanda e offerta di mercato in equilibrio
           - title:
-              en: Short-Run and Long-Run
-              it: Breve periodo e lungo periodo
-          - title:
-              en: Total Surplus and Efficiency
-              it: Surplus totale ed efficienza
+              en: Demand and Supply Elasticity
+              it: Elasticità di domanda e offerta
   - folder: II
     title: 
       en: Market Power

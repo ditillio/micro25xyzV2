@@ -1,15 +1,15 @@
 
 schema: EconSchema
 params:
-- {name: a, value: 11, min: 8, max: 20, round: 2}
+- {name: a, value: 5, min: 2, max: 11, round: 1}
 - {name: b, value: 1, min: 0.1, max: 1, round: 0.1}
 - {name: s, value: 1, min: 0, max: 1, round: 0.25}
 - {name: c, value: 2, min: 0, max: 8, round: 0.5}
 
 calcs:
-  nash: ((params.a)-(params.c))/((params.b)*(2+params.s))
-  mono: ((params.a)-(params.c))/((params.b)*(2))
-  maxQ: ((params.a)-(params.c))/((params.b)*(params.s)) # vertical intercept of BR2
+  nash: (1000)*((params.a)-(params.c))/((params.b)*(2+params.s))
+  mono: (1000)*((params.a)-(params.c))/((params.b)*(2))
+  maxQ: (1000)*((params.a)-(params.c))/((params.b)*(params.s)) # vertical intercept of BR2
 
 #aspectRatio: 1
 
@@ -18,29 +18,29 @@ layout:
     graph:
       xAxis:
         ticks: 0
-        max: 10
+        max: 3300
       yAxis:
-        max: 10
+        max: 3300
         ticks: 0
       objects:
 
       - Label:
-            coordinates: [9.8, 0]
-            text: "` \\\\text{quantità} `"
+            coordinates: [3240, 0]
+            text: "` \\\\text{Quantità} `"
             yPixelOffset: 10
             position: l
       - Label:
-            coordinates: [9.8, 0]
-            text: "` \\\\text{impresa 2} `"
+            coordinates: [3240, 0]
+            text: "` \\\\text{Impresa 2} `"
             yPixelOffset: -10
             position: l
       - Label:
-            coordinates: [0,10]
-            text: "` \\\\text{quantità} `"
+            coordinates: [0,3300]
+            text: "` \\\\text{Quantità} `"
             yPixelOffset: 10
       - Label:
-            coordinates: [0,10]
-            text: "` \\\\text{impresa 1} `"
+            coordinates: [0,3300]
+            text: "` \\\\text{Impresa 1} `"
             yPixelOffset: -10
 
 # BR1
@@ -49,7 +49,7 @@ layout:
           slope: -(params.s)/2
           label:
             text: BR_1
-            x: min(50,(0.85)*(calcs.maxQ))
+            x: min(3000,(0.85)*(calcs.maxQ))
           color: Blue
           strokeWidth: 1.5
           show: params.s !== 0
@@ -60,7 +60,7 @@ layout:
           slope: -2/(params.s)
           label:
             text: BR_2
-            y: min(50,(0.85)*(calcs.maxQ))
+            y: min(3000,(0.85)*(calcs.maxQ))
           color: Red
           strokeWidth: 1.5
           show: params.s !== 0
