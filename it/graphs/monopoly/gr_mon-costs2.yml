@@ -62,24 +62,24 @@ layout:
         min: 0
         max: (params.maxQ)
         ticks: 0
-        title: Impianto A
+        title: Stabilimento A
       yAxis:
         orient: left
         min: 0
         max: (params.maxEUR)
         ticks: 0
 
+
       objects:
 
       - Label:
             coordinates: [params.maxQ, 0]
-            text: "` \\\\text{unità} `"
-            xPixelOffset: 5
-
+            text: Q_A
       - Label:
-            coordinates: [0, calcs.maxrev]
-            text: "` \\\\text{€}  `"
-            xPixelOffset: -5
+            coordinates: [0,params.maxEUR]
+            text: "` \\\\text{euro} `"
+
+
 
 # cost function in plant 1
       - Curve:
@@ -120,23 +120,23 @@ layout:
         min: 0
         max: (params.maxQ)
         ticks: 0
-        title: Impianto B
+        title: Stabilimento B
       yAxis:
         orient: left
         min: 0
         max: (params.maxEUR)
         ticks: 0
 
+
       objects:
 
       - Label:
             coordinates: [params.maxQ, 0]
-            text: "` \\\\text{unità} `"
-            xPixelOffset: 5
+            text: Q_B
       - Label:
-            coordinates: [0, calcs.maxrev]
-            text: "` \\\\text{€}  `"
-            xPixelOffset: -5
+            coordinates: [0,params.maxEUR]
+            text: "` \\\\text{euro} `"
+
 
 # cost function in plant 2
       - Curve:
@@ -179,12 +179,12 @@ layout:
     sidebar:
       controls:
 
-      - title: Costi di produzione con due impianti
+      - title: Costi di produzione con due unità produttive
         sliders:
         - param: Q
           label: Q
         - param: percent1
-          label: "` \\\\text{ $\\\\%$ impianto A} `"
+          label: "` \\\\text{ $\\\\%$ stabil. A} `"
 
         # checkboxes:
         # - param: showCS
@@ -196,8 +196,8 @@ layout:
 
         divs:
         - html: "` Il costo necessario a produrre ${params.Q} unità, il ${params.percent1}% delle quali
-                  (ovvero ${calcs.Q1.toFixed(2)} unità) nell'impianto 1, e le altre (${calcs.Q2.toFixed(2)} unità)
-                  nell'impianto 2, è pari a
+                  (${calcs.Q1.toFixed(2)} unità) nello stabilimento A, e le altre (${calcs.Q2.toFixed(2)} unità)
+                  nello stabilimento B, è pari a
                   $$
                   ${calcs.C1.toFixed(2)}+${calcs.C2.toFixed(2)} = ${calcs.C.toFixed(2)}
                   $$
@@ -213,18 +213,33 @@ layout:
         - html: "`   `"
         - html: "`   `"
         - html: "`   `"
-        - html: "` Il monopolista produce in due impianti, A e B, ugualmente produttivi. Indicando con $L_\\\\text{A}$ 
+        - html: "` Il monopolista utilizza due stabilimenti, A e B, ugualmente produttivi.
+                     `"
+        - html: "` Indicando con $L_\\\\text{A}$ 
                   e $L_\\\\text{B}$
                   le giornate di lavoro 
-                  impiegate nei due impianti, i livelli di produzione nei due impianti sono dati
-                  da $Q_\\\\text{A}=${params.a}\\\\sqrt{L_\\\\text{A}}$ e $Q_\\\\text{B}=${params.a}\\\\sqrt{L_\\\\text{B}}$.
+                  impiegate nelle due unità produttive, i livelli di produzione sono
+                  $$
+                  Q_\\\\text{A}=${params.a}\\\\sqrt{L_\\\\text{A}}
+                  \\\\qquad
+                  Q_\\\\text{B}=${params.a}\\\\sqrt{L_\\\\text{B}}
+                  $$
                      `"
-        - html: "` Il costo fisso di ciascun impianto è $FC=${params.fc}$, mentre il salario giornaliero è $W=${params.w}$. Produrre
-                  $Q_\\\\text{A}$ unità nell'impianto A richiede quindi un costo pari a 
-                  $C_\\\\text{A}=${params.fc}+(${params.w}/${params.a}^2)Q^2_\\\\text{A}$. Analogamente, produrre
-                  $Q_\\\\text{B}$ unità nell'impianto B richiede un costo pari a 
-                  $C_\\\\text{B}=${params.fc}+(${params.w}/${params.a}^2)Q^2_\\\\text{B}$.  
+        - html: "` Il costo fisso di ciascuno stabilimento è $FC=${params.fc}$,
+                    mentre il salario giornaliero è $W=${params.w}$.  
                      `"
+        - html: "` Produrre
+                  $Q_\\\\text{A}$ unità di output nello stabilimento A
+                  e $Q_B$ unità nello stabilimento B richiede quindi un costo pari a
+                  $$
+                  ${params.fc}+(${params.w}/${params.a}^2)Q^2_\\\\text{A}
+                  \\\\quad + \\\\quad
+                  ${params.fc}+(${params.w}/${params.a}^2)Q^2_\\\\text{B}
+                  \\\\quad = \\\\quad
+                  ${(2)*params.fc}+(${params.w}/${params.a}^2)
+                  \\\\big(Q^2_\\\\text{A}+Q^2_\\\\text{B}\\\\big)
+                  $$
+                   `"
 
 
 
