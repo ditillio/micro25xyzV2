@@ -267,7 +267,7 @@ layout:
           param: UF
           options:
             - $U = X^2 Y$
-            - $U=XY+10(X+Y)$
+            - $U=(X+10)(Y+10)$
 
 
 
