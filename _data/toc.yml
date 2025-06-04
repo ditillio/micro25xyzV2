@@ -104,6 +104,9 @@ parts:
           - title:
               en: Competition on Price
               it: Concorrenza sui prezzi  
+          - title:
+              en: Game Theory and Oligopoly
+              it: Game Theory and Oligopoly
   - folder: III
     title: 
       en: Government Intervention, Externalities and Public Goods
