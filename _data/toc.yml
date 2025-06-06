@@ -166,20 +166,20 @@ parts:
               it: Risparmio e indebitamento
   - folder: V
     title: 
-      en: Information Asymmetry
-      it: Asimmetrie informative
+      en: Uncertainty and Information Asymmetry
+      it: Incertezza e Asimmetrie informative
     chapters:
       - folder: 11
         title:
-          en: Choice under Uncertainty
-          it: Scelte in condizioni di incertezza
+          en: Uncertainty and Insurance
+          it: Incertezza e assicurazione
         sections:
           - title:
-              en: xxx
-              it: xxx
+              en: Lotteries, Expected Value and Expected Utility
+              it: Lotterie, valore atteso e utilità attesa
           - title:
-              en: xxx
-              it: xxx
+              en: Insurance Market
+              it: Mercato assicurativo
       - folder: 12
         title:
           en: Adverse Selection
