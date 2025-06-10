@@ -1,0 +1,179 @@
+params:
+
+- {name: w, value: 30, min: 0, max: 60}
+- {name: b, value: 60, min: 0, max: 60}
+- {name: d, value: 2, min: 0, max: 4}
+- {name: ubar, value: 6}
+
+- {name: p2H, value: 0.75}
+- {name: p2L, value: 0.25}
+
+
+
+calcs:
+
+  p2H: params.p2H
+  p2L: params.p2L
+
+  p1H: (1)-(calcs.p2H)
+  p1L: (1)-(calcs.p2L)
+
+  w1: params.w
+  u1L: sqrt(calcs.w1)
+  u1H: sqrt(calcs.w1)-(params.d)
+
+  w2: (params.w)+(params.b)
+  u2L: sqrt(calcs.w2)
+  u2H: sqrt(calcs.w2)-(params.d)
+
+  ewH: (calcs.p1H)*(calcs.w1)+(calcs.p2H)*(calcs.w2)
+  ewL: (calcs.p1L)*(calcs.w1)+(calcs.p2L)*(calcs.w2)
+
+  euH: (calcs.p1H)*(calcs.u1H)+(calcs.p2H)*(calcs.u2H)
+  euL: (calcs.p1L)*(calcs.u1L)+(calcs.p2L)*(calcs.u2L)
+
+
+aspectRatio: 1
+
+layout:
+  OneGraphPlusSidebar:
+
+    graph: 
+      xAxis:
+        max: 100
+        ticks: 0
+      yAxis:
+        max: 10
+        min: -(1.1)*(params.d)
+        ticks: 0
+
+      objects:
+
+        - Label:
+                coordinates: [100, 0]
+                text: "` \\\\text{Salario} `"
+        - Label:
+                coordinates: [0, 10]
+                text: "` \\\\text{Utilità}  `"
+
+# bernoulli utility function with high effort
+        - Curve:
+            fn: sqrt(x)-(params.d)
+            color: Blue
+            label:
+              text: "` U_H = \\\\sqrt{W} - D `"
+              x: 100
+            strokeWidth: 1.5
+        - Label:
+                coordinates: [0, -(params.d)]
+                text: "` \\\\small -${params.d}  `"
+                position: r
+                color: Blue
+
+# bernoulli utility function with low effort
+        - Curve:
+            fn: sqrt(x)
+            color: Blue
+            label:
+              text: "` U_L = \\\\sqrt{W} `"
+              x: 100
+            strokeWidth: 1.5
+        - Label:
+                coordinates: [0, 0]
+                text: "` \\\\small 0  `"
+                position: r
+                color: Blue
+
+# points
+        - Point: {coordinates: [calcs.w1, calcs.u1L], color: Red, r: 4}
+        - Point:
+            coordinates: [calcs.w1, calcs.u1L]
+            droplines: {vertical: calcs.w1.toFixed(0), horizontal: calcs.u1L.toFixed(2)}
+            strokeWidth: 0.5
+            color: Blue
+            r: 0
+        - Point: {coordinates: [calcs.w2, calcs.u2H], color: Red, r: 4}
+        - Point:
+            coordinates: [calcs.w2, calcs.u2H]
+            droplines: {vertical: calcs.w2.toFixed(0), horizontal: calcs.u2H.toFixed(2)}
+            strokeWidth: 0.5
+            color: Blue
+            r: 0
+
+
+# reservation utility
+        - Line:
+            point: [0,params.ubar]
+            slope: 0
+            color: Green
+            strokeWidth: 1
+            label:
+              text: "` \\\\underline{U} = ${params.ubar} `"
+              x: 100
+
+
+
+
+    sidebar:
+
+      controls:
+
+      - title: Contratto First-Best
+        description: ... bla ...
+
+        # radioGroup:
+        #   param: which
+        #   options:
+        #     - Mantieni 𝐸𝑃 = 50 costante
+        #     - Mantieni 𝐸𝑈 = 5 costante
+
+        sliders:
+        - param: w
+          label: W_0
+        - param: b
+          label: B
+
+        divs:
+        - html: <br>
+        - html: "`  ... ciao ...
+                      `"
+
+
+
+
+
+
+    # explanation:
+    #   divs:
+    #     - html: "` La lotteria
+    #                 $$
+    #                 \\\\text{$W_1=${params.w1}$ con probabilità $0.5$}
+    #                 \\\\qquad
+    #                 \\\\text{$W_2=${calcs.w2ep}$ con probabilità $0.5$}
+    #                 $$
+    #                 ha valore atteso $
+    #                 EP=${params.p1}\\\\times ${params.w1}+
+    #                 ${calcs.p2}\\\\times ${calcs.w2ep} = ${params.ep}$
+    #                 e dà utilità attesa
+    #                 $$
+    #                 EU=${params.p1}\\\\times ${params.w1}+
+    #                 ${calcs.p2}\\\\times ${calcs.w2ep} = ${params.ep}$
+    #                 $$
+    #                   `"
+    #       show: params.which == 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -58,7 +58,9 @@ layout:
         - Point:
             coordinates: [(95)+(params.w1slider), 7]
             r: 8
-            color: Blue
+            color: Black
+            opacity: 0.6
+            shadow: true
             drag:
               - horizontal: w1slider
 
@@ -74,7 +76,8 @@ layout:
         - Point:
             coordinates: [(95)+(params.w2slider), 6.6]
             r: 8
-            color: Blue
+            color: Black
+            opacity: 0.6
             drag:
               - horizontal: w2slider
 
@@ -93,7 +96,8 @@ layout:
         - Point:
             coordinates: [(95)+(params.p1slider), 5.5]
             r: 8
-            color: Blue
+            color: Black
+            opacity: 0.6
             drag:
               - horizontal: p1slider
 
@@ -109,7 +113,8 @@ layout:
         - Point:
             coordinates: [(95)+((20)-(params.p1slider)), 5.1]
             r: 8
-            color: Blue
+            color: Black
+            opacity: 0.6
             drag:
               - directions: x
                 param: p1slider

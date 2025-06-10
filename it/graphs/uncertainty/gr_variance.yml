@@ -201,7 +201,7 @@ layout:
       divs:
         - html: "` La lotteria
                     $$
-                    \\\\text{$W_1=8$ con probabilità $0.5$}
+                    \\\\text{$W_1=${params.w1}$ con probabilità $0.5$}
                     \\\\qquad
                     \\\\text{$W_2=${calcs.w2ep}$ con probabilità $0.5$}
                     $$

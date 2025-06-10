@@ -217,7 +217,7 @@ layout:
           yIntercept: params.minwage
           color: Purple
           label:
-            text: W_0
+            text: W_\text{min}
             x: 4500
             position: l
           strokeWidth: 1
@@ -309,7 +309,7 @@ layout:
 #        description: The budget line for a worker who can choose how many hours to work at a constant wage
         sliders:
         - param: minwage
-          label: W_0
+          label: W_\text{min}
         radioGroup:
           param: welfare
           options:
@@ -324,29 +324,29 @@ layout:
         - html: "` `"
         - html: "` Come in Figura L.8, in assenza di interventi statali il salario è $W^M=40$
                       e la quantità di lavoro scambiata è $L^M=2000$. `"
-        - html: "` L'introduzione di un salario minimo pari a $W_0=${params.minwage}$ non ha
+        - html: "` L'introduzione di un salario minimo pari a $W_\\\\text{min}=${params.minwage}$ non ha
                     alcun effetto sul mercato. `"
           show: params.minwage <=40
-        - html: "` L'introduzione di un salario minimo pari a $W_0=${params.minwage}$ 
+        - html: "` L'introduzione di un salario minimo pari a $W_\\\\text{min}=${params.minwage}$ 
                   aumenta sia il salario (che diventa $W=${params.minwage}$) sia 
                   l'occupazione (che diventa $L=${calcs.L0}$) e riduce la perdita secca. `"
           show: params.minwage > 40 && params.minwage < 50
-        - html: "` L'introduzione di un salario minimo pari a $W_0=${params.minwage}$ 
+        - html: "` L'introduzione di un salario minimo pari a $W_\\\\text{min}=${params.minwage}$ 
                   aumenta sia il salario (che diventa $W=${params.minwage}$) sia 
                   l'occupazione (che diventa $L=${(100)*(80-params.minwage)}$). La perdita secca
                   è ridotta a zero. `"
           show: params.minwage == 50
-        - html: "` L'introduzione di un salario minimo pari a $W_0=${params.minwage}$ 
+        - html: "` L'introduzione di un salario minimo pari a $W_\\\\text{min}=${params.minwage}$ 
                   aumenta sia il salario (che diventa $W=${params.minwage}$) sia 
                   l'occupazione (che diventa $L=${(100)*(80-params.minwage)}$) e riduce la perdita secca. `"
           show: params.minwage > 50 && params.minwage < 60
-        - html: "` L'introduzione di un salario minimo pari a $W_0=${params.minwage}$ 
+        - html: "` L'introduzione di un salario minimo pari a $W_\\\\text{min}=${params.minwage}$ 
                   aumenta il salario (che diventa $W=${params.minwage}$) ma lascia invariata  
                   l'occupazione (che rimane $L=2000$). La perdita secca è la stessa che si ha in assenza
                   dell'intervento. L'unica differenza sta nella distribuzione del surplus totale
                   (ora più a favore dei lavoratori). `"
           show: params.minwage == 60
-        - html: "` L'introduzione di un salario minimo pari a $W_0=${params.minwage}$ 
+        - html: "` L'introduzione di un salario minimo pari a $W_\\\\text{min}=${params.minwage}$ 
                   aumenta il salario (che diventa $W=${params.minwage}$) ma riduce  
                   l'occupazione (che diventa $L=${(100)*(80-params.minwage)}$). La perdita secca è
                    maggiore di quella in assenza dell'intervento.  `"
@@ -354,7 +354,7 @@ layout:
 
     explanation:
       divs:
-        - html: "` In presenza di un salario minimo $W_0=${params.minwage}$ la curva $MLC$
+        - html: "` In presenza di un salario minimo $W_\\\\text{min}=${params.minwage}$ la curva $MLC$
                   è piatta fino alla quantità di lavoro offerta al salario minimo, ovvero $L=${calcs.L0}$. 
                   In corrispondenza di quella quantità, la curva $MLC$ presenta una discontinuità.
                   Oltre quella quantità di lavoro, la curva coincide con la curva $MLC$ in assenza di interventi.   `"
