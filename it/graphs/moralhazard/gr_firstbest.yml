@@ -317,7 +317,7 @@ layout:
 
       controls:
 
-      - title: Contratto First-Best
+      - title: Azioni osservabili e contratto First-Best
         description: Selezionare l'atteggiamento verso il rischio del lavoratore.
 
         radioGroup:
