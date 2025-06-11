@@ -221,72 +221,11 @@ layout:
 
 
 
-# contract (risk neutral case)
-        - Rectangle:
-            a: [150,1100]
-            b: [850,1500]
-            fill: brown
-            opacity: 0.1
-            stroke: black
-            strokeWidth: 1
-            show: params.riskav == 0
-        - Rectangle:
-            a: [160,1110]
-            b: [840,1490]
-            fill: white
-            opacity: 0.1
-            stroke: black
-            strokeWidth: 1
-            show: params.riskav == 0
-        - Label:
-            coordinates: [500, 1450]
-            text: \text{\small CONTRATTO DI LAVORO}
-            bgcolor: none
-            show: params.riskav == 0
-        - Label:
-            coordinates: [230, 1370]
-            text: "` \\\\text{\\\\small Impegno minimo: } ${params.effort} `"
-            bgcolor: none
-            position: l
-            show: params.riskav == 0
-        - Label:
-            coordinates: [230, 1310]
-            text: "` \\\\text{\\\\small Salario base: } ${params.w} `"
-            bgcolor: none
-            position: l
-            show: params.riskav == 0
-        - Label:
-            coordinates: [230, 1250]
-            text: "` \\\\text{\\\\small Bonus: } ${params.b} `"
-            bgcolor: none
-            position: l
-            show: params.riskav == 0
-        - Label:
-            coordinates: [190, 1155]
-            text: "` \\\\text{\\\\small Firma del lavoratore: } \\\\underline{\\\\qquad}  `"
-            bgcolor: none
-            position: l
-            show: params.riskav == 0
-        - Label:
-            coordinates: [730, 1170]
-            text: \Large{\checkmark}
-            bgcolor: none
-            color: green
-            show: params.riskav == 0 && calcs.eu >= calcs.ubar
-        - Label:
-            coordinates: [730, 1170]
-            text: \Large{\boldsymbol\times}
-            bgcolor: none
-            color: red
-            show: params.riskav == 0 && calcs.eu < calcs.ubar
 
 
 
 
-
-
-
-# contract (risk averse case)
+# contract
         - Rectangle:
             a: [75,((calcs.uMax)/(35))*25.5]
             b: [525,((calcs.uMax)/(35))*35]
