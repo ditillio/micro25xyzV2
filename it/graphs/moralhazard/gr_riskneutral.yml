@@ -1,8 +1,8 @@
 params:
 
-- {name: w, value: 30, min: 0, max: 50, round: 1}
-- {name: b, value: 60, min: 0, max: 60, round: 1}
-- {name: d, value: 20, min: 0, max: 4}
+- {name: w, value: 30, min: 0, max: 80, round: 1}
+- {name: b, value: 50, min: 0, max: 80, round: 1}
+- {name: d, value: 28, min: 0, max: 4}
 - {name: ubar, value: 36}
 
 - {name: p2H, value: 0.75}
@@ -174,10 +174,10 @@ layout:
         description: bla bla
 
         # radioGroup:
-        #   param: which
+        #   param: riskav
         #   options:
-        #     - Mantieni 𝐸𝑃 = 50 costante
-        #     - Mantieni 𝐸𝑈 = 5 costante
+        #     - Lavoratore neutrale al rischio
+        #     - Lavoratore avverso al rischio
 
         sliders:
         - param: w
@@ -187,12 +187,10 @@ layout:
 
         divs:
         - html: <br>
-        - html: "`  Salario atteso $ ${calcs.ewH} $
+        - html: "` Il contratto selezionato non è accettabile per il lavoratore: i punti $L$ e $H$
+                    si trovano entrambi sotto la retta verde.
                       `"
-        - html: "`  EUH $ ${calcs.euH} $
-                      `"
-        - html: "`  EUL $ ${calcs.euL} $
-                      `"
+          show: calcs.eu < params.ubar
 
 
 
