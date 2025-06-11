@@ -1,9 +1,9 @@
 params:
 
-- {name: w, value: 500, min: 0, max: 1500, round: 5}
-- {name: b, value: 500, min: 0, max: 1000, round: 40}
+- {name: w, value: 100, min: 0, max: 1000, round: 5}
+- {name: b, value: 600, min: 0, max: 1000, round: 40}
 - {name: d, value: 10, min: 0, max: 4}
-- {name: ubar, value: 25}
+- {name: ubar, value: 15}
 - {name: effort, value: 0, min: 0, max: 1}
 
 - {name: p2H, value: 0.75}
@@ -17,8 +17,8 @@ params:
 
 calcs:
 
-  d: "( (params.riskav < 1) ? '600' : (params.d) )"
-  ubar: "( (params.riskav < 1) ? '625' : (params.ubar) )"
+  d: "( (params.riskav < 1) ? '400' : (params.d) )"
+  ubar: "( (params.riskav < 1) ? '225' : (params.ubar) )"
 
   p2H: params.p2H
   p2L: params.p2L
@@ -40,7 +40,7 @@ calcs:
   euH: (calcs.p1H)*(calcs.u1H)+(calcs.p2H)*(calcs.u2H)
   euL: (calcs.p1L)*(calcs.u1L)+(calcs.p2L)*(calcs.u2L)
 
-  uMax: "( (params.riskav < 1) ? '1500' : '40' )"
+  uMax: "( (params.riskav < 1) ? '1000' : '35' )"
 
   eu: "( (params.effort < 1) ? max(calcs.euH,calcs.euL) : calcs.euH )"
 
@@ -57,7 +57,7 @@ layout:
 
     graph: 
       xAxis:
-        max: 1500
+        max: 1000
         ticks: 0
       yAxis:
         max: calcs.uMax
@@ -67,7 +67,7 @@ layout:
       objects:
 
         - Label:
-                coordinates: [1500, 0]
+                coordinates: [1000, 0]
                 text: "` \\\\text{Salario} `"
         - Label:
                 coordinates: [0, calcs.uMax]
@@ -79,8 +79,8 @@ layout:
             slope: 1
             color: Blue
             label:
-              text: "` U_H=W-D `"
-              x: 1500
+              text: "` U_H=W-${calcs.d} `"
+              x: 1000
               position: c
             strokeWidth: 1.5
             show: params.riskav == 0
@@ -99,7 +99,7 @@ layout:
             color: Blue
             label:
               text: "` U_L=W `"
-              x: 1500
+              x: 1000
               position: c
             strokeWidth: 1.5
             show: params.riskav == 0
@@ -116,13 +116,13 @@ layout:
             fn: sqrt(x)-(calcs.d)
             color: Blue
             label:
-              text: "` U_H = \\\\sqrt{W} - D `"
-              x: 1500
+              text: "` U_H = \\\\sqrt{W} - ${calcs.d} `"
+              x: 1000
             strokeWidth: 1.5
             show: params.riskav == 1
         - Label:
             coordinates: [0, -(calcs.d)]
-            text: "` \\\\small -${params.d}  `"
+            text: "` \\\\small -${calcs.d}  `"
             position: r
             color: Blue
             show: params.riskav == 1
@@ -133,7 +133,7 @@ layout:
             color: Blue
             label:
               text: "` U_L = \\\\sqrt{W} `"
-              x: 1500
+              x: 1000
             strokeWidth: 1.5
             show: params.riskav == 1
         - Label:
@@ -209,8 +209,6 @@ layout:
 
 
 
-
-
 # reservation utility
         - Line:
             point: [0,calcs.ubar]
@@ -219,7 +217,7 @@ layout:
             strokeWidth: 1
             label:
               text: "` \\\\underline{U} = ${calcs.ubar} `"
-              x: 1500
+              x: 1000
 
 
 
@@ -287,6 +285,83 @@ layout:
 
 
 
+
+# contract (risk averse case)
+        - Rectangle:
+            a: [75,((calcs.uMax)/(35))*25.5]
+            b: [525,((calcs.uMax)/(35))*35]
+            fill: brown
+            opacity: 0.1
+            stroke: black
+            strokeWidth: 1
+        - Rectangle:
+            a: [85,((calcs.uMax)/(35))*25.75]
+            b: [515,((calcs.uMax)/(35))*34.75]
+            fill: white
+            opacity: 0.1
+            stroke: black
+            strokeWidth: 1
+        - Label:
+            coordinates: [300, ((calcs.uMax)/(35))*33.7]
+            text: \text{\small CONTRATTO DI LAVORO}
+            bgcolor: none
+        - Label:
+            coordinates: [120, ((calcs.uMax)/(35))*32]
+            text: "` \\\\text{\\\\small Impegno minimo: } \\\\color{Blue} ${params.effort} `"
+            bgcolor: none
+            position: l
+        - Label:
+            coordinates: [120, ((calcs.uMax)/(35))*30.5]
+            text: "` \\\\text{\\\\small Salario base: } \\\\color{Blue} ${params.w} `"
+            bgcolor: none
+            position: l
+        - Label:
+            coordinates: [120, ((calcs.uMax)/(35))*29]
+            text: "` \\\\text{\\\\small Bonus: } \\\\color{Blue} ${params.b} `"
+            bgcolor: none
+            position: l
+        - Label:
+            coordinates: [90, ((calcs.uMax)/(35))*27]
+            text: "` \\\\text{\\\\small Firma del lavoratore: } \\\\underline{\\\\qquad}  `"
+            bgcolor: none
+            position: l
+        - Label:
+            coordinates: [460, ((calcs.uMax)/(35))*27.5]
+            text: \Large{\checkmark}
+            bgcolor: none
+            color: green
+            show: calcs.eu >= calcs.ubar
+        - Label:
+            coordinates: [460, ((calcs.uMax)/(35))*27.5]
+            text: \Large{\boldsymbol\times}
+            bgcolor: none
+            color: red
+            show: calcs.eu < calcs.ubar
+
+
+
+
+
+
+
+
+
+
+
+
+# evaluation
+        - Label:
+            coordinates: [500, -300]
+            text: \LARGE{\textbf{BINGO!}}
+            bgcolor: none
+            color: Red
+            show: params.riskav == 0 && params.effort == 1 && calcs.ewH == 625
+        - Label:
+            coordinates: [500, -6]
+            text: \LARGE{\textbf{BINGO!}}
+            bgcolor: none
+            color: Red
+            show: params.riskav == 1 && params.effort == 1 && params.b == 0 && params.w == 625
 
 
 
