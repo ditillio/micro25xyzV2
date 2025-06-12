@@ -12,7 +12,7 @@ params:
 - {name: x1, value: 1000} # revenue in case of failure
 - {name: x2, value: 3000} # revenue in case of success
 
-- {name: riskav, value: 0}
+- {name: riskav, value: 1}
 
 
 calcs:
@@ -221,72 +221,8 @@ layout:
 
 
 
-# contract (risk neutral case)
-        - Rectangle:
-            a: [150,1100]
-            b: [850,1500]
-            fill: brown
-            opacity: 0.1
-            stroke: black
-            strokeWidth: 1
-            show: params.riskav == 0
-        - Rectangle:
-            a: [160,1110]
-            b: [840,1490]
-            fill: white
-            opacity: 0.1
-            stroke: black
-            strokeWidth: 1
-            show: params.riskav == 0
-        - Label:
-            coordinates: [500, 1450]
-            text: \text{\small CONTRATTO DI LAVORO}
-            bgcolor: none
-            show: params.riskav == 0
-        - Label:
-            coordinates: [230, 1370]
-            text: "` \\\\text{\\\\small Impegno minimo: } ${params.effort} `"
-            bgcolor: none
-            position: l
-            show: params.riskav == 0
-        - Label:
-            coordinates: [230, 1310]
-            text: "` \\\\text{\\\\small Salario base: } ${params.w} `"
-            bgcolor: none
-            position: l
-            show: params.riskav == 0
-        - Label:
-            coordinates: [230, 1250]
-            text: "` \\\\text{\\\\small Bonus: } ${params.b} `"
-            bgcolor: none
-            position: l
-            show: params.riskav == 0
-        - Label:
-            coordinates: [190, 1155]
-            text: "` \\\\text{\\\\small Firma del lavoratore: } \\\\underline{\\\\qquad}  `"
-            bgcolor: none
-            position: l
-            show: params.riskav == 0
-        - Label:
-            coordinates: [730, 1170]
-            text: \Large{\checkmark}
-            bgcolor: none
-            color: green
-            show: params.riskav == 0 && calcs.eu >= calcs.ubar
-        - Label:
-            coordinates: [730, 1170]
-            text: \Large{\boldsymbol\times}
-            bgcolor: none
-            color: red
-            show: params.riskav == 0 && calcs.eu < calcs.ubar
 
-
-
-
-
-
-
-# contract (risk averse case)
+# contract
         - Rectangle:
             a: [75,((calcs.uMax)/(35))*25.5]
             b: [525,((calcs.uMax)/(35))*35]
@@ -305,18 +241,14 @@ layout:
             coordinates: [300, ((calcs.uMax)/(35))*33.7]
             text: \text{\small CONTRATTO DI LAVORO}
             bgcolor: none
+
         - Label:
-            coordinates: [120, ((calcs.uMax)/(35))*32]
-            text: "` \\\\text{\\\\small Impegno minimo: } \\\\color{Blue} ${params.effort} `"
-            bgcolor: none
-            position: l
-        - Label:
-            coordinates: [120, ((calcs.uMax)/(35))*30.5]
+            coordinates: [120, ((calcs.uMax)/(35))*31.2]
             text: "` \\\\text{\\\\small Salario base: } \\\\color{Blue} ${params.w} `"
             bgcolor: none
             position: l
         - Label:
-            coordinates: [120, ((calcs.uMax)/(35))*29]
+            coordinates: [120, ((calcs.uMax)/(35))*29.3]
             text: "` \\\\text{\\\\small Bonus: } \\\\color{Blue} ${params.b} `"
             bgcolor: none
             position: l
@@ -337,9 +269,6 @@ layout:
             bgcolor: none
             color: red
             show: calcs.eu < calcs.ubar
-
-
-
 
 
 
@@ -378,39 +307,9 @@ layout:
 
       controls:
 
-      - title: Contratto First-Best
-        description: Selezionare l'atteggiamento verso il rischio del lavoratore.
-
-        radioGroup:
-          param: riskav
-          options:
-            - Lavoratore neutrale al rischio
-            - Lavoratore avverso al rischio
-
-      - title: Lavoratore neutrale al rischio
+      - title: Contratto second-best con agente avverso al rischio
         description: Muovere i cursori fino a individuare il contratto che massimizza il profitto dell'impresa.
         sliders:
-        - param: effort
-          label: \text{Impegno}
-        - param: w
-          label: \text{Salario base}
-        - param: b
-          label: \text{Bonus}
-        divs:
-        - html: "` 
-                      `"
-        show: params.riskav == 0
-
-
-
-
-
-
-      - title: Lavoratore avverso al rischio
-        description: Muovere i cursori fino a individuare il contratto che massimizza il profitto dell'impresa.
-        sliders:
-        - param: effort
-          label: \text{Impegno}
         - param: w
           label: \text{Salario base}
         - param: b
