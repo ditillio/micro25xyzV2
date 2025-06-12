@@ -363,24 +363,48 @@ layout:
 
 
 
-    # explanation:
-    #   divs:
-    #     - html: "` La lotteria
-    #                 $$
-    #                 \\\\text{$W_1=${params.w1}$ con probabilità $0.5$}
-    #                 \\\\qquad
-    #                 \\\\text{$W_2=${calcs.w2ep}$ con probabilità $0.5$}
-    #                 $$
-    #                 ha valore atteso $
-    #                 EP=${params.p1}\\\\times ${params.w1}+
-    #                 ${calcs.p2}\\\\times ${calcs.w2ep} = ${params.ep}$
-    #                 e dà utilità attesa
-    #                 $$
-    #                 EU=${params.p1}\\\\times ${params.w1}+
-    #                 ${calcs.p2}\\\\times ${calcs.w2ep} = ${params.ep}$
-    #                 $$
-    #                   `"
-    #       show: params.which == 0
+    explanation:
+      divs:
+        - html: <br><br><br><br><br><br>
+          show: params.effort == 0
+        - html: "` Il contratto specifica che l'impegno del lavoratore deve essere alto.
+                    Se firma il contratto, il lavoratore ottiene quindi un'utilità
+                    attesa pari all'altezza del punto $H$.
+                      `"
+          show: params.effort == 1
+        - html: "` Tale utilità attesa è però minore della sua utilità di riserva
+                   (il punto $H$ si trova sotto la retta verde).
+                    Il lavoratore, quindi, non firma il contratto, e il profitto
+                    dell'impresa è quello derivante dalla sua opzione alternativa:
+                    $$
+                    \\\\Pi=XXX
+                    $$
+                      `"
+          show: params.effort == 1 && calcs.euH < calcs.ubar
+        - html: "` Tale utilità attesa è pari alla sua utilità di riserva
+                   (il punto $H$ si trova sulla retta verde).
+                    Il lavoratore, quindi, firma il contratto, e il profitto
+                    dell'impresa è
+                    $$
+                    \\\\Pi=
+                    0.25\\\\times(${params.x1}-${calcs.w1})+
+                    0.75\\\\times(${params.x2}-${calcs.w1})=
+                    ${calcs.profitH}
+                    $$
+                      `"
+          show: params.effort == 1 && calcs.euH == calcs.ubar
+        - html: "` Tale utilità attesa è maggiore della sua utilità di riserva
+                   (il punto $H$ si trova sopra la retta verde).
+                    Il lavoratore, quindi, firma il contratto, e il profitto
+                    dell'impresa è
+                    $$
+                    \\\\Pi=
+                    0.25\\\\times(${params.x1}-${calcs.w1})+
+                    0.75\\\\times(${params.x2}-${calcs.w1})=
+                    ${calcs.profitH}
+                    $$
+                      `"
+          show: params.effort == 1 && calcs.euH > calcs.ubar
 
 
 
