@@ -1,7 +1,7 @@
 params:
 
-- {name: w, value: 100, min: 0, max: 1000, round: 5}
-- {name: b, value: 600, min: 0, max: 1000, round: 40}
+- {name: w, value: 100, min: 0, max: 1000, round: 1}
+- {name: b, value: 600, min: 0, max: 1000, round: 4}
 - {name: d, value: 10, min: 0, max: 4}
 - {name: ubar, value: 15}
 - {name: effort, value: 0, min: 0, max: 1}
@@ -48,6 +48,7 @@ calcs:
 
   profitH: (calcs.p1H)*((params.x1)-(calcs.w1))+(calcs.p2H)*((params.x2)-(calcs.w2))
   profitL: (calcs.p1L)*((params.x1)-(calcs.w1))+(calcs.p2L)*((params.x2)-(calcs.w2))
+  profit0: min(calcs.profitH,calcs.profitL)
 
 
 aspectRatio: 1
@@ -294,7 +295,7 @@ layout:
             text: \LARGE{\textbf{BINGO!}}
             bgcolor: none
             color: Red
-            show: params.riskav == 0 && params.effort == 1 && calcs.ewH == 625
+            show: params.riskav == 0 && calcs.eu == 225
         - Label:
             coordinates: [500, -6]
             text: \LARGE{\textbf{BINGO!}}
@@ -330,7 +331,7 @@ layout:
         description: Muovere i cursori fino a individuare il contratto che massimizza il profitto dell'impresa.
         sliders:
         - param: effort
-          label: \text{Impegno}
+          label: \text{Impegno min.}
         - param: w
           label: \text{Salario base}
         - param: b
@@ -349,7 +350,7 @@ layout:
         description: Muovere i cursori fino a individuare il contratto che massimizza il profitto dell'impresa.
         sliders:
         - param: effort
-          label: \text{Impegno}
+          label: \text{Impegno min.}
         - param: w
           label: \text{Salario base}
         - param: b
@@ -365,8 +366,53 @@ layout:
 
     explanation:
       divs:
-        - html: <br><br><br><br><br><br>
+        - html: "` Il contratto specifica un livello di impegno minimo pari a zero.
+                    Se firma il contratto, il lavoratore può quindi scegliere se
+                    impegnarsi e ottenere un'utilità attesa pari all'altezza del
+                    punto $H$, o non impegnarsi e ottenere un'utilità attesa pari
+                    all'altezza del punto $L$.
+                      `"
           show: params.effort == 0
+        - html: "` In entrambi i casi, però, l'utilità attesa è minore dell'utilità
+                   di riserva del lavoratore (i punti $L$ e $H$ si trovano entrambi
+                   sotto la retta verde). Il lavoratore, quindi, non firma il contratto,
+                   e il profitto dell'impresa è quello derivante dalla sua opzione alternativa:
+                    $$
+                    \\\\Pi=XXX
+                    $$
+                      `"
+          show: params.effort == 0 && calcs.euH < calcs.ubar && calcs.euL < calcs.ubar
+        - html: "` In almeno uno dei due casi, l'utilità attesa è almeno pari all'utilità
+                     di riserva del lavoratore (i punti $L$ e $H$ non si trovano entrambi
+                     sotto la retta verde). Il lavoratore, quindi, firma il contratto.
+                        `"
+          show: params.effort == 0 && calcs.eu >= calcs.ubar
+        - html: "` Una volta firmato il contratto, il lavoratore decide di impegnarsi
+                    (l'altezza del punto $H$ non è minore di quella del punto $L$).
+                    Il profitto dell'impresa è quindi
+                    $$
+                    \\\\Pi=
+                    0.25\\\\times(${params.x1}-${calcs.w1})+
+                    0.75\\\\times(${params.x2}-${calcs.w2})=
+                    ${calcs.profitH}
+                    $$
+                        `"
+          show: params.effort == 0 && calcs.eu >= calcs.ubar && calcs.euH >= calcs.euL
+        - html: "` Una volta firmato il contratto, il lavoratore decide di non impegnarsi
+                    (l'altezza del punto $H$ è minore di quella del punto $L$).
+                    Il profitto dell'impresa è quindi
+                    $$
+                    \\\\Pi=
+                    0.75\\\\times(${params.x1}-${calcs.w1})+
+                    0.25\\\\times(${params.x2}-${calcs.w2})=
+                    ${calcs.profitL}
+                    $$
+                        `"
+          show: params.effort == 0 && calcs.eu >= calcs.ubar && calcs.euH < calcs.euL
+
+
+
+
         - html: "` Il contratto specifica che l'impegno del lavoratore deve essere alto.
                     Se firma il contratto, il lavoratore ottiene quindi un'utilità
                     attesa pari all'altezza del punto $H$.
@@ -381,30 +427,18 @@ layout:
                     $$
                       `"
           show: params.effort == 1 && calcs.euH < calcs.ubar
-        - html: "` Tale utilità attesa è pari alla sua utilità di riserva
-                   (il punto $H$ si trova sulla retta verde).
+        - html: "` Tale utilità attesa non è minore della sua utilità di riserva
+                   (il punto $H$ non si trova sotto la retta verde).
                     Il lavoratore, quindi, firma il contratto, e il profitto
                     dell'impresa è
                     $$
                     \\\\Pi=
                     0.25\\\\times(${params.x1}-${calcs.w1})+
-                    0.75\\\\times(${params.x2}-${calcs.w1})=
+                    0.75\\\\times(${params.x2}-${calcs.w2})=
                     ${calcs.profitH}
                     $$
                       `"
-          show: params.effort == 1 && calcs.euH == calcs.ubar
-        - html: "` Tale utilità attesa è maggiore della sua utilità di riserva
-                   (il punto $H$ si trova sopra la retta verde).
-                    Il lavoratore, quindi, firma il contratto, e il profitto
-                    dell'impresa è
-                    $$
-                    \\\\Pi=
-                    0.25\\\\times(${params.x1}-${calcs.w1})+
-                    0.75\\\\times(${params.x2}-${calcs.w1})=
-                    ${calcs.profitH}
-                    $$
-                      `"
-          show: params.effort == 1 && calcs.euH > calcs.ubar
+          show: params.effort == 1 && calcs.euH >= calcs.ubar
 
 
 
