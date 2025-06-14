@@ -80,7 +80,7 @@ layout:
             slope: 1
             color: Blue
             label:
-              text: "` U_H=W-${calcs.d} `"
+              text: "` U=W-${calcs.d} `"
               x: 1000
               position: c
             strokeWidth: 1.5
@@ -99,7 +99,7 @@ layout:
             slope: 1
             color: Blue
             label:
-              text: "` U_L=W `"
+              text: "` U=W `"
               x: 1000
               position: c
             strokeWidth: 1.5
@@ -117,7 +117,7 @@ layout:
             fn: sqrt(x)-(calcs.d)
             color: Blue
             label:
-              text: "` U_H = \\\\sqrt{W} - ${calcs.d} `"
+              text: "` U = \\\\sqrt{W} - ${calcs.d} `"
               x: 1000
             strokeWidth: 1.5
             show: params.riskav == 1
@@ -133,7 +133,7 @@ layout:
             fn: sqrt(x)
             color: Blue
             label:
-              text: "` U_L = \\\\sqrt{W} `"
+              text: "` U = \\\\sqrt{W} `"
               x: 1000
             strokeWidth: 1.5
             show: params.riskav == 1
