@@ -272,11 +272,17 @@ layout:
 
 
 
-    # explanation:
-    #   divs:
-    #     - html: "` 
-    #                   `"
-    #       show: params.r < 1000
+    explanation:
+      divs:
+        - html: "` Il mercato è popolato da un milione di individui, ciascuno caratterizzato da
+        un diverso valore di $r$ e quindi da una diversa disponibilità a pagare per una polizza
+        a copertura totale del danno. Dato un qualunque prezzo $P$, ci sono esattamente $100P$
+        individui disposti a pagare meno di $P$ per una polizza, e quindi $1000000-100P$ individui disposti
+        a pagare più di $P$ per una polizza. La funzione di domanda di polizze è quindi
+        $$
+          P = 10000 - Q/100
+        $$
+                      `"
 
 
 
