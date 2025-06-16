@@ -22,16 +22,28 @@ calcs:
   EU: (calcs.p1)*(calcs.u1)+(calcs.p2)*(calcs.u2)
   CE: (calcs.EU)^((1)/(calcs.a))
 
+  WTP: (params.w2)-(calcs.CE)
+
+  Q: ((10000)-(calcs.WTP))/(10)
+
   maxU: (1.1)*(calcs.u2)
 
 
 
-aspectRatio: 1.4
+aspectRatio: 0.8
 
 layout:
-  OneGraphPlusSidebar:
+  TwoVerticalGraphsPlusSidebar:
 
-    graph: 
+
+
+
+
+
+
+
+
+    topGraph: 
       xAxis:
         max: 11000
         ticks: 0
@@ -126,6 +138,101 @@ layout:
             double: true
             color: Blue
             strokeWidth: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    bottomGraph: 
+      xAxis:
+        max: 1150
+        ticks: 0
+      yAxis:
+        max: 11000
+        ticks: 0
+
+      objects:
+
+        - Label:
+            coordinates: [1150, 0]
+            text: "` \\\\text{polizze} `"
+            yPixelOffset: 10
+        - Label:
+            coordinates: [1150, 0]
+            text: "` \\\\text{(migliaia)} `"
+            yPixelOffset: -8
+        - Label:
+            coordinates: [0, 11000]
+            text: "` \\\\text{euro/polizza}  `"
+
+# demand
+        - Line:
+            point: [0,10000]
+            slope: -10
+            color: Blue
+            label:
+              text: "` D `"
+              x: 980
+              position: bl
+            strokeWidth: 1.5
+        - Point:
+            coordinates: [0, 10000]
+            droplines: {horizontal: 10000}
+            strokeWidth: 0.5
+            color: Blue
+            r: 0
+
+
+        - Point:
+            coordinates: [calcs.Q, calcs.WTP]
+            droplines: {horizontal: calcs.WTP.toFixed(2), vertical: calcs.Q.toFixed(2)}
+            strokeWidth: 0.5
+            color: Blue
+            r: 3
+
+
+
+# supply
+        - Line:
+            point: [0,2500]
+            slope: 0
+            color: Red
+            label:
+              text: "` S `"
+              x: 1150
+              position: c
+            strokeWidth: 1.5
+        - Point:
+            coordinates: [0, 2500]
+            droplines: {horizontal: 2500}
+            strokeWidth: 0.5
+            color: Red
+            r: 0
+
+# equilibrium
+        - Point:
+            coordinates: [750, 2500]
+            droplines: {vertical: 750}
+            strokeWidth: 0.5
+            color: Green
+            r: 4
+
 
 
 
