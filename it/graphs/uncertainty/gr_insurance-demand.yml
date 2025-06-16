@@ -1,37 +1,45 @@
 params:
 
-- {name: w1, value: 0, min: 0, max: 50} # wealth if loss occurs
 - {name: w2, value: 10000, min: 0, max: 10000} # wealth if loss does not occur
-- {name: p1, value: 0.25, min: 0, max: 1, round: 0.1}  # probability of loss
+- {name: p, value: 0.2, min: 0.2, max: 0.6, round: 0.2}  # probability of loss
 
 - {name: r, value: 0.5, min: -1, max: 0.9, round: 0.1} # relative risk aversion coefficient
 
 
+- {name: d, value: 10000, min: 1900, max: 10000, round: 100} # possible loss
+
+
+
 calcs:
+
+  w1: (10000)-(params.d)
+  w2: params.w2
 
   a: (1)-(params.r)
 
-  p1: (params.p1)
+  p1: (params.p)
   p2: (1)-(calcs.p1)
 
-  u1: (params.w1)^(calcs.a)
-  u2: (params.w2)^(calcs.a)
+  u1: (calcs.w1)^(calcs.a)
+  u2: (calcs.w2)^(calcs.a)
 
-  EP: (calcs.p1)*(params.w1)+(calcs.p2)*(params.w2)
+  EP: (calcs.p1)*(calcs.w1)+(calcs.p2)*(calcs.w2)
 
   EU: (calcs.p1)*(calcs.u1)+(calcs.p2)*(calcs.u2)
   CE: (calcs.EU)^((1)/(calcs.a))
+
+  WTP: (calcs.w2)-(calcs.CE)
 
   maxU: (1.1)*(calcs.u2)
 
 
 
-aspectRatio: 1.4
+aspectRatio: 0.7
 
 layout:
-  OneGraphPlusSidebar:
+  TwoVerticalGraphsPlusSidebar:
 
-    graph: 
+    topGraph: 
       xAxis:
         max: 11000
         ticks: 0
@@ -62,34 +70,35 @@ layout:
 
 # points & segment
         - Point:
-            coordinates: [params.w1, calcs.u1]
-            droplines: {vertical: params.w1.toFixed(0), horizontal: calcs.u1.toFixed(2)}
+            coordinates: [calcs.w1, calcs.u1]
+            droplines: {vertical: calcs.w1.toFixed(0), horizontal: calcs.u1.toFixed(2)}
             strokeWidth: 0.5
             color: Blue
-            r: 4
+            r: 3.5
         - Point:
-            coordinates: [params.w2, calcs.u2]
-            droplines: {vertical: params.w2.toFixed(0), horizontal: calcs.u2.toFixed(2)}
+            coordinates: [calcs.w2, calcs.u2]
+            droplines: {vertical: calcs.w2.toFixed(0), horizontal: calcs.u2.toFixed(2)}
             strokeWidth: 0.5
             color: Blue
-            r: 4
+            r: 3.5
         - Point:
             coordinates: [calcs.EP, calcs.EU]
             droplines: {vertical: calcs.EP.toFixed(0), horizontal: calcs.EU.toFixed(2)}
             strokeWidth: 0.5
             color: Red
-            r: 2
+            r: 2.5
         - Point:
             coordinates: [calcs.CE, calcs.EU]
             droplines: {vertical: calcs.CE.toFixed(2)}
             strokeWidth: 0.5
             color: Blue
-            r: 2
+            r: 2.5
         - Segment:
-            a: [params.w1, calcs.u1]
-            b: [params.w2, calcs.u2]
+            a: [calcs.w1, calcs.u1]
+            b: [calcs.w2, calcs.u2]
             color: Red
             strokeWidth: 1
+            lineStyle: dashed
 
 # risk premium
         - Label:
@@ -105,27 +114,82 @@ layout:
 
 # fair premium
         - Label:
-            coordinates: [((calcs.EP)+(params.w2))/2, (calcs.maxU)/(17)]
+            coordinates: [((calcs.EP)+(calcs.w2))/2, (calcs.maxU)/(17)]
             text: "` FP `"
             color: Darkgreen
         - Arrow:
             begin: [calcs.EP, (calcs.maxU)/(30)]
-            end: [params.w2, (calcs.maxU)/(30)]
+            end: [calcs.w2, (calcs.maxU)/(30)]
             double: true
             color: Darkgreen
             strokeWidth: 1
 
 # willingness to pay
         - Label:
-            coordinates: [((calcs.CE)+(params.w2))/2, (calcs.maxU)/(7)]
+            coordinates: [((calcs.CE)+(calcs.w2))/2, (calcs.maxU)/(7)]
             text: "` WTP `"
             color: Blue
         - Arrow:
             begin: [calcs.CE, (calcs.maxU)/(8.5)]
-            end: [params.w2, (calcs.maxU)/(8.5)]
+            end: [calcs.w2, (calcs.maxU)/(8.5)]
             double: true
             color: Blue
             strokeWidth: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    bottomGraph: 
+      xAxis:
+        max: 5
+        ticks: 0
+      yAxis:
+        max: 11000
+        ticks: 0
+
+      objects:
+
+        - Label:
+            coordinates: [5, 0]
+            text: "` 1-r `"
+        - Label:
+            coordinates: [0, 11000]
+            text: "` \\\\text{euro/polizza}  `"
+
+
+
+
+        - Curve:
+            fn: (10000) * ( (1) - ( (1) - (params.p) ) ^ ( (1) / (x) ) )
+            color: Blue
+            max: 5
+            label:
+              text: "` D `"
+              x: 5
+              position: bl
+            strokeWidth: 1.5
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -147,6 +211,10 @@ layout:
         #     - Mantieni 𝐸𝑈 = 5 costante
 
         sliders:
+        - param: p
+          label: \pi
+        - param: d
+          label: D
         - param: r
           label: r
 
