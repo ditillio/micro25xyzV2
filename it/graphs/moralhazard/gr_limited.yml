@@ -243,12 +243,12 @@ layout:
 
         - Label:
             coordinates: [120, ((calcs.uMax)/(35))*31.2]
-            text: "` \\\\text{\\\\small Salario base: } \\\\color{Blue} ${params.w} `"
+            text: "` \\\\text{\\\\small Salario base: } \\\\color{Blue} W_0=${params.w} `"
             bgcolor: none
             position: l
         - Label:
             coordinates: [120, ((calcs.uMax)/(35))*29.3]
-            text: "` \\\\text{\\\\small Bonus: } \\\\color{Blue} ${params.b} `"
+            text: "` \\\\text{\\\\small Bonus: } \\\\color{Blue} B=${params.b} `"
             bgcolor: none
             position: l
         - Label:
@@ -310,9 +310,9 @@ layout:
         description: Muovere i cursori fino a individuare il contratto che massimizza il profitto dell'impresa.
         sliders:
         - param: w
-          label: \text{Salario base}
+          label: \text{Salario base } W_0
         - param: b
-          label: \text{Bonus}
+          label: \text{Bonus } B
         divs:
         - html: "` 
                       `"

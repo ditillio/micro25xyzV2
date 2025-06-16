@@ -1,6 +1,6 @@
 params:
 
-- {name: w, value: 100, min: 0, max: 1000, round: 1}
+- {name: w, value: 150, min: 0, max: 1000, round: 1}
 - {name: b, value: 600, min: 0, max: 1000, round: 4}
 - {name: d, value: 10, min: 0, max: 4}
 - {name: ubar, value: 15}
@@ -247,17 +247,17 @@ layout:
             bgcolor: none
         - Label:
             coordinates: [120, ((calcs.uMax)/(35))*32]
-            text: "` \\\\text{\\\\small Impegno minimo: } \\\\color{Blue} ${params.effort} `"
+            text: "` \\\\text{\\\\small Impegno minimo: } \\\\color{Blue} e=${params.effort} `"
             bgcolor: none
             position: l
         - Label:
             coordinates: [120, ((calcs.uMax)/(35))*30.5]
-            text: "` \\\\text{\\\\small Salario base: } \\\\color{Blue} ${params.w} `"
+            text: "` \\\\text{\\\\small Salario base: } \\\\color{Blue} W_0=${params.w} `"
             bgcolor: none
             position: l
         - Label:
             coordinates: [120, ((calcs.uMax)/(35))*29]
-            text: "` \\\\text{\\\\small Bonus: } \\\\color{Blue} ${params.b} `"
+            text: "` \\\\text{\\\\small Bonus: } \\\\color{Blue} B=${params.b} `"
             bgcolor: none
             position: l
         - Label:
@@ -318,7 +318,7 @@ layout:
 
       controls:
 
-      - title: Azioni osservabili e contratto First-Best
+      - title: Azioni osservabili e contratto First Best
         description: Selezionare l'atteggiamento verso il rischio del lavoratore.
 
         radioGroup:
@@ -331,11 +331,11 @@ layout:
         description: Muovere i cursori fino a individuare il contratto che massimizza il profitto dell'impresa.
         sliders:
         - param: effort
-          label: \text{Impegno min.}
+          label: \text{Impegno min. } e
         - param: w
-          label: \text{Salario base}
+          label: \text{Salario base } W_0
         - param: b
-          label: \text{Bonus}
+          label: \text{Bonus } B
         divs:
         - html: "` 
                       `"
@@ -376,10 +376,8 @@ layout:
         - html: "` In entrambi i casi, però, l'utilità attesa è minore dell'utilità
                    di riserva del lavoratore (i punti $L$ e $H$ si trovano entrambi
                    sotto la retta verde). Il lavoratore, quindi, non firma il contratto,
-                   e il profitto dell'impresa è quello derivante dalla sua opzione alternativa:
-                    $$
-                    \\\\Pi=XXX
-                    $$
+                   e il profitto dell'impresa è quello derivante dalla sua opzione alternativa,
+                   ovvero $\\\\underline\\\\Pi$.
                       `"
           show: params.effort == 0 && calcs.euH < calcs.ubar && calcs.euL < calcs.ubar
         - html: "` In almeno uno dei due casi, l'utilità attesa è almeno pari all'utilità
@@ -391,7 +389,6 @@ layout:
                     (l'altezza del punto $H$ non è minore di quella del punto $L$).
                     Il profitto dell'impresa è quindi
                     $$
-                    \\\\Pi=
                     0.25\\\\times(${params.x1}-${calcs.w1})+
                     0.75\\\\times(${params.x2}-${calcs.w2})=
                     ${calcs.profitH}
@@ -402,7 +399,6 @@ layout:
                     (l'altezza del punto $H$ è minore di quella del punto $L$).
                     Il profitto dell'impresa è quindi
                     $$
-                    \\\\Pi=
                     0.75\\\\times(${params.x1}-${calcs.w1})+
                     0.25\\\\times(${params.x2}-${calcs.w2})=
                     ${calcs.profitL}
@@ -421,10 +417,8 @@ layout:
         - html: "` Tale utilità attesa è però minore della sua utilità di riserva
                    (il punto $H$ si trova sotto la retta verde).
                     Il lavoratore, quindi, non firma il contratto, e il profitto
-                    dell'impresa è quello derivante dalla sua opzione alternativa:
-                    $$
-                    \\\\Pi=XXX
-                    $$
+                    dell'impresa è quello derivante dalla sua opzione alternativa,
+                    ovvero $\\\\underline\\\\Pi$.
                       `"
           show: params.effort == 1 && calcs.euH < calcs.ubar
         - html: "` Tale utilità attesa non è minore della sua utilità di riserva
@@ -432,7 +426,6 @@ layout:
                     Il lavoratore, quindi, firma il contratto, e il profitto
                     dell'impresa è
                     $$
-                    \\\\Pi=
                     0.25\\\\times(${params.x1}-${calcs.w1})+
                     0.75\\\\times(${params.x2}-${calcs.w2})=
                     ${calcs.profitH}
