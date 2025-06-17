@@ -1,39 +1,48 @@
 params:
 
-- {name: w1, value: 0, min: 0, max: 50} # wealth if loss occurs
 - {name: w2, value: 10000, min: 0, max: 10000} # wealth if loss does not occur
-- {name: p1, value: 0.25, min: 0, max: 1, round: 0.1}  # probability of loss
+- {name: p, value: 0.4, min: 0.2, max: 0.6, round: 0.1}  # probability of loss
 
-- {name: r, value: 0.5, min: -10, max: 0.9, round: 0.1} # relative risk aversion coefficient
+- {name: pi, value: 0.5, min: 0.1, max: 4, round: 0.1} # one minus relative risk aversion coefficient
+
+
+- {name: d, value: 10000, min: 1900, max: 10000, round: 100} # possible loss
+
 
 
 calcs:
 
-  a: (1)-(params.r)
+  r: (1)-(params.pi)
 
-  p1: (params.p1)
+  w1: (10000)-(params.d)
+  w2: params.w2
+
+  a: (1)-(calcs.r)
+
+  p1: (params.p)
   p2: (1)-(calcs.p1)
 
-  u1: (params.w1)^(calcs.a)
-  u2: (params.w2)^(calcs.a)
+  u1: (calcs.w1)^(calcs.a)
+  u2: (calcs.w2)^(calcs.a)
 
-  EP: (calcs.p1)*(params.w1)+(calcs.p2)*(params.w2)
+  EP: (calcs.p1)*(calcs.w1)+(calcs.p2)*(calcs.w2)
 
   EU: (calcs.p1)*(calcs.u1)+(calcs.p2)*(calcs.u2)
   CE: (calcs.EU)^((1)/(calcs.a))
 
-  WTP: (params.w2)-(calcs.CE)
+  WTP: (calcs.w2)-(calcs.CE)
+  FP: (params.p)*(params.d)
 
-  Q: ((10000)-(calcs.WTP))/(10)
+  Q: ((10000)-(calcs.FP))/(10)
 
   maxU: (1.1)*(calcs.u2)
 
 
 
-aspectRatio: 0.8
+aspectRatio: 2
 
 layout:
-  TwoVerticalGraphsPlusSidebar:
+  TwoHorizontalGraphsPlusSidebar:
 
 
 
@@ -42,126 +51,9 @@ layout:
 
 
 
-
-    topGraph: 
+    leftGraph: 
       xAxis:
-        max: 11000
-        ticks: 0
-      yAxis:
-        max: calcs.maxU
-        ticks: 0
-
-      objects:
-
-        - Label:
-                coordinates: [11000, 0]
-                text: "` \\\\text{Payoff} `"
-        - Label:
-                coordinates: [0, calcs.maxU]
-                text: "` \\\\text{Utilità}  `"
-
-# bernoulli utility function
-
-        - Curve:
-            fn: (x)^(1-(params.r))
-            color: Blue
-            max: 10500
-            label:
-              text: "` u(W)=W^{${calcs.a.toFixed(1)}} `"
-              x: 10500
-              position: l
-            strokeWidth: 1.5
-
-# points & segment
-        - Point:
-            coordinates: [params.w1, calcs.u1]
-            droplines: {vertical: params.w1.toFixed(0), horizontal: calcs.u1.toFixed(2)}
-            strokeWidth: 0.5
-            color: Blue
-            r: 4
-        - Point:
-            coordinates: [params.w2, calcs.u2]
-            droplines: {vertical: params.w2.toFixed(0), horizontal: calcs.u2.toFixed(2)}
-            strokeWidth: 0.5
-            color: Blue
-            r: 4
-        - Point:
-            coordinates: [calcs.EP, calcs.EU]
-            droplines: {vertical: calcs.EP.toFixed(0), horizontal: calcs.EU.toFixed(2)}
-            strokeWidth: 0.5
-            color: Red
-            r: 2
-        - Point:
-            coordinates: [calcs.CE, calcs.EU]
-            droplines: {vertical: calcs.CE.toFixed(2)}
-            strokeWidth: 0.5
-            color: Blue
-            r: 2
-        - Segment:
-            a: [params.w1, calcs.u1]
-            b: [params.w2, calcs.u2]
-            color: Red
-            strokeWidth: 1
-
-# risk premium
-        - Label:
-            coordinates: [((calcs.EP)+(calcs.CE))/2, (calcs.maxU)/(17)]
-            text: "` RP `"
-            color: Purple
-        - Arrow:
-            begin: [calcs.CE, (calcs.maxU)/(30)]
-            end: [calcs.EP, (calcs.maxU)/(30)]
-            double: true
-            color: Purple
-            strokeWidth: 1
-
-# fair premium
-        - Label:
-            coordinates: [((calcs.EP)+(params.w2))/2, (calcs.maxU)/(17)]
-            text: "` FP `"
-            color: Darkgreen
-        - Arrow:
-            begin: [calcs.EP, (calcs.maxU)/(30)]
-            end: [params.w2, (calcs.maxU)/(30)]
-            double: true
-            color: Darkgreen
-            strokeWidth: 1
-
-# willingness to pay
-        - Label:
-            coordinates: [((calcs.CE)+(params.w2))/2, (calcs.maxU)/(7)]
-            text: "` WTP `"
-            color: Blue
-        - Arrow:
-            begin: [calcs.CE, (calcs.maxU)/(8.5)]
-            end: [params.w2, (calcs.maxU)/(8.5)]
-            double: true
-            color: Blue
-            strokeWidth: 1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    bottomGraph: 
-      xAxis:
-        max: 1150
+        max: 5
         ticks: 0
       yAxis:
         max: 11000
@@ -170,68 +62,109 @@ layout:
       objects:
 
         - Label:
-            coordinates: [1150, 0]
-            text: "` \\\\text{polizze} `"
-            yPixelOffset: 10
-        - Label:
-            coordinates: [1150, 0]
-            text: "` \\\\text{(migliaia)} `"
-            yPixelOffset: -8
+            coordinates: [5, 0]
+            text: "` \\\\pi `"
         - Label:
             coordinates: [0, 11000]
             text: "` \\\\text{euro/polizza}  `"
 
+# WTP curve
+        - Curve:
+            fn: (params.d) * ( (1) - ( (1) - (params.p) ) ^ ( (1) / (x) ) )
+            color: Blue
+            max: 4.5
+            label:
+              text: "` WTP `"
+              x: 4.5
+              position: b
+            strokeWidth: 1.5
+
+
+# risk neutral guy
+        - Point:
+            coordinates: [1,calcs.FP]
+            droplines: {vertical: 1, horizontal: calcs.FP.toFixed(0)}
+            strokeWidth: 0.5
+            color: Green
+            r: 2.5
+
+# fair premium
+        - Line:
+            point: [0,calcs.FP]
+            slope: 0
+            color: Green
+            label:
+              text: "` FP `"
+              x: 5
+            strokeWidth: 0.5
+
+
+
+
+
+
+
+
+
+
+
+    rightGraph: 
+      xAxis:
+        max: 1500
+        ticks: 0
+      yAxis:
+        max: 11000
+        ticks: 0
+
+      objects:
+
+        - Label:
+            coordinates: [1500, 0]
+            text: "` \\\\text{polizze} `"
+        - Label:
+            coordinates: [0, 11000]
+            text: "` \\\\text{euro/polizza}  `"
+
+
+
 # demand
         - Line:
             point: [0,10000]
-            slope: -10
+            slope: -(10)*((1)-(params.p))
+            max: 1200
             color: Blue
             label:
               text: "` D `"
-              x: 980
-              position: bl
+              x: 1200
             strokeWidth: 1.5
-        - Point:
-            coordinates: [0, 10000]
-            droplines: {horizontal: 10000}
-            strokeWidth: 0.5
-            color: Blue
-            r: 0
-
-
-        - Point:
-            coordinates: [calcs.Q, calcs.WTP]
-            droplines: {horizontal: calcs.WTP.toFixed(2), vertical: calcs.Q.toFixed(2)}
-            strokeWidth: 0.5
-            color: Blue
-            r: 3
-
-
 
 # supply
         - Line:
-            point: [0,2500]
+            point: [0,calcs.FP]
             slope: 0
             color: Red
             label:
               text: "` S `"
-              x: 1150
-              position: c
+              x: 1500
             strokeWidth: 1.5
-        - Point:
-            coordinates: [0, 2500]
-            droplines: {horizontal: 2500}
-            strokeWidth: 0.5
-            color: Red
-            r: 0
+
 
 # equilibrium
         - Point:
-            coordinates: [750, 2500]
-            droplines: {vertical: 750}
+            coordinates: [1000, calcs.FP]
+            droplines: {vertical: 1000}
             strokeWidth: 0.5
             color: Green
-            r: 4
+            r: 2.5
+
+
+
+
+
+
+
+
+
 
 
 
@@ -244,7 +177,7 @@ layout:
 
       controls:
 
-      - title: Domanda di assicurazione
+      - title: Equilibrio concorrenziale nel mercato assicurativo
         description: Muovere il cursore per ... 
 
         # radioGroup:
@@ -254,8 +187,12 @@ layout:
         #     - Mantieni 𝐸𝑈 = 5 costante
 
         sliders:
-        - param: r
-          label: r
+        - param: p
+          label: p
+        # - param: d
+        #   label: D
+        # - param: pi
+        #   label: \pi
 
         divs:
         - html: <br>
@@ -265,24 +202,18 @@ layout:
                       `"
         - html: "`  $ CE = ${calcs.CE} $
                       `"
-          show: params.r < 1000
+          show: calcs.r < 1000
 
 
 
 
 
 
-    explanation:
-      divs:
-        - html: "` Il mercato è popolato da un milione di individui, ciascuno caratterizzato da
-        un diverso valore di $r$ e quindi da una diversa disponibilità a pagare per una polizza
-        a copertura totale del danno. Dato un qualunque prezzo $P$, ci sono esattamente $100P$
-        individui disposti a pagare meno di $P$ per una polizza, e quindi $1000000-100P$ individui disposti
-        a pagare più di $P$ per una polizza. La funzione di domanda di polizze è quindi
-        $$
-          P = 10000 - Q/100
-        $$
-                      `"
+    # explanation:
+    #   divs:
+    #     - html: "` 
+    #                   `"
+    #       show: calcs.r < 1000
 
 
 
