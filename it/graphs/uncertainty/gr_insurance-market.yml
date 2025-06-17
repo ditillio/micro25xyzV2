@@ -80,6 +80,7 @@ layout:
             strokeWidth: 1.5
 
 
+
 # risk neutral guy
         - Point:
             coordinates: [1,calcs.FP]

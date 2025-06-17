@@ -30,7 +30,11 @@ calcs:
   EU: (calcs.p1)*(calcs.u1)+(calcs.p2)*(calcs.u2)
   CE: (calcs.EU)^((1)/(calcs.a))
 
+  RP: (calcs.EP)-(calcs.CE)
+
   WTP: (calcs.w2)-(calcs.CE)
+
+  FP: (params.p)*(params.d)
 
   maxU: (1.1)*(calcs.u2)
 
@@ -101,18 +105,41 @@ layout:
             color: Red
             strokeWidth: 1
             lineStyle: dashed
+        - Segment:
+            a: [calcs.CE, calcs.EU]
+            b: [calcs.EP, calcs.EU]
+            color: Purple
+            strokeWidth: 0.5
+            lineStyle: dotted
+            show: calcs.RP < 0
 
-# risk premium
+# risk premium (when positive)
         - Label:
             coordinates: [((calcs.EP)+(calcs.CE))/2, (calcs.maxU)/(16)]
             text: "` RP `"
             color: Purple
+            show: calcs.RP > 0
         - Arrow:
             begin: [calcs.CE, (calcs.maxU)/(30)]
             end: [calcs.EP, (calcs.maxU)/(30)]
             double: true
             color: Purple
             strokeWidth: 1
+            show: calcs.RP > 0
+
+# risk premium (when negative)
+        - Label:
+            coordinates: [((calcs.EP)+(calcs.CE))/2, (calcs.maxU)/(6.5)]
+            text: "` -RP `"
+            color: Purple
+            show: calcs.RP < 0
+        - Arrow:
+            begin: [calcs.CE, (calcs.maxU)/(8.5)]
+            end: [calcs.EP, (calcs.maxU)/(8.5)]
+            double: true
+            color: Purple
+            strokeWidth: 1
+            show: calcs.RP < 0
 
 # fair premium
         - Label:
