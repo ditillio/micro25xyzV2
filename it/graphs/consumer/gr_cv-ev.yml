@@ -6,9 +6,9 @@ params:
 
 - {name: dlt, value: 0.5} # dotted drop lines thickness
 
-- {name: p1, value: 20}
-- {name: p1new, value: 45}
-- {name: p2, value: 36}
+- {name: p1, value: 9}
+- {name: p1new, value: 36}
+- {name: p2, value: 18}
 - {name: m, value: 360}
 
 - {name: a, value: 1}
@@ -16,8 +16,8 @@ params:
 
 - {name: showCVEV, value: 0}
 
-- {name: s, value: 60, min: 0, max: 300, round: 30}
-- {name: t, value: 60, min: 0, max: 240, round: 30}
+- {name: s, value: 80, min: 0, max: 400, round: 10}
+- {name: t, value: 80, min: 0, max: 400, round: 10}
 
 
 calcs:
