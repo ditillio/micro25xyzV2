@@ -1,23 +1,23 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 1.3
+aspectRatio: 0.6
 params:
 
 - {name: dlt, value: 0.5} # dotted drop lines thickness
 
-- {name: p1, value: 4}
-- {name: p1new, value: 9}
-- {name: p2, value: 4}
-- {name: m, value: 36}
+- {name: p1, value: 20}
+- {name: p1new, value: 45}
+- {name: p2, value: 20}
+- {name: m, value: 360}
 
 - {name: a, value: 1}
 - {name: b, value: 1}
 
 - {name: showCVEV, value: 0}
 
-- {name: s, value: 8, min: 0, max: 30, round: 1}
-- {name: t, value: 4, min: 0, max: 32, round: 1}
+- {name: s, value: 0, min: 0, max: 1000, round: 30}
+- {name: t, value: 0, min: 0, max: 1000, round: 30}
 
 
 calcs:
@@ -86,15 +86,17 @@ calcs:
   MplusCV: (params.m)+(calcs.CV)
 
 
-  maxX: (1.1)*(params.m)/(params.p1) # max displayed qty good 1
-  maxY: (1.1)*(params.m)/(params.p2) # max displayed qty good 2
-  maxEUR: (1.5)*(params.p1new) # max displayed price good 1 (bottom graph)
+  maxX: (1.02)*(params.m)/(params.p1) # max displayed qty good 1
+  maxY: (1.4)*(params.m)/(params.p2) # max displayed qty good 2
+  maxEUR: (1.2)*(params.p1new) # max displayed price good 1 (bottom graph)
   maxE: (1.1)*((params.m)+(calcs.CV)) # max displayed expenditure (bottom graph)
 
-layout:
-  OneGraphPlusSidebar:
 
-    graph:
+
+layout:
+  TwoVerticalGraphsPlusSidebar:
+
+    topGraph:
       xAxis:
         max: calcs.maxX
         ticks: 0
@@ -119,8 +121,8 @@ layout:
       - Point:
           coordinates: [calcs.x1old, calcs.x2old]
           droplines:
-            horizontal: calcs.x2old.toFixed(0)
-            vertical: calcs.x1old.toFixed(0)
+            horizontal: calcs.x2old.toFixed(1)
+            vertical: calcs.x1old.toFixed(1)
           strokeWidth: params.dlt
           color: Blue
           r: 3
@@ -138,7 +140,7 @@ layout:
       - Line:
           yIntercept: (params.m)/(params.p2)
           slope: -(params.p1)/(params.p2)
-          color: Blue
+          color: Darkgreen
           strokeWidth: 1.25
       - Point:
           coordinates: [(params.m)/(params.p1), 0]
@@ -159,7 +161,7 @@ layout:
       - Line:
           yIntercept: (params.m)/(params.p2)
           slope: -(params.p1new)/(params.p2)
-          color: Blue
+          color: Darkgreen
           strokeWidth: 1.25
       - Point:
           coordinates: [(params.m)/(params.p1new), 0]
@@ -173,8 +175,8 @@ layout:
       - Point:
           coordinates: [calcs.x1new, calcs.x2new]
           droplines:
-            horizontal: calcs.x2new.toFixed(0)
-            vertical: calcs.x1new.toFixed(0)
+            # horizontal: calcs.x2new.toFixed(0)
+            vertical: calcs.x1new.toFixed(1)
           strokeWidth: params.dlt
           color: Blue
           r: 3
@@ -237,6 +239,13 @@ layout:
           position: c
           bgcolor: none
           show: params.showCVEV == 1 && calcs.scheck == 0
+      - Label:
+          coordinates: [(0.7)*(calcs.maxX), (0.6)*(calcs.maxY)]
+          text: "` \\\\Large CV = ${calcs.CV.toFixed(0)} `"
+          color: Red
+          position: c
+          bgcolor: none
+          show: params.showCVEV == 1 && calcs.scheck == 0
 
 
 # indifference curve at optimal bundle with subsidy
@@ -250,7 +259,7 @@ layout:
 
 
 
-# budget constraint with subsidy
+# budget constraint with tax
       - Line:
           yIntercept: ((params.m)-(params.t))/(params.p2)
           slope: -(params.p1)/(params.p2)
@@ -304,6 +313,16 @@ layout:
           position: c
           bgcolor: none
           show: params.showCVEV == 2 && calcs.tcheck == 0
+      - Label:
+          coordinates: [(0.7)*(calcs.maxX), (0.6)*(calcs.maxY)]
+          text: "` \\\\Large EV = ${calcs.EV.toFixed(0)} `"
+          color: Red
+          position: c
+          bgcolor: none
+          show: params.showCVEV == 2 && calcs.tcheck == 0
+
+
+
 
 
 # indifference curve at optimal bundle with tax
@@ -324,6 +343,125 @@ layout:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+    bottomGraph:
+      xAxis:
+        max: calcs.maxX
+        ticks: 0
+      yAxis:
+        max: calcs.maxEUR
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [calcs.maxX, 0]
+            text: "` \\\\text{Consumo (kg)} `"
+            position: l
+            yPixelOffset: -8
+      - Label:
+            coordinates: [0, calcs.maxEUR]
+            text: "` \\\\text{euro/kg}  `"
+
+
+# demand for good 1
+
+      - Curve:
+          fn: (calcs.s1)*(params.m)/(x)
+          color: Blue
+          strokeWidth: 1.5
+          label:
+            text: "` X = 180 / P_X `"
+            x: calcs.maxX
+            position: l
+
+      - Point:
+          coordinates: [calcs.x1old, params.p1]
+          droplines:
+            horizontal: params.p1
+          strokeWidth: 0.5
+          color: Blue
+          r: 3
+      - Point:
+          coordinates: [calcs.x1old, 1000]
+          droplines:
+            vertical: calcs.x1old.toFixed(0)
+          strokeWidth: 0.5
+          color: Blue
+
+      - Point:
+          coordinates: [calcs.x1new, params.p1new]
+          droplines:
+            horizontal: params.p1new
+          strokeWidth: 0.5
+          color: Blue
+          r: 3
+      - Point:
+          coordinates: [calcs.x1new, 1000]
+          droplines:
+            vertical: calcs.x1new.toFixed(0)
+          strokeWidth: 0.5
+          color: Blue
+
+
+
+# compensated demand for good 1 at old utility
+
+      - Curve:
+          fn: ((calcs.s1)*(calcs.uold)*(params.p2))/((calcs.s2)*((x)^2))
+          color: Red
+          strokeWidth: 1
+          label:
+            text: "` X_{U=${calcs.uold}} `"
+            x: calcs.maxX
+            position: l
+          show: params.showCVEV == 1 && calcs.scheck == 0
+
+      - Point:
+          coordinates: [calcs.x1cuold, params.p1new]
+          strokeWidth: 0.5
+          color: Red
+          r: 3
+          show: params.showCVEV == 1 && calcs.scheck == 0
+      - Point:
+          coordinates: [calcs.x1cuold, 1000]
+          droplines:
+            vertical: calcs.x1cuold.toFixed(0)
+          strokeWidth: 0.5
+          color: Red
+          show: params.showCVEV == 1 && calcs.scheck == 0
+      - Segment:
+          a: [calcs.x1new, params.p1new]
+          b: [calcs.x1cuold, params.p1new]
+          strokeWidth: 0.5
+          lineStyle: dotted
+          color: Red
+          show: params.showCVEV == 1 && calcs.scheck == 0
+
+
+
+# compensated demand for good 1 at new utility
+
+      - Curve:
+          fn: ((calcs.s1)*(calcs.unew)*(params.p2))/((calcs.s2)*((x)^2))
+          color: Red
+          strokeWidth: 1
+          label:
+            text: "` X_{U=${calcs.unew}} `"
+            x: calcs.maxX
+            position: l
+          show: params.showCVEV == 2
 
 
 

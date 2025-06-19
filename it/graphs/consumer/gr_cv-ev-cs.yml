@@ -6,9 +6,9 @@ params:
 
 - {name: dlt, value: 0.5} # dotted drop lines thickness
 
-- {name: p1, value: 4}
-- {name: p1new, value: 9}
-- {name: p2, value: 4}
+- {name: p1, value: 40}
+- {name: p1new, value: 90}
+- {name: p2, value: 40}
 - {name: m, value: 360}
 
 - {name: a, value: 1}
