@@ -1,14 +1,14 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 0.6
+aspectRatio: 0.7
 params:
 
 - {name: dlt, value: 0.5} # dotted drop lines thickness
 
 - {name: p1, value: 20}
 - {name: p1new, value: 45}
-- {name: p2, value: 20}
+- {name: p2, value: 36}
 - {name: m, value: 360}
 
 - {name: a, value: 1}
@@ -16,8 +16,8 @@ params:
 
 - {name: showCVEV, value: 0}
 
-- {name: s, value: 0, min: 0, max: 1000, round: 30}
-- {name: t, value: 0, min: 0, max: 1000, round: 30}
+- {name: s, value: 60, min: 0, max: 300, round: 30}
+- {name: t, value: 60, min: 0, max: 240, round: 30}
 
 
 calcs:
@@ -56,7 +56,7 @@ calcs:
   x2t: (calcs.s2)*((params.m)-(params.t))/(params.p2) # demand of good 2 with tax at old prices
   xmaxT: ((params.m)-(params.t))/params.p1
   ymaxT: ((params.m)-(params.t))/params.p2
-  MplusT: (params.m)-(params.t)
+  MminusT: (params.m)-(params.t)
   tcheck: (params.t)-(calcs.EV.toFixed(0))
   utax: ((calcs.x1t)^(params.a))*((calcs.x2t)^(params.b)) # max utility with tax
 
@@ -121,8 +121,8 @@ layout:
       - Point:
           coordinates: [calcs.x1old, calcs.x2old]
           droplines:
-            horizontal: calcs.x2old.toFixed(1)
-            vertical: calcs.x1old.toFixed(1)
+            horizontal: calcs.x2old.toFixed(0)
+            vertical: calcs.x1old.toFixed(0)
           strokeWidth: params.dlt
           color: Blue
           r: 3
@@ -176,13 +176,26 @@ layout:
           coordinates: [calcs.x1new, calcs.x2new]
           droplines:
             # horizontal: calcs.x2new.toFixed(0)
-            vertical: calcs.x1new.toFixed(1)
+            vertical: calcs.x1new.toFixed(0)
           strokeWidth: params.dlt
           color: Blue
           r: 3
           label:
             text: "` \\\\large B `"
             position: tr
+          show: params.t < calcs.EV
+      - Point:
+          coordinates: [calcs.x1new, calcs.x2new]
+          droplines:
+            # horizontal: calcs.x2new.toFixed(0)
+            vertical: calcs.x1new.toFixed(0)
+          strokeWidth: params.dlt
+          color: Blue
+          r: 3
+          label:
+            text: "` \\\\large B `"
+            position: bl
+          show: params.t >= calcs.EV
 
 # indifference curve at new optimal bundle
       - Curve:
@@ -203,7 +216,7 @@ layout:
           slope: -(params.p1new)/(params.p2)
           color: Red
           strokeWidth: 1.25
-          show: params.showCVEV == 1 && params.s !== calcs.CV.toFixed(0)
+          show: params.showCVEV == 1 && params.s !== calcs.CV.toFixed(0) && params.s > 0
       - Point:
           coordinates: [calcs.x1s, calcs.x2s]
           droplines:
@@ -215,7 +228,7 @@ layout:
           label:
             text: "` \\\\large C `"
             position: bl
-          show: params.showCVEV == 1
+          show: params.showCVEV == 1 && params.s > 0
       - Point:
           coordinates: [calcs.xmaxS, 0]
           droplines:
@@ -223,7 +236,7 @@ layout:
           color: grey
           strokeWidth: params.dlt
           r: 0
-          show: params.showCVEV == 1
+          show: params.showCVEV == 1 && params.s > 0
       - Point:
           coordinates: [0,calcs.ymaxS]
           droplines:
@@ -231,21 +244,21 @@ layout:
           color: grey
           strokeWidth: params.dlt
           r: 0
-          show: params.showCVEV == 1
+          show: params.showCVEV == 1 && params.s > 0
       - Label:
           coordinates: [(0.7)*(calcs.maxX), (0.7)*(calcs.maxY)]
           text: \text{\LARGE BINGO!}
           color: Red
           position: c
           bgcolor: none
-          show: params.showCVEV == 1 && calcs.scheck == 0
+          show: params.showCVEV == 1 && calcs.scheck == 0 && params.s > 0
       - Label:
           coordinates: [(0.7)*(calcs.maxX), (0.6)*(calcs.maxY)]
           text: "` \\\\Large CV = ${calcs.CV.toFixed(0)} `"
           color: Red
           position: c
           bgcolor: none
-          show: params.showCVEV == 1 && calcs.scheck == 0
+          show: params.showCVEV == 1 && calcs.scheck == 0 && params.s > 0
 
 
 # indifference curve at optimal bundle with subsidy
@@ -253,7 +266,7 @@ layout:
           fn: ((calcs.usub)/((x)^(params.a)))^(1/(params.b))
           color: Black
           strokeWidth: 1.25
-          show: params.showCVEV == 1 && calcs.scheck !== 0
+          show: params.showCVEV == 1 && calcs.scheck !== 0 && params.s > 0
 
 
 
@@ -265,7 +278,7 @@ layout:
           slope: -(params.p1)/(params.p2)
           color: Red
           strokeWidth: 1.25
-          show: params.showCVEV == 2 && params.t !== calcs.EV.toFixed(0)
+          show: params.showCVEV == 2 && params.t !== calcs.EV.toFixed(0) && params.t > 0
       - Point:
           coordinates: [calcs.x1t, calcs.x2t]
           droplines:
@@ -277,7 +290,7 @@ layout:
           label:
             text: "` \\\\large E `"
             position: tr
-          show: params.showCVEV == 2 && params.t <= 80
+          show: params.showCVEV == 2 && ( params.t < 60 || params.t > 120 ) && params.t > 0
       - Point:
           coordinates: [calcs.x1t, calcs.x2t]
           droplines:
@@ -289,7 +302,7 @@ layout:
           label:
             text: "` \\\\large E `"
             position: bl
-          show: params.showCVEV == 2 && params.t > 80
+          show: params.showCVEV == 2 && params.t >= 60 && params.t <= 120 && params.t > 0
       - Point:
           coordinates: [calcs.xmaxT, 0]
           droplines:
@@ -297,7 +310,7 @@ layout:
           color: grey
           strokeWidth: params.dlt
           r: 0
-          show: params.showCVEV == 2
+          show: params.showCVEV == 2 && params.t > 0
       - Point:
           coordinates: [0,calcs.ymaxT]
           droplines:
@@ -305,21 +318,21 @@ layout:
           color: grey
           strokeWidth: params.dlt
           r: 0
-          show: params.showCVEV == 2
+          show: params.showCVEV == 2 && params.t > 0
       - Label:
           coordinates: [(0.7)*(calcs.maxX), (0.7)*(calcs.maxY)]
           text: \text{\LARGE BINGO!}
           color: Red
           position: c
           bgcolor: none
-          show: params.showCVEV == 2 && calcs.tcheck == 0
+          show: params.showCVEV == 2 && calcs.tcheck == 0 && params.t > 0
       - Label:
           coordinates: [(0.7)*(calcs.maxX), (0.6)*(calcs.maxY)]
           text: "` \\\\Large EV = ${calcs.EV.toFixed(0)} `"
           color: Red
           position: c
           bgcolor: none
-          show: params.showCVEV == 2 && calcs.tcheck == 0
+          show: params.showCVEV == 2 && calcs.tcheck == 0 && params.t > 0
 
 
 
@@ -330,7 +343,7 @@ layout:
           fn: ((calcs.utax)/((x)^(params.a)))^(1/(params.b))
           color: Black
           strokeWidth: 1.25
-          show: params.showCVEV == 2 && calcs.tcheck !== 0
+          show: params.showCVEV == 2 && calcs.tcheck !== 0 && params.t > 0
 
 
 
@@ -437,7 +450,7 @@ layout:
       - Point:
           coordinates: [calcs.x1cuold, 1000]
           droplines:
-            vertical: calcs.x1cuold.toFixed(0)
+            vertical: calcs.x1cuold.toFixed(1)
           strokeWidth: 0.5
           color: Red
           show: params.showCVEV == 1 && calcs.scheck == 0
@@ -461,8 +474,28 @@ layout:
             text: "` X_{U=${calcs.unew}} `"
             x: calcs.maxX
             position: l
-          show: params.showCVEV == 2
+          show: params.showCVEV == 2 && calcs.tcheck.toFixed(0) == 0
 
+      - Point:
+          coordinates: [calcs.x1cunew, params.p1]
+          strokeWidth: 0.5
+          color: Red
+          r: 3
+          show: params.showCVEV == 2 && calcs.tcheck.toFixed(0) == 0
+      - Point:
+          coordinates: [calcs.x1cuold, 1000]
+          droplines:
+            vertical: calcs.x1cunew.toFixed(1)
+          strokeWidth: 0.5
+          color: Red
+          show: params.showCVEV == 2 && calcs.tcheck.toFixed(0) == 0
+      - Segment:
+          a: [calcs.x1old, params.p1]
+          b: [calcs.x1cunew, params.p1]
+          strokeWidth: 0.5
+          lineStyle: dotted
+          color: Red
+          show: params.showCVEV == 2 && calcs.tcheck.toFixed(0) == 0
 
 
 
@@ -508,13 +541,42 @@ layout:
         - param: s
           label: "` \\\\text{Sussidio} `"
         divs:
-          - html: <br><br>
-          - html: "`
-                  $$
-                  \\\\color{${colors.red}} CV = ${calcs.CV.toFixed(0)}
-                  $$
-                  `"
-            show: calcs.scheck.toFixed(0) == 0
+          - html: "` `"
+          - html: "` Un sussidio di ${params.s} euro aumenta il reddito del consumatore a 
+                      ${(params.m)+(params.s)} euro. `"
+            show: params.showCVEV == 1 && params.s > 0
+          - html: "` <i><b>Ciò però non basta a riportare il consumatore al livello di benessere 
+                      precedente.</b></i> `"
+            show: calcs.scheck < 0 && params.showCVEV == 1 && params.s > 0
+          - html: "` <i><b>Ciò è esattamente quanto basta a riportare il consumatore al livello di benessere 
+                      precedente.</b></i> `"
+            show: calcs.scheck == 0 && params.showCVEV == 1 && params.s > 0
+          - html: "` <i><b>Ciò però è più di quanto serve a riportare il consumatore al livello di benessere 
+                      precedente.</b></i> `"
+            show: calcs.scheck > 0 && params.showCVEV == 1 && params.s > 0
+          - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è
+                     il paniere rappresentato dal punto $C$, ovvero 
+                       $$
+                       X=\\\\frac{${calcs.MplusS.toFixed(0)}/2}{${params.p1new}} = ${calcs.x1s.toFixed(1)}
+                       \\\\qquad
+                       Y=\\\\frac{${calcs.MplusS.toFixed(0)}/2}{${params.p2}}=${calcs.x2s.toFixed(1)}
+                       $$ `"
+            show: params.showCVEV == 1 && params.s > 0
+          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $A$. `"
+            show: calcs.scheck < 0 && params.showCVEV == 1 && params.s > 0
+          - html: "` che si trova sulla curva di indifferenza passante per $A$. `"
+            show: calcs.scheck == 0 && params.showCVEV == 1 && params.s > 0
+          - html: "` La variazione compensativa $CV$ si può calcolare facilmente risolvendo
+                    l'equazione
+                    $$
+                    \\\\frac{(${params.m}+CV)/2}{${params.p1new}}\\\\times\\\\frac{(${params.m}+CV)/2}{${params.p2}}=${calcs.uold.toFixed(0)}
+                    $$
+                    `"
+            show: calcs.scheck == 0 && params.showCVEV == 1 && params.s > 0
+          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $A$. `"
+            show: calcs.scheck > 0 && params.showCVEV == 1 && params.s > 0
+          - html: "` `"
+          - html: "` `"
         show: params.showCVEV == 1
 
         # checkboxes:
@@ -541,13 +603,39 @@ layout:
         - param: t
           label: "` \\\\text{Tassa} `"
         divs:
-          - html: <br><br>
-          - html: "`
-                  $$
-                  \\\\color{${colors.red}} EV = ${calcs.EV.toFixed(0)}
-                  $$
+          - html: "` Una tassa di ${params.t} euro riduce il reddito del consumatore a 
+                      ${(params.m)-(params.t)} euro. `"
+            show: params.showCVEV == 2 && params.t > 0
+          - html: "` 
+                  <i><b>Questa variazione di reddito non è equivalente all'aumento di prezzo del consumo
+                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</b></i>
                   `"
-            show: calcs.tcheck.toFixed(0) == 0
+            show: calcs.tcheck !== 0 && params.showCVEV == 2 && params.t > 0
+          - html: "` <i><b>Questa variazione di reddito è equivalente all'aumento di prezzo del consumo
+                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</b></i> `"
+            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2 && params.t > 0
+          - html: "` Infatti, quando $P_X=${params.p1}$ e $P_Y=${params.p2}$, la scelta ottima è il 
+                    paniere rappresentato dal punto $E$, ovvero 
+                       $$
+                       X=\\\\frac{${calcs.MminusT.toFixed(0)}/2}{${params.p1}} = ${calcs.x1t.toFixed(1)}
+                       \\\\qquad
+                       Y=\\\\frac{${calcs.MminusT.toFixed(0)}/2}{${params.p2}}=${calcs.x2t.toFixed(1)}
+                       $$ 
+                  `"
+            show: params.showCVEV == 2 && params.t > 0
+          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $B$. `"
+            show: calcs.tcheck > 0 && params.showCVEV == 2 && params.t > 0
+          - html: "` che si trova sulla curva di indifferenza passante per $B$. `"
+            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
+          - html: "` La variazione equivalente $EV$ si può calcolare facilmente risolvendo
+                    l'equazione
+                    $$
+                    \\\\frac{(${params.m}-EV)/2}{${params.p1}}\\\\times\\\\frac{(${params.m}-EV)/2}{${params.p2}}=${calcs.unew.toFixed(0)}
+                    $$
+                    `"
+            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
+          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $B$. `"
+            show: calcs.tcheck < 0 && params.showCVEV == 2 && params.t > 0
         show: params.showCVEV == 2
 
 
@@ -561,59 +649,6 @@ layout:
 
 
 
-
-          - html: "` `"
-          - html: "` Un sussidio lump-sum di ${params.s} euro aumenta il reddito del consumatore a 
-                      ${(params.m)+(params.s)} euro. `"
-            show: params.showCVEV == 1
-          - html: "` <i><b>Ciò però non basta a riportare il consumatore al livello di benessere 
-                      precedente.</b></i> `"
-            show: calcs.scheck < 0 && params.showCVEV == 1
-          - html: "` <i><b>Ciò è esattamente quanto basta a riportare il consumatore al livello di benessere 
-                      precedente.</b></i> `"
-            show: calcs.scheck == 0 && params.showCVEV == 1
-          - html: "` <i><b>Ciò però è più di quanto serve a riportare il consumatore al livello di benessere 
-                      precedente.</b></i> `"
-            show: calcs.scheck > 0 && params.showCVEV == 1
-          - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $C$ 
-                       $$ X=${calcs.x1s.toFixed(1)}  \\\\qquad  Y=${calcs.x2s.toFixed(1)}  $$ `"
-            show: params.showCVEV == 1
-          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $A$. `"
-            show: calcs.scheck < 0 && params.showCVEV == 1
-          - html: "` che si trova sulla curva di indifferenza passante per $A$. `"
-            show: calcs.scheck == 0 && params.showCVEV == 1
-          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $A$. `"
-            show: calcs.scheck > 0 && params.showCVEV == 1
-          - html: "` `"
-          - html: "` `"
-
-
-
-
-
-          - html: "` Una tassa lump-sum di ${params.t} euro riduce il reddito del consumatore a 
-                      ${(params.m)-(params.t)} euro. `"
-            show: params.showCVEV == 2
-          - html: "` 
-                  <i><b>Questa variazione di reddito non è equivalente all'aumento di prezzo del consumo
-                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</b></i>
-                  `"
-            show: calcs.tcheck !== 0 && params.showCVEV == 2
-          - html: "` <i><b>Questa variazione di reddito è equivalente all'aumento di prezzo del consumo
-                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</b></i> `"
-            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
-          - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il 
-                    paniere rappresentato dal punto $E$ 
-                       $$ X=${calcs.x1t.toFixed(1)}  \\\\qquad  Y=${calcs.x2t.toFixed(1)}  $$ `"
-            show: params.showCVEV == 2
-          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $B$. `"
-            show: calcs.tcheck > 0 && params.showCVEV == 2
-          - html: "` che si trova sulla curva di indifferenza passante per $B$. `"
-            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
-          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $B$. `"
-            show: calcs.tcheck < 0 && params.showCVEV == 2
-          - html: "` `"
-          - html: "` `"
 
 
 
