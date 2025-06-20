@@ -4,8 +4,8 @@ version: 1
 aspectRatio: 0.8
 params:
 
-- {name: p1, value: 18}
-- {name: p1new, value: 30, min: 6, max: 40, round: 2}
+- {name: p1, value: 9}
+- {name: p1new, value: 36, min: 6, max: 40, round: 1}
 - {name: p2, value: 18}
 - {name: m, value: 360}
 
