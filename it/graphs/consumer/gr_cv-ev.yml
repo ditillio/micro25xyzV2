@@ -16,8 +16,8 @@ params:
 
 - {name: showCVEV, value: 0}
 
-- {name: s, value: 80, min: 0, max: 400, round: 10}
-- {name: t, value: 80, min: 0, max: 400, round: 10}
+- {name: s, value: 60, min: 0, max: 480, round: 60}
+- {name: t, value: 60, min: 0, max: 240, round: 30}
 
 
 calcs:
@@ -290,7 +290,7 @@ layout:
           label:
             text: "` \\\\large E `"
             position: tr
-          show: params.showCVEV == 2 && ( params.t < 60 || params.t > 120 ) && params.t > 0
+          show: params.showCVEV == 2 && ( params.t < 60 || params.t > 180 ) && params.t > 0
       - Point:
           coordinates: [calcs.x1t, calcs.x2t]
           droplines:
@@ -302,7 +302,7 @@ layout:
           label:
             text: "` \\\\large E `"
             position: bl
-          show: params.showCVEV == 2 && params.t >= 60 && params.t <= 120 && params.t > 0
+          show: params.showCVEV == 2 && params.t >= 60 && params.t <= 180 && params.t > 0
       - Point:
           coordinates: [calcs.xmaxT, 0]
           droplines:
@@ -395,9 +395,10 @@ layout:
           color: Blue
           strokeWidth: 1.5
           label:
-            text: "` X = 180 / P_X `"
+            text: "` X = ${(params.m)/2} / P_X `"
             x: calcs.maxX
-            position: l
+            position: b
+            bgcolor: none
 
       - Point:
           coordinates: [calcs.x1old, params.p1]
@@ -406,6 +407,10 @@ layout:
           strokeWidth: 0.5
           color: Blue
           r: 3
+          label:
+            text: "` A `"
+            position: bl
+            bgcolor: none
       - Point:
           coordinates: [calcs.x1old, 1000]
           droplines:
@@ -420,6 +425,10 @@ layout:
           strokeWidth: 0.5
           color: Blue
           r: 3
+          label:
+            text: "` B `"
+            position: bl
+            bgcolor: none
       - Point:
           coordinates: [calcs.x1new, 1000]
           droplines:
@@ -436,7 +445,7 @@ layout:
           color: Red
           strokeWidth: 1
           label:
-            text: "` X_{U=${calcs.uold}} `"
+            text: "` X=60/\\\\sqrt{P_X} `"
             x: calcs.maxX
             position: l
           show: params.showCVEV == 1 && calcs.scheck == 0
@@ -446,6 +455,10 @@ layout:
           strokeWidth: 0.5
           color: Red
           r: 3
+          label:
+            text: "` C `"
+            position: bl
+            bgcolor: none
           show: params.showCVEV == 1 && calcs.scheck == 0
       - Point:
           coordinates: [calcs.x1cuold, 1000]
@@ -471,9 +484,10 @@ layout:
           color: Red
           strokeWidth: 1
           label:
-            text: "` X_{U=${calcs.unew}} `"
+            text: "` X=30/\\\\sqrt{P_X} `"
             x: calcs.maxX
-            position: l
+            position: b
+            bgcolor: none
           show: params.showCVEV == 2 && calcs.tcheck.toFixed(0) == 0
 
       - Point:
@@ -481,6 +495,10 @@ layout:
           strokeWidth: 0.5
           color: Red
           r: 3
+          label:
+            text: "` E `"
+            position: bl
+            bgcolor: none
           show: params.showCVEV == 2 && calcs.tcheck.toFixed(0) == 0
       - Point:
           coordinates: [calcs.x1cuold, 1000]
@@ -644,10 +662,43 @@ layout:
         divs:
 
 
-          - html: <br><br><br><br><br><br><br>
+          - html: <br><br><br><br><br><br><br><br>
             show: params.showCVEV == 0
 
 
+          - html: "` La curva blu nel grafico di sotto è la curva di domanda di consumo (bene $X$)
+                    quando il reddito è $M=${params.m}$ e il prezzo dell'alloggio (bene $Y$) è
+                    $P_Y=${params.p2}$. Quando il prezzo del consumo è 
+                    $P_X=${params.p1}$ la quantità domandata è
+                    $X=${calcs.x1old.toFixed(0)}$ e l'utilità $U=${calcs.uold.toFixed(0)}$.
+                    `"
+            show: calcs.scheck == 0 && params.showCVEV == 1
+          - html: "` La curva rossa è la <b>curva di domanda compensata</b>
+                     di $X$ corrispondente al livello di utilità $U=${calcs.uold.toFixed(0)}$.
+                      Essa misura, per ogni possibile valore di $P_X$, la quantità di $X$ che il
+                      consumatore <i>domanderebbe</i> se avesse esattamente tanto reddito
+                      quanto serve per raggiungere
+                      un livello di utilità pari a $U=${calcs.uold.toFixed(0)}$.
+                    `"
+            show: calcs.scheck == 0 && params.showCVEV == 1
+
+
+
+          - html: "` La curva blu nel grafico di sotto è la curva di domanda di consumo (bene $X$)
+                    quando il reddito è $M=${params.m}$ e il prezzo dell'alloggio (bene $Y$) è
+                    $P_Y=${params.p2}$. Quando il prezzo del consumo è 
+                    $P_X=${params.p1new}$ la quantità domandata è
+                    $X=${calcs.x1new.toFixed(0)}$ e l'utilità $U=${calcs.unew.toFixed(0)}$.
+                    `"
+            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
+          - html: "` La curva rossa è la <b>curva di domanda compensata</b>
+                     di $X$ corrispondente al livello di utilità $U=${calcs.unew.toFixed(0)}$.
+                      Essa misura, per ogni possibile valore di $P_X$, la quantità di $X$ che il
+                      consumatore <i>domanderebbe</i> se avesse esattamente tanto reddito
+                      quanto serve per raggiungere
+                      un livello di utilità pari a $U=${calcs.unew.toFixed(0)}$.
+                    `"
+            show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
 
 
 
