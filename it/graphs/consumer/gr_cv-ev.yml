@@ -584,8 +584,10 @@ layout:
             show: calcs.scheck < 0 && params.showCVEV == 1 && params.s > 0
           - html: "` che si trova sulla curva di indifferenza passante per $A$. `"
             show: calcs.scheck == 0 && params.showCVEV == 1 && params.s > 0
-          - html: "` La variazione compensativa $CV$ si può calcolare facilmente risolvendo
-                    l'equazione
+          - html: "` La variazione compensativa $CV$ si può calcolare facilmente. Una volta ricevuto
+                    il sussidio, il reddito del consumatore diventa $ ${params.m}+CV$, ma il modo di
+                    scegliere ottimamente è sempre lo stesso: spendere parti uguali del reddito nei
+                    due beni. La variazione compensativa si ottiene quindi risolvendo l'equazione
                     $$
                     \\\\frac{(${params.m}+CV)/2}{${params.p1new}}\\\\times\\\\frac{(${params.m}+CV)/2}{${params.p2}}=${calcs.uold.toFixed(0)}
                     $$
@@ -645,8 +647,10 @@ layout:
             show: calcs.tcheck > 0 && params.showCVEV == 2 && params.t > 0
           - html: "` che si trova sulla curva di indifferenza passante per $B$. `"
             show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
-          - html: "` La variazione equivalente $EV$ si può calcolare facilmente risolvendo
-                    l'equazione
+          - html: "` La variazione equivalente $EV$ si può calcolare facilmente. Una volta pagata 
+                    la tassa, il reddito del consumatore diventa $ ${params.m}-EV$, ma il modo di
+                    scegliere ottimamente è sempre lo stesso: spendere parti uguali del reddito nei
+                    due beni. La variazione equivalente si ottiene quindi risolvendo l'equazione
                     $$
                     \\\\frac{(${params.m}-EV)/2}{${params.p1}}\\\\times\\\\frac{(${params.m}-EV)/2}{${params.p2}}=${calcs.unew.toFixed(0)}
                     $$
