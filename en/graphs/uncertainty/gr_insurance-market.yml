@@ -1,0 +1,233 @@
+params:
+
+- {name: w2, value: 10000, min: 0, max: 10000} # wealth if loss does not occur
+- {name: p, value: 0.4, min: 0.2, max: 0.6, round: 0.1}  # probability of loss
+
+- {name: pi, value: 0.5, min: 0.1, max: 4, round: 0.1} # one minus relative risk aversion coefficient
+
+
+- {name: d, value: 10000, min: 1900, max: 10000, round: 100} # possible loss
+
+
+
+calcs:
+
+  r: (1)-(params.pi)
+
+  w1: (10000)-(params.d)
+  w2: params.w2
+
+  a: (1)-(calcs.r)
+
+  p1: (params.p)
+  p2: (1)-(calcs.p1)
+
+  u1: (calcs.w1)^(calcs.a)
+  u2: (calcs.w2)^(calcs.a)
+
+  EP: (calcs.p1)*(calcs.w1)+(calcs.p2)*(calcs.w2)
+
+  EU: (calcs.p1)*(calcs.u1)+(calcs.p2)*(calcs.u2)
+  CE: (calcs.EU)^((1)/(calcs.a))
+
+  WTP: (calcs.w2)-(calcs.CE)
+  FP: (params.p)*(params.d)
+
+  Q: ((10000)-(calcs.FP))/(10)
+
+  maxU: (1.1)*(calcs.u2)
+
+
+
+aspectRatio: 2
+
+layout:
+  TwoHorizontalGraphsPlusSidebar:
+
+
+
+
+
+
+
+
+    leftGraph: 
+      xAxis:
+        max: 5
+        ticks: 0
+      yAxis:
+        max: 11000
+        ticks: 0
+
+      objects:
+
+        - Label:
+            coordinates: [5, 0]
+            text: "` \\\\pi `"
+        - Label:
+            coordinates: [0, 11000]
+            text: "` \\\\text{euro/polizza}  `"
+
+# WTP curve
+        - Curve:
+            fn: (params.d) * ( (1) - ( (1) - (params.p) ) ^ ( (1) / (x) ) )
+            color: Blue
+            max: 4.5
+            label:
+              text: "` WTP `"
+              x: 4.5
+              position: b
+            strokeWidth: 1.5
+
+
+
+# risk neutral guy
+        - Point:
+            coordinates: [1,calcs.FP]
+            droplines: {vertical: 1, horizontal: calcs.FP.toFixed(0)}
+            strokeWidth: 0.5
+            color: Green
+            r: 2.5
+
+# fair premium
+        - Line:
+            point: [0,calcs.FP]
+            slope: 0
+            color: Green
+            label:
+              text: "` FP `"
+              x: 5
+            strokeWidth: 0.5
+
+
+
+
+
+
+
+
+
+
+
+    rightGraph: 
+      xAxis:
+        max: 1500
+        ticks: 0
+      yAxis:
+        max: 11000
+        ticks: 0
+
+      objects:
+
+        - Label:
+            coordinates: [1500, 0]
+            text: "` \\\\text{polizze} `"
+        - Label:
+            coordinates: [0, 11000]
+            text: "` \\\\text{euro/polizza}  `"
+
+
+
+# demand
+        - Line:
+            point: [0,10000]
+            slope: -(10)*((1)-(params.p))
+            max: 1200
+            color: Blue
+            label:
+              text: "` D `"
+              x: 1200
+            strokeWidth: 1.5
+
+# supply
+        - Line:
+            point: [0,calcs.FP]
+            slope: 0
+            color: Red
+            label:
+              text: "` S `"
+              x: 1500
+            strokeWidth: 1.5
+
+
+# equilibrium
+        - Point:
+            coordinates: [1000, calcs.FP]
+            droplines: {vertical: 1000}
+            strokeWidth: 0.5
+            color: Green
+            r: 2.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    sidebar:
+
+      controls:
+
+      - title: Equilibrio concorrenziale nel mercato assicurativo
+        description: Muovere il cursore per ... 
+
+        # radioGroup:
+        #   param: which
+        #   options:
+        #     - Mantieni 𝐸𝑃 = 50 costante
+        #     - Mantieni 𝐸𝑈 = 5 costante
+
+        sliders:
+        - param: p
+          label: p
+        # - param: d
+        #   label: D
+        # - param: pi
+        #   label: \pi
+
+        divs:
+        - html: <br>
+        - html: "`  $ EP = ${calcs.EP} $
+                      `"
+        - html: "`  $ EU = ${calcs.EU} $
+                      `"
+        - html: "`  $ CE = ${calcs.CE} $
+                      `"
+          show: calcs.r < 1000
+
+
+
+
+
+
+    # explanation:
+    #   divs:
+    #     - html: "` 
+    #                   `"
+    #       show: calcs.r < 1000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

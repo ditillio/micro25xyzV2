@@ -39,13 +39,13 @@ layout:
 
         - Label:
                 coordinates: [210, 0]
-                text: "` \\\\text{Output (kg)}  `"
+                text: "` \\\\text{output (kg)}  `"
                 xPixelOffset: 0
                 position: l
 
         - Label:
                 coordinates: [0, 5.5]
-                text: "` \\\\text{Euro / kg} `"
+                text: "` \\\\text{euro / kg} `"
                 yPixelOffset: 0
                 xPixelOffset: 0
                 position: c
@@ -92,12 +92,12 @@ layout:
 
         - Label:
                 coordinates: [210, 0]
-                text: "` \\\\text{Output (kg)}  `"
+                text: "` \\\\text{output (kg)}  `"
                 xPixelOffset: 0
 
         - Label:
                 coordinates: [0, 650]
-                text: "` \\\\text{Euro} `"
+                text: "` \\\\text{euro} `"
                 yPixelOffset: 0
                 xPixelOffset: 0
                 position: c
@@ -126,12 +126,12 @@ layout:
 
     sidebar:
       controls:
-      - title: Revenue and inverse demand for a price-taking firm
-        description: Move the inverse demand function 
-                      (blu curve in the top graph, or first slider here below) to see how the revenue function
-                      changes (bottom graph). Move the second slider below (or drag the blue point in the
-                      top graph, or the green point in the bottom graph) to see how unit price (top graph)
-                      and revenue (bottom graph) vary, as the quantity <i>Q</i> varies.  
+      - title: Domanda per il prodotto e ricavo totale di un'impresa price-taker
+        description: Spostare la curva di domanda inversa per il prodotto dell'impresa
+                      (retta blu nel grafico di sopra) per vedere come varia la funzione
+                      di ricavo totale (grafico di sotto). Spostare il cursore qui sotto (o muovere il punto blu nel grafico
+                      di sopra, o il punto verde nel grafico di sotto) per vedere come, al variare della quantità prodotta <i>Q</i>,
+                      variano il prezzo unitario (grafico di sopra) e il ricavo totale (grafico di sotto).  
         sliders:
         - param: a
           label: P
@@ -140,7 +140,7 @@ layout:
         divs:
         - html: "` `"
         - html: "` `"
-        - html: "` When inverse demand for the firm's product is horizontal,
-                  the revenue function is a straight line with slope equal to $P$. `"
+        - html: "` Quando la curva di domanda inversa per il prodotto dell'impresa è orizzontale,
+                  la curva di ricavo totale è una retta. `"
         - html: "` `"
         - html: "` `"

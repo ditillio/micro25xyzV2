@@ -1,0 +1,199 @@
+params:
+
+- {name: a, value: 5, min: 3, max: 7, round: 1}
+- {name: b, value: 0.001}
+
+- {name: A, value: 80, min: 40, max: 100, round: 10}
+- {name: w, value: 64, min: 40, max: 80}
+- {name: p, value: 2.5, min: 0.5, max: 5, round: 0.05}
+- {name: fc, value: 100, min: 50, max: 200, round: 10}
+- {name: n, value: 20, min: 10, max: 40, round: 5}
+
+calcs:
+
+  tr: params.p * calcs.xopt
+  vc: (calcs.xopt)^(2) / 100
+  tc: calcs.vc + (params.fc)
+  econprofit: calcs.tr - calcs.vc
+  accprofit: calcs.tr - calcs.tc
+  mc: calcs.xopt / 50
+  avc: (calcs.xopt) / 100
+  atc: calcs.xopt / 100 + (params.fc) / calcs.xopt
+
+  mktsupply: (params.n)*(calcs.xopt)
+  acmin: (2)*(sqrt((params.fc)*(params.w)))/(params.A)
+
+  eqQ: (params.a)/(((2)*(params.w))/((params.n)*((params.A)^2))+(params.b))
+  eqP: (params.a)-(params.b)*(calcs.eqQ)
+
+  xopt: ( params.A * params.A / ( 2 * params.w ) ) * calcs.eqP
+
+
+aspectRatio: 2
+
+layout:
+  TwoHorizontalGraphsPlusSidebar:
+
+    leftGraph: 
+      xAxis:
+        max: 210
+        min: -3
+        ticks: 4
+      yAxis:
+        max: 5.5
+        ticks: 10
+      label: a
+
+      objects:
+
+        - Label:
+                coordinates: [210, 0]
+                text: "` \\\\text{kg} `"
+        - Label:
+                coordinates: [0, 5.5]
+                text: "` \\\\text{euro/kg}  `"
+
+# points
+        - Point:
+            coordinates: [calcs.xopt, calcs.eqP]
+            color: Red
+            r: 4
+            droplines:
+              vertical: calcs.xopt.toFixed(2)
+
+
+# price line
+        - Line:
+            yIntercept: calcs.eqP
+            color: Green
+            label:
+              text: P
+              x: 210
+              position: l
+            strokeWidth: 1.5
+            bgcolor: none
+
+# individual supply curve
+        - Curve:
+            fn: ( 2 * params.w / ( params.A * params.A ) ) * (x)
+            color: Red
+            label:
+              text: S^{\, \text i}_{SR}
+              x: 210
+            strokeWidth: 2
+
+# average cost curve
+        - Curve:
+            fn: ( params.fc / (x) ) + ( params.w / ( params.A * params.A ) ) * (x)
+            color: Brown
+            label:
+              text: AC
+              x: 25
+            strokeWidth: 0.7
+            min: 0.5
+            lineStyle: dashed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    rightGraph: 
+      xAxis:
+        max: 5500
+        min: -3
+        ticks: 0
+      yAxis:
+        max: 5.5
+        ticks: 0
+      label: a
+
+      objects:
+
+        - Label:
+                coordinates: [5500, 0]
+                text: "` \\\\text{kg} `"
+        - Label:
+                coordinates: [0, 5.5]
+                text: "` \\\\text{euro/kg}  `"
+
+# points
+        - Point:
+            coordinates: [calcs.eqQ, calcs.eqP]
+            color: Green
+            r: 4
+            droplines:
+              horizontal: calcs.eqP.toFixed(2)
+              vertical: calcs.eqQ.toFixed(2)
+            strokeWidth: 0.5
+
+
+# # price line
+#         - Line:
+#             yIntercept: params.p
+#             color: Green
+#             label:
+#               text: P
+#               x: 5000
+#               position: l
+#             strokeWidth: 1.5
+#             bgcolor: none
+#             drag:
+#               - vertical: p
+
+# market supply curve
+        - Curve:
+            fn: ( 2 * params.w / ( params.A * params.A ) ) * ((x)/(params.n))
+            color: Red
+            label:
+              text: S_{SR}
+              x: 5000
+            strokeWidth: 2
+
+# market demand curve
+        - Line:
+            yIntercept: 5
+            slope: -(1)/(1000)
+            color: Blue
+            label:
+              text: D
+              x: 4700
+            position: bl
+            strokeWidth: 2
+
+
+
+
+
+
+
+    sidebar:
+      controls:
+      - title: Offerta individuale e di mercato nel breve periodo
+        sliders:
+        - param: A
+          label: A
+        - param: w
+          label: W
+        - param: fc
+          label: FC
+        - param: n
+          label: \text{num. imp.}
+        - param: p
+          label: P
+        divs:
+        - html: "` Quando $P = ${params.p.toFixed(2)}$ la quantità offerta da ciascuna delle ${params.n}
+                    imprese presenti sul mercato nel breve periodo è ${calcs.xopt.toFixed(2)}.
+                    La quantità offerta dal mercato è quindi ${calcs.mktsupply.toFixed(0)}.  `"
+
+    explanation:
+      divs:
+        - html: "` bla  `"

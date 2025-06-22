@@ -50,23 +50,23 @@ layout:
 
       - Label:
             coordinates: [245, 0]
-            text: "` \\\\text{present} `"
+            text: "` \\\\text{consumo} `"
             yPixelOffset: 10
             position: l
       - Label:
             coordinates: [245, 0]
-            text: "` \\\\text{consumption} `"
+            text: "` \\\\text{presente} `"
             yPixelOffset: -5
             position: l
 
       - Label:
             coordinates: [0, 280]
-            text: "` \\\\text{future}  `"
+            text: "` \\\\text{consumo}  `"
             xPixelOffset: -5
             yPixelOffset: 10
       - Label:
             coordinates: [0, 280]
-            text: "` \\\\text{consumption}  `"
+            text: "` \\\\text{futuro}  `"
             xPixelOffset: -5
             yPixelOffset: -5
 
@@ -111,7 +111,7 @@ layout:
             horizontal: calcs.endowment1.toFixed(2)
           color: Black
           label:
-            text: \text{Initial situation}
+            text: \text{Situazione iniziale}
 
       - Arrow:
           begin: [calcs.endowment0+30,20]
@@ -217,11 +217,11 @@ layout:
     sidebar:
       controls:
 
-      - title: Intertemporal budget constraint
-        description: Drag the blue point in the graph to choose a combination of present and
-                    future consumption on the budget line. Move one of the sliders below to see
-                    how the budget constraint changes as its parameters change (present and future
-                    income, present and future price, interest rate).
+      - title: Vincolo di bilancio del consumatore/risparmiatore
+        description: Trascinare il punto blu nel grafico per scegliere una combinazione di consumo
+                    presente e futuro sul vincolo di bilancio. Muovere uno dei cursori qui sotto per
+                    vedere come il vincolo di bilancio cambia al variare dei suoi parametri (reddito
+                    presente e futuro, prezzo presente e futuro del consumo, tasso d'interesse).
         sliders:
         - param: M0
           label: M_0
@@ -237,21 +237,21 @@ layout:
 
     explanation:
         divs:
-        - html: "` In the initial situation (the consumer does not save or borrow)
-                  present consumption is 
-                  $M_0/P_0=${calcs.endowment0.toFixed(2)}$, while future consumption is 
+        - html: "` Nella situazione iniziale (ovvero se l'individuo né risparmia né si indebita)
+                  il consumo presente è pari a 
+                  $M_0/P_0=${calcs.endowment0.toFixed(2)}$, mentre il consumo futuro è pari a 
                   $M_1/P_1=${calcs.endowment1.toFixed(2)}$.
                     `"
 
-        - html: "` Consuming ${-calcs.delta0.toFixed(2)} units less in the present period
-                  (that is, saving $S=${calcs.S.toFixed(2)}$ euros) allows consuming
-                   ${calcs.delta1.toFixed(2)} units more in the future.
+        - html: "` Consumare ${-calcs.delta0.toFixed(2)} unità in meno nel periodo
+                  presente (cioè risparmiando $S=${calcs.S.toFixed(2)}$ euro) permette
+                  il consumo di ${calcs.delta1.toFixed(2)} unità aggiuntive nel periodo futuro.
                     `"
           show: calcs.S>0
 
-        - html: "` Consuming ${calcs.delta0.toFixed(2)} units more in the present period
-                 (that is, borrowing  ${-calcs.S.toFixed(2)} euros) reduces
-                  future consumption by ${-calcs.delta1.toFixed(2)} units.
+        - html: "` Consumare ${calcs.delta0.toFixed(2)} unità in più nel periodo
+                  presente (cioè prendendo a prestito ${-calcs.S.toFixed(2)} euro) riduce
+                  il consumo futuro di ${-calcs.delta1.toFixed(2)} unità.
                     `"
           show: calcs.S<0
 

@@ -50,13 +50,13 @@ layout:
 
       - Label:
             coordinates: [8, 0]
-            text: "` \\\\text{Time  (dd)} `"
+            text: "` \\\\text{Tempo  (gg)} `"
             yPixelOffset: 0
             position: l
 
       - Label:
             coordinates: [0, 20]
-            text: "` \\\\text{Consumption (kg)}  `"
+            text: "` \\\\text{Consumo (kg)}  `"
             xPixelOffset: -5
 
 # opt indiff curve interior
@@ -111,7 +111,7 @@ layout:
             horizontal: calcs.optchoiceCinterior.toFixed(2)
           color: Blue
           label:
-            text: \text{optimal choice}
+            text: \text{scelta ottima}
           show: params.w > ( params.a * params.M ) / ( 7 * params.b )
 
 
@@ -125,7 +125,7 @@ layout:
             horizontal: calcs.optchoiceCcorner.toFixed(2)
           color: Blue
           label:
-            text: \text{optimal choice = initial situation}
+            text: \text{scelta ottima = situazione iniziale}
           show: params.w <= ( params.a * params.M ) / ( 7 * params.b )
 
 # shadow point max consumption
@@ -151,7 +151,7 @@ layout:
             horizontal: "`M_0/P = ${ calcs.consumptionEndowment.toFixed(2) } `"
           color: Black
           label:
-            text: \text{initial situation}
+            text: \text{situazione iniziale}
             position: l
           show: params.w > ( params.a * params.M ) / ( 7 * params.b )
 
@@ -185,13 +185,13 @@ layout:
 
       - Label:
             coordinates: [8, 0]
-            text: "` \\\\text{Time  (dd)} `"
+            text: "` \\\\text{Tempo  (gg)} `"
             yPixelOffset: 0
             position: l
 
       - Label:
             coordinates: [0, 75]
-            text: "` \\\\text{Wage (Euro/dd)}  `"
+            text: "` \\\\text{Salario (Euro/gg)}  `"
             xPixelOffset: -5
 
 
@@ -289,7 +289,7 @@ layout:
     sidebar:
       controls:
 
-      - title: Optimal choice and individual labor supply function of the consumer / worker
+      - title: Scelta ottima e funzione di offerta di lavoro del consumatore / lavoratore
 #        description: The budget line for a worker who can choose how many hours to work at a constant wage
         sliders:
         - param: a
@@ -302,54 +302,56 @@ layout:
           label: W
 
         divs:
-        - html: "` The consumer/worker's utility function is
+        - html: "` La funzione di utilità del lavoratore è
                   $$ U(N,C) = NC $$ `"
           show: params.a == 1 && params.b == 1
-        - html: "` The consumer/worker's utility function is
+        - html: "` La funzione di utilità del lavoratore è
                   $$ U(N,C) = N^2C $$ `"
           show: params.a == 2 && params.b == 1
-        - html: "` The consumer/worker's utility function is
+        - html: "` La funzione di utilità del lavoratore è
                   $$ U(N,C) = NC^2 $$ `"
           show: params.a == 1 && params.b == 2
-        - html: "` The consumer/worker's utility function is
+        - html: "` La funzione di utilità del lavoratore è
                   $$ U(N,C) = N^2C^2 $$ `"
           show: params.a == 2 && params.b == 2
-        - html: "` The marginal rate of substitution of leisure with consumption is then
+        - html: "` Il saggio marginale di sostituzione del tempo libero
+                col consumo è quindi
                 $$ MRS_{NC} = \\\\frac{C}{N} $$ `"
           show: params.a == params.b
-        - html: "` The marginal rate of substitution of leisure with consumption is then
+        - html: "` Il saggio marginale di sostituzione del tempo libero
+                col consumo è quindi
                 $$ MRS_{CN} = \\\\frac{2C}{N} $$ `"
           show: params.a > params.b
-        - html: "` The marginal rate of substitution of leisure with consumption is then
+        - html: "` Il saggio marginale di sostituzione del tempo libero
+                col consumo è quindi
                 $$ MRS_{CN} = \\\\frac{C}{2N} $$ `"
           show: params.a < params.b
-        - html: "` In the initial situation 
-                    ($N=7$, $C= ${params.M / params.p} $) we therefore have 
+        - html: "` Nella situazione iniziale 
+                    ($N=7$, $C= ${params.M / params.p} $) abbiamo dunque 
                     $MRS_{NC}=${calcs.consumptionEndowment}/7=
                     ${calcs.mrsEndowment.toFixed(2)}$ `"
           show: params.a == params.b
-        - html: "` In the initial situation 
-                    ($N=7$, $C= ${params.M / params.p} $) we therefore have 
+        - html: "` Nella situazione iniziale 
+                    ($N=7$, $C= ${params.M / params.p} $) abbiamo dunque 
                     $MRS_{NC}=2\\\\times ${calcs.consumptionEndowment}/7=
                     ${calcs.mrsEndowment.toFixed(2)}$ `"
           show: params.a > params.b
-        - html: "` In the initial situation 
-                    ($N=7$, $C= ${params.M / params.p} $) we therefore have 
+        - html: "` Nella situazione iniziale 
+                    ($N=7$, $C= ${params.M / params.p} $) abbiamo dunque 
                     $MRS_{NC}= ${calcs.consumptionEndowment}/(2\\\\times7)=
                     ${calcs.mrsEndowment.toFixed(2)}$ `"
           show: params.a < params.b
         - html: "`  `"
-        - html: "` The price of consumption is $P = ${params.p.toFixed(2)}$. `"
-        - html: "` Real wage is therefore 
+        - html: "` Il prezzo del bene di consumo è $P = ${params.p.toFixed(2)}$. `"
+        - html: "` Il salario reale è quindi 
                   $$W/P = ${params.w.toFixed(2)}/ ${params.p.toFixed(2)}=
                   ${calcs.realwage.toFixed(2)}$$ `"
         - html: "`  `"
-        - html: "` Since $ ${calcs.mrsEndowment.toFixed(2)} < ${calcs.realwage.toFixed(2)} $, the optimal choice
-                  is interior:
+        - html: "` Dato che $ ${calcs.mrsEndowment.toFixed(2)} < ${calcs.realwage.toFixed(2)} $, la scelta ottima è interna:
                   $$ N=${calcs.optchoiceNinterior.toFixed(2)} \\\\qquad C=${calcs.optchoiceCinterior.toFixed(2)}    $$ `"
           show: calcs.realwage > calcs.mrsEndowment
-        - html: "` Since $ ${calcs.mrsEndowment.toFixed(2)} \\\\geq ${calcs.realwage.toFixed(2)} $, 
-                    the optimal choice is a corner solution:
+        - html: "` Dato che $ ${calcs.mrsEndowment.toFixed(2)} \\\\geq ${calcs.realwage.toFixed(2)} $, la scelta ottima è
+                    non lavorare affatto:
                   $$ N=7 \\\\qquad C=${calcs.consumptionEndowment}    $$ `"
           show: calcs.realwage <= calcs.mrsEndowment
 
@@ -357,18 +359,18 @@ layout:
 
     explanation:
         divs:
-        - html: "` The rule for computing the consumer/worker's optimal choice can be summarized 
-                  like this:   `"
-        - html: "` If at the initial situation (that is, $N=T$ and 
-                  $C=M_0/P$) the marginal rate of substitution is greater than the 
-                  real wage $W/P$, then the optimal choice is a corner solution, 
-                  namely the initial situation 
-                  (i.e.~not working at all, having $N=T$ days of leisure, and consuming 
-                  $M_0/P$ units of consumption).   `"
-        - html: "` If, instead, at the initial situation the marginal rate of substitution is 
-                  smaller then the real wage,
-                  then the optimal choice is interior and is computed in the usual way, namely
-                  solving the system of equations comprising the budget constraint and the tangency condition 
+        - html: "` La regola per individuare la scelta ottima del consumatore / lavoratore 
+                  si può riassumere nel seguente modo:   `"
+        - html: "` Se in corrispondenza della situazione iniziale (ovvero $N=T$ e 
+                  $C=M_0/P$) il saggio marginale di sostituzione è maggiore del 
+                  salario reale $W/P$, allora la scelta ottima è una soluzione d'angolo, 
+                  e cioè la situazione iniziale 
+                  (ovvero non lavorare affatto, avere $N=T$ giorni liberi, e consumare 
+                  $M_0/P$ unità del bene di consumo).   `"
+        - html: "` Se, invece, in corrispondenza della situazione iniziale
+                  il saggio marginale di sostituzione è minore del 
+                  salario reale, allora la scelta ottima è interna e si ottiene nel solito modo, 
+                  cioè mettendo a sistema il vincolo di bilancio e la condizione di tangenza 
                   $MRS_{NC}=W/P$.   `"
 
 

@@ -39,7 +39,7 @@ layout:
 
         - Label:
                 coordinates: [0, params.maxlabor]
-                text: "` \\\\text{Labor (dd)} `"
+                text: "` \\\\text{Lavoro (gg)} `"
                 yPixelOffset: 0
                 xPixelOffset: 0
                 position: c
@@ -191,7 +191,7 @@ layout:
 
     sidebar:
       controls:
-      - title: From production to costs
+      - title: Dalla produzione ai costi
         sliders:
         - param: a
           label: A
@@ -207,27 +207,39 @@ layout:
         - html: "` `"
         - html: "` `"
         - html: "` `"
-        - html: "` The production function is $Q=${params.a}L^{0.5}$. 
-                   The inverse production function is therefore $L=(1/{${params.a}}^2)Q^2$. `"
+        - html: "` La funzione di produzione è $Q=${params.a}L^{0.5}$. 
+                   La funzione di produzione inversa è quindi $L=(1/{${params.a}}^2)Q^2$. `"
           show: params.alpha == 0.5
-        - html: "` Thus, producing $ Q = ${params.x.toFixed(0)} $ units of output requires hiring
+        - html: "` Per produrre $ Q = ${params.x.toFixed(0)} $  sono perciò necessarie
                    $$ L = (1/{${params.a}}^2) {${params.x.toFixed(0)}}^2 = ${calcs.l.toFixed(2)} $$
-                   units of labor. `"
+                   giornate di lavoro. `"
           show: params.alpha == 0.5
+        - html: "` La funzione di produzione è $ Q = ${params.a} L$.  
+                  La funzione di produzione inversa è quindi $L=(1/{${params.a}})Q$. `"
+          show: params.alpha == 1
+        - html: "` Per produrre $ Q = ${params.x.toFixed(0)} $  sono perciò necessarie
+                   $$ L = (1/{${params.a}}) {${params.x.toFixed(0)}} = ${calcs.l.toFixed(2)} $$
+                   giornate di lavoro. `"
+          show: params.alpha == 1
         - html: "` `"
         - html: "` `"
         - html: "` `"
-        - html: "` Knowing that the daily wage is $W=${params.w}$, we can compute the firm's
-                   variable cost:
+        - html: "` Sapendo che il salario giornaliero è $W=${params.w}$, possiamo calcolare
+                   il costo variabile dell'impresa:
                   $$ VC(${params.x.toFixed(0)}) = \\\\frac{ ${params.w} }{ ${params.a} ^2 } ${params.x.toFixed(0)} ^2 
                   = ${calcs.vc.toFixed(2)}. $$  `"
           show: params.alpha == 0.5
+        - html: "` Sapendo che il salario giornaliero è $W=${params.w}$, possiamo calcolare
+                   il costo variabile dell'impresa:
+                  $$ VC(${params.x.toFixed(0)}) = \\\\frac{ ${params.w} }{ ${params.a} } ${params.x.toFixed(0)} 
+                  = ${calcs.vc.toFixed(2)}. $$  `"
+          show: params.alpha == 1
         - html: "` `"
         - html: "` `"
         - html: "` `"
 
-        - html: "` Finally, given that the fixed cost is $FC = ${params.fc}$, we can compute
-                  total cost:
+        - html: "` Infine, dato che il costo fisso è $FC = ${params.fc}$, possiamo
+                  calcolare il costo totale:
                   $$ C(${params.x.toFixed(0)}) = ${params.fc} + ${calcs.vc.toFixed(2)} = ${calcs.tc.toFixed(2)}. $$
                    `"
           show: params.alpha > 0

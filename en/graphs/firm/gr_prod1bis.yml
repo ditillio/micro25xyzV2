@@ -70,7 +70,7 @@ layout:
 
         - Label:
               coordinates: [3.1, 0]
-              text: "` \\\\text{Labor (dd)} `"
+              text: "` \\\\text{Lavoro (gg)} `"
               yPixelOffset: 0
               position: l
         - Label:
@@ -135,12 +135,12 @@ layout:
 
         - Label:
               coordinates: [3.1, 0]
-              text: "` \\\\text{Labor (dd)} `"
+              text: "` \\\\text{Lavoro (gg)} `"
               yPixelOffset: 0
               position: l
         - Label:
               coordinates: [0, 120]
-              text: "` \\\\text{kg/dd}  `"
+              text: "` \\\\text{kg/gg}  `"
               xPixelOffset: -5
 
 # AP whole labor units
@@ -191,18 +191,18 @@ layout:
 
     sidebar:
       controls:
-      - title: Production Function and Average Product
-        description: The production function is represented in blue in the top graph. The average product function is
-                      represented in brown in the bottom graph.
+      - title: Funzione di produzione e prodotto medio
+        description: La funzione di produzione è rappresentata in blu nel grafico di sopra.
+                    La funzione di prodotto medio è rappresentata in marrone nel grafico di sotto.
         # sliders:
         # - param: p
         #   label: P
         radioGroup:
           param: d
           options:
-            - Labor hired by whole days
-            - Labor hired by half days
-            - Labor hired by small fractions of time
+            - Lavoro assunto a giornate
+            - Lavoro assunto a mezze giornate
+            - Lavoro assunto a frazioni di ora
         # checkboxes:
         # - param: showEFF
         #   label: "` \\\\textit{Evidenzia frontiera efficiente} `"
@@ -210,33 +210,35 @@ layout:
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
-        - html: "` The production function is $Q=F(L)=80\\\\sqrt{L}$. `"
-        - html: "` Average product is therefore $AP_L=F(L)/L=80 / \\\\sqrt{L}$. `"
-        - html: "` The minimum quantity of labor that the firm can hire is one unit, i.e. one day.
-                  If the firm hires one unit of labor, average product is
+        - html: "` La funzione di produzione è $Q=F(L)=80\\\\sqrt{L}$. `"
+        - html: "` Il prodotto medio è quindi $AP_L=F(L)/L=80 / \\\\sqrt{L}$. `"
+        - html: "` La quantità minima di lavoro che l'impresa può
+                  utilizzare è una giornata.
+                  Se l'impresa impiega una giornata, il prodotto medio è
                   $$ \\\\frac{80}{1}=80, $$
-                  if the firm hires two units of labor, average product is
+                  se ne impiega due è
                   $$ \\\\frac{113}{2}=56.5, $$
-                  if the firm hires three units of labor, average product is
+                  se ne impiega tre è
                   $$ \\\\frac{138}{3}=46, $$
-                  etc.
+                  ecc.
                     `"
           show: (params.d == 0)
-        - html: "` The minimum quantity of labor that the firm can hire is half a unit, i.e. a half day.
-                  If the firm hires half a unit of labor, average product is
+        - html: "` La quantità minima di lavoro che l'impresa può
+                  utilizzare è mezza giornata.
+                  Se l'impresa impiega una mezza giornata, il prodotto medio è quindi
                   $$ \\\\frac{56}{0.5}=112, $$
-                  if the firm hires one unit of labor, average product is
+                  se ne impiega due è
                   $$ \\\\frac{80}{1}=80, $$
-                  if the firm hires one and a half units of labor, average product is
+                  se ne impiega tre è
                   $$ \\\\frac{98}{1.5}=65.3, $$
-                  etc.
+                  ecc.
                     `"
           show: (params.d == 1)
-        - html: "` Labor is finely divisible, i.e. the firm can hire arbitrarily small fractions of units of labor. 
-                    Average product is a continuous curve. `"
+        - html: "` Il lavoro è divisibile, cioè l'impresa può impiegare anche frazioni molto piccole di ora. 
+                    Il prodotto medio è una curva continua. `"
           show: (params.d == 2)
-        - html: "` Drag the blue point or the brown point to see how output and average product vary, as the quantity of 
-                      labor hired by the firm varies. `"
+        - html: "` Spostare il punto blu o quello marrone per vedere come variano output e prodotto medio al 
+                      variare della quantità di lavoro impiegata dall'impresa. `"
           show: (params.d == 2)
 
     # explanation:

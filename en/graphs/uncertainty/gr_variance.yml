@@ -1,0 +1,233 @@
+params:
+
+- {name: w1, value: 0, min: 0, max: 50}
+
+- {name: p1, value: 0.5, min: 0, max: 1, round: 0.1}
+
+- {name: ep, value: 50, min: 20, max: 70, round: 10}
+- {name: eu, value: 5, min: 2, max: 8, round: 1}
+
+- {name: which, value: 0}
+
+
+calcs:
+
+  p2: (1)-(params.p1)
+  u1: sqrt(params.w1)
+
+  w2ep: ((params.ep)-(params.p1)*(params.w1))/(calcs.p2)
+  u2ep: sqrt(calcs.w2ep)
+  EUep: (params.p1)*(calcs.u1)+(calcs.p2)*(calcs.u2ep)
+  CEep: (calcs.EUep)^(2)
+
+  w2eu: (((params.eu)-(params.p1)*(calcs.u1))/(calcs.p2))^(2)
+  u2eu: sqrt(calcs.w2eu)
+  EPeu: (params.p1)*(params.w1)+(calcs.p2)*(calcs.w2eu)
+  CEeu: (params.eu)^(2)
+
+
+
+
+aspectRatio: 1.3
+
+layout:
+  OneGraphPlusSidebar:
+
+    graph: 
+      xAxis:
+        max: 121
+        ticks: 0
+      yAxis:
+        max: 11
+        ticks: 0
+
+      objects:
+
+        - Label:
+                coordinates: [121, 0]
+                text: "` \\\\text{Payoff} `"
+        - Label:
+                coordinates: [0, 11]
+                text: "` \\\\text{Utilità}  `"
+
+# bernoulli utility function
+
+        - Curve:
+            fn: sqrt(x)
+            color: Blue
+            max: 110
+            label:
+              text: "` u(W)=\\\\sqrt{W} `"
+              x: 110
+              position: c
+            strokeWidth: 1.5
+
+# points
+        - Point:
+            coordinates: [params.w1, calcs.u1]
+            droplines: {vertical: params.w1.toFixed(0), horizontal: calcs.u1.toFixed(2)}
+            strokeWidth: 0.5
+            color: Blue
+            r: 4
+            draggable: true
+
+# points & segment to show when EP is kept constant
+        - Point:
+            coordinates: [calcs.w2ep, calcs.u2ep]
+            droplines: {vertical: calcs.w2ep.toFixed(0), horizontal: calcs.u2ep.toFixed(2)}
+            strokeWidth: 0.5
+            color: Blue
+            r: 4
+            show: params.which == 0
+        - Point:
+            coordinates: [params.ep, 0]
+            strokeWidth: 0.5
+            color: Darkgreen
+            r: 0
+            show: params.which == 0
+        - Point:
+            coordinates: [params.ep, 1000]
+            droplines: {vertical: params.ep.toFixed(0)}
+            strokeWidth: 0.8
+            color: Darkgreen
+            show: params.which == 0
+        - Label:
+                coordinates: [params.ep, 10.4]
+                text: "` EP `"
+                color: Darkgreen
+                show: params.which == 0
+        - Point:
+            coordinates: [params.ep, calcs.EUep]
+            droplines: {horizontal: calcs.EUep.toFixed(2)}
+            strokeWidth: 0.5
+            color: Red
+            r: 2
+            show: params.which == 0
+        - Segment:
+            a: [params.w1, calcs.u1]
+            b: [calcs.w2ep, calcs.u2ep]
+            color: Red
+            strokeWidth: 1
+            show: params.which == 0
+
+
+# points & segment to show when EU is kept constant
+        - Point:
+            coordinates: [calcs.w2eu, calcs.u2eu]
+            droplines: {vertical: calcs.w2eu.toFixed(2), horizontal: calcs.u2eu.toFixed(2)}
+            strokeWidth: 0.5
+            color: Blue
+            r: 4
+            show: params.which == 1
+        - Point:
+            coordinates: [calcs.EPeu, params.eu]
+            droplines: {vertical: calcs.EPeu.toFixed(2)}
+            strokeWidth: 0.5
+            color: Darkgreen
+            r: 0
+            show: params.which == 1
+        - Point:
+            coordinates: [calcs.EPeu, params.eu]
+            strokeWidth: 0.5
+            color: Red
+            r: 2
+            show: params.which == 1
+        - Point:
+            coordinates: [1000, params.eu]
+            droplines: {horizontal: params.eu.toFixed(0)}
+            strokeWidth: 0.8
+            color: Red
+            show: params.which == 1
+        - Label:
+                coordinates: [120, params.eu]
+                text: "` EU `"
+                color: red
+                show: params.which == 1
+        - Segment:
+            a: [params.w1, calcs.u1]
+            b: [calcs.w2eu, calcs.u2eu]
+            color: Red
+            strokeWidth: 1
+            show: params.which == 1
+
+
+
+
+
+
+
+
+
+    sidebar:
+
+      controls:
+
+      - title: Valore atteso, utilità attesa e variabilità dei payoff
+        description: Muovere i primi due cursori per modificare i parametri della funzione di 
+                    produzione. Muovere il terzo cursore o trascinare il punto blu nel grafico
+                    per vedere come,
+                    dati i parametri scelti, la quantità di output varia al variare
+                     della quantità di input.
+
+        radioGroup:
+          param: which
+          options:
+            - Mantieni 𝐸𝑃 = 50 costante
+            - Mantieni 𝐸𝑈 = 5 costante
+
+        sliders:
+        - param: w1
+          label: W_1
+
+        divs:
+        - html: <br>
+        - html: "`  $$
+                    EP=${params.p1}\\\\times ${params.w1}+
+                        ${calcs.p2}\\\\times ${calcs.w2ep} = ${params.ep}
+                    $$
+                    $$
+                    EU=${params.p1.toFixed(1)}\\\\times ${calcs.u1.toFixed(2)}+
+                    ${calcs.p2.toFixed(1)}\\\\times ${calcs.u2ep.toFixed(2)} = ${calcs.EUep.toFixed(2)}
+                    $$
+                      `"
+          show: params.which == 0
+
+
+
+
+
+
+    explanation:
+      divs:
+        - html: "` La lotteria
+                    $$
+                    \\\\text{$W_1=${params.w1}$ con probabilità $0.5$}
+                    \\\\qquad
+                    \\\\text{$W_2=${calcs.w2ep}$ con probabilità $0.5$}
+                    $$
+                    ha valore atteso $
+                    EP=${params.p1}\\\\times ${params.w1}+
+                    ${calcs.p2}\\\\times ${calcs.w2ep} = ${params.ep}$
+                    e dà utilità attesa
+                    $$
+                    EU=${params.p1}\\\\times ${params.w1}+
+                    ${calcs.p2}\\\\times ${calcs.w2ep} = ${params.ep}$
+                    $$
+                      `"
+          show: params.which == 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

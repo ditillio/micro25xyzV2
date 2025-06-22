@@ -1,0 +1,316 @@
+params:
+
+- {name: a, value: 5, min: 3, max: 7, round: 1}
+
+- {name: A, value: 80, min: 40, max: 100, round: 10}
+- {name: w, value: 64, min: 40, max: 80}
+- {name: p, value: 2.5, min: 0.5, max: 5, round: 0.05}
+- {name: fc, value: 100, min: 50, max: 200, round: 10}
+- {name: n, value: 60, min: 50, max: 150, round: 10}
+
+calcs:
+  xopt: ( params.A * params.A / ( 2 * params.w ) ) * params.p
+
+  tr: params.p * calcs.xopt
+  vc: (calcs.xopt)^(2) / 100
+  tc: calcs.vc + (params.fc)
+  econprofit: calcs.tr - calcs.vc
+  accprofit: calcs.tr - calcs.tc
+
+  mc: calcs.xopt / 50
+  avc: (calcs.xopt) / 100
+  atc: calcs.xopt / 100 + (params.fc) / calcs.xopt
+
+  mktsupply: (params.n)*(calcs.xopt)
+  acmin: (2)*(sqrt((params.fc)*(params.w)))/(params.A)
+  qeff: (params.A)*(sqrt((params.fc)/(params.w)))
+
+
+aspectRatio: 2
+
+layout:
+  TwoHorizontalGraphsPlusSidebar:
+
+    leftGraph: 
+      xAxis:
+        max: 210
+        min: -3
+        ticks: 4
+      yAxis:
+        max: 8
+        ticks: 10
+      label: a
+
+      objects:
+
+        - Label:
+                coordinates: [210, 0]
+                text: "` \\\\text{kg} `"
+                yPixelOffset: 0
+                xPixelOffset: -5
+                position: l
+        - Label:
+                coordinates: [0, 8]
+                text: "` \\\\text{euro/kg}  `"
+                xPixelOffset: 0
+
+# optimal choice
+        - Point:
+            coordinates: [calcs.xopt, params.p]
+            color: Red
+            r: 4.5
+            droplines:
+              vertical: calcs.xopt.toFixed(2)
+            show: params.p > calcs.acmin
+
+        - Point:
+            coordinates: [0.3, params.p]
+            color: Red
+            r: 4.5
+            droplines:
+              vertical: calcs.xopt.toFixed(2)
+            show: params.p < calcs.acmin
+
+        - Point:
+            coordinates: [0.3, params.p]
+            color: Red
+            r: 4.5
+            droplines:
+              vertical: 0.00
+            show: params.p.toFixed(2) == calcs.acmin.toFixed(2)
+
+        - Point:
+            coordinates: [calcs.qeff, params.p]
+            color: Red
+            r: 4.5
+            droplines:
+              vertical: calcs.qeff.toFixed(2)
+            show: params.p.toFixed(2) == calcs.acmin.toFixed(2)
+
+
+# price line
+        - Line:
+            yIntercept: params.p
+            color: Green
+            label:
+              text: P
+              x: 210
+              position: l
+            strokeWidth: 1.5
+            bgcolor: none
+            drag:
+              - vertical: p
+
+# LR supply curve
+        - Curve:
+            fn: ( 2 * params.w / ( params.A * params.A ) ) * (x)
+            color: Red
+            label:
+              text: S^i_{LR}
+              x: 210
+              position: l
+            strokeWidth: 2.5
+            min: calcs.qeff
+
+        - Segment:
+            a: [0.5,0]
+            b: [0.5,calcs.acmin]
+            color: Red
+            strokeWidth: 3
+
+        - Point:
+            coordinates: [0.5, calcs.acmin]
+            color: Red
+            r: 2.5
+            show: params.p !== calcs.acmin
+
+        - Point:
+            coordinates: [calcs.qeff, calcs.acmin]
+            color: Red
+            r: 2.5
+            show: params.p !== calcs.acmin
+
+# marginal cost curve
+        - Curve:
+            fn: ( 2 * params.w / ( params.A * params.A ) ) * (x)
+            color: Red
+            label:
+              text: MC
+              x: 50
+              position: bl
+            strokeWidth: 0.7
+            lineStyle: dashed
+
+# average variable cost curve
+        - Curve:
+            fn: ( params.w / ( params.A * params.A ) ) * (x)
+            color: Orange
+            label:
+              text: AVC
+              x: 210
+              position: l
+            strokeWidth: 0.7
+            lineStyle: dashed
+
+# average cost curve
+        - Curve:
+            fn: ( params.fc / (x) ) + ( params.w / ( params.A * params.A ) ) * (x)
+            color: Brown
+            label:
+              text: AC
+              x: 20
+              position: l
+            strokeWidth: 0.7
+            min: 0.5
+            lineStyle: dashed
+
+# Qeff & ACmin
+        - Point: {coordinates: [calcs.qeff, calcs.acmin], droplines: {vertical: , horizontal: }, color: Gray, r: 0}
+
+        - Label:
+                coordinates: [calcs.qeff, 0]
+                text: "` Q^{\\\\text{eff}} = ${calcs.qeff.toFixed(2)} `"
+                yPixelOffset: -32
+                xPixelOffset: 
+                position: c
+                color: Blue
+
+        - Label:
+                coordinates: [0, calcs.acmin]
+                text: "` AC_{\\\\text{min}} = ${calcs.acmin.toFixed(2)} `"
+                yPixelOffset: 
+                xPixelOffset: -75
+                position: c
+                color: Blue
+
+
+
+
+
+
+
+
+
+
+
+    rightGraph: 
+      xAxis:
+        max: 7000
+        min: -50
+        ticks: 4
+      yAxis:
+        max: 8.5
+        ticks: 10
+      label: a
+
+      objects:
+
+        - Label:
+                coordinates: [7000, 0]
+                text: "` \\\\text{kg} `"
+        - Label:
+                coordinates: [0, 8.5]
+                text: "` \\\\text{euro/kg}  `"
+
+# LR supply curve
+        - Segment:
+            a: [0,0]
+            b: [0,calcs.acmin]
+            color: Red
+            strokeWidth: 5
+        - Points: {coordinates: [[0,calcs.acmin],[calcs.qeff,calcs.acmin],[(2)*(calcs.qeff),calcs.acmin],[(3)*(calcs.qeff),calcs.acmin],[(4)*(calcs.qeff),calcs.acmin],[(5)*(calcs.qeff),calcs.acmin],[(6)*(calcs.qeff),calcs.acmin],[(7)*(calcs.qeff),calcs.acmin],[(8)*(calcs.qeff),calcs.acmin],[(9)*(calcs.qeff),calcs.acmin],[(10)*(calcs.qeff),calcs.acmin]], color: Red, r: 3}
+
+
+# price line
+        - Line:
+            yIntercept: params.p
+            color: Green
+            strokeWidth: 0.5
+            drag:
+              - vertical: p
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    sidebar:
+      controls:
+      - title: Offerta individuale e di mercato nel lungo periodo
+        sliders:
+        - param: p
+          label: P
+        - param: n
+          label: N
+        divs:
+        - html: "` Quando $P = ${params.p}$ la scelta ottima della singola impresa, sia nel breve che nel lungo
+                  periodo, è produrre ${calcs.xopt.toFixed(0)} unità.  `"
+          show: (params.p > 14)
+        - html: "` Quando $P = ${params.p}$ la scelta ottima di breve periodo dell'impresa è produrre ${calcs.xopt.toFixed(0)} unità.
+                    Nel lungo periodo (se il prezzo rimane $P=${params.p}$) l'impresa è invece indifferente tra rimanere nel mercato
+                    (e produrre ${calcs.xopt.toFixed(0)} unità) e uscire dal mercato (produrre zero unità).  `"
+          show: (params.p == 14)
+        - html: "` Quando $P = ${params.p}$ la scelta ottima di breve periodo dell'impresa è produrre ${calcs.xopt.toFixed(0)} unità.
+                    La scelta ottima di lungo periodo (se il prezzo rimane $P=${params.p}$) è invece uscire dal mercato
+                    (produrre zero unità).  `"
+          show: (params.p < 14)
+
+
+    explanation:
+      divs:
+        - html: "`   `"
+          show: params.p !== 0
+        - html: "`   `"
+          show: params.p !== 0
+        - html: "`   `"
+          show: params.p !== 0
+        - html: "`   `"
+          show: params.p !== 0
+        - html: "` Dato che $ATC_{\\\\text{min}}=14$, quando $P=${params.p}$ ogni impresa presente nel mercato rimane nel
+                  mercato (e produce ${calcs.xopt} unità). Le (potenzialmente infinite) imprese non ancora presenti sul mercato
+                  hanno un incentivo a entrare e la quantità offerta sul mercato è quindi potenzialmente infinita 
+                  (aumemtare $N$ per vedere questo). `"
+          show: params.p > 14
+        - html: "` Dato che $ATC_{\\\\text{min}}=14$, quando $P=${params.p}$ ogni impresa presente nel mercato è 
+                  indifferente tra rimanere nel mercato (e produrre 40 unità) e uscire dal mercato. Le (potenzialmente infinite) 
+                  imprese non ancora presenti sul mercato sono indifferenti tra entrare nel mercato (e produrre 40 unità) e 
+                  rimanere fuori. La quantità offerta sul mercato è un qualunque multiplo di 40 (aumemtare $N$ per vedere questo). `"
+          show: params.p == 14
+        - html: "` Dato che $ATC_{\\\\text{min}}=14$, quando $P=${params.p}$ ogni impresa presente sul mercato nel lungo periodo 
+                  decide di uscire. Le imprese non ancora presenti sul mercato
+                  non hanno un incentivo a entrare. La quantità offerta sul mercato nel lungo periodo è quindi zero. `"
+          show: params.p < 14
+        - html: "`   `"
+          show: params.x == 0
+        - html: "`   `"
+          show: params.x == 0
+        - html: "`   `"
+          show: params.x == 0
+        - html: "`  `"
+          show: params.x == 0
+        - html: "`  `"
+          show: params.x == 0
+        - html: "`  `"
+          show: params.x == 0
+
+

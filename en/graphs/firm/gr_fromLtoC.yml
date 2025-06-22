@@ -57,7 +57,7 @@ layout:
 
         - Label:
               coordinates: [0, 3.3]
-              text: "` \\\\text{Labor (dd)} `"
+              text: "` \\\\text{Lavoro (gg)} `"
               xPixelOffset: 0
         - Label:
               coordinates: [160, 0]
@@ -251,27 +251,27 @@ layout:
 
     sidebar:
       controls:
-      - title: From production to costs
-        description: The inverse production function is drawn in blue in the top graph.
-                    Total cost, variable cost and fixed cost are depicted in brown, orange and gray, respectively,
-                    in the bottom graph.
+      - title: Dalla produzione ai costi
+        description: La funzione di produzione inversa è rappresentata in blu nel grafico di sopra.
+                    Le funzioni di costo totale, costo variabile e costo fisso sono
+                    rappresentate rispettivamente in marrone, arancione e grigio nel grafico di sotto.
         # sliders:
         # - param: p
         #   label: P
         radioGroup:
           param: d
           options:
-            - Labor hired by whole days
-            - Labor hired by half days
-            - Labor hired by small fractions of time
+            - Lavoro assunto a giornate
+            - Lavoro assunto a mezze giornate
+            - Lavoro assunto a frazioni di ora
         # checkboxes:
         # - param: showEFF
         #   label: "` \\\\textit{Evidenzia frontiera efficiente} `"
         divs:
         - html: "`  `"
         - html: "`  `"
-        - html: "` Drag one of the points in one of two graphs to see how
-        total and variable cost vary, as the quantity of output varies. `"
+        - html: "` Trascinare uno dei punti in uno dei due grafici per vedere come
+        costo totale e costo variabile variano al variare del livello di produzione. `"
           show: (params.d == 2)
 
     # explanation:

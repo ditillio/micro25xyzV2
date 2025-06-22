@@ -57,13 +57,13 @@ layout:
 
         - Label:
                 coordinates: [210, 0]
-                text: "` \\\\text{Output (kg)} `"
+                text: "` \\\\text{output (kg)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 5]
-                text: "` \\\\text{Euro/kg}  `"
+                text: "` \\\\text{euro/kg}  `"
                 xPixelOffset: 0
 
 # price line
@@ -182,13 +182,13 @@ layout:
 
         - Label:
                 coordinates: [210, 0]
-                text: "` \\\\text{Output (kg)} `"
+                text: "` \\\\text{output (kg)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 410  ]
-                text: "` \\\\text{Euro}  `"
+                text: "` \\\\text{euro}  `"
                 xPixelOffset: -3
 
 # accounting profit
@@ -235,48 +235,52 @@ layout:
 
     sidebar:
       controls:
-      - title: The Price-Taking Firm's Long-Run Optimal Choice
+      - title: Scelta ottima di un'impresa price-taker nel lungo periodo
         sliders:
         - param: p
           label: P
         divs:
-        - html: "` The minimum average cost is $AC_{\\\\text{min}} = ${calcs.acmin.toFixed(2)}$. `"
-        - html: "` The market price of output, $P = ${params.p.toFixed(2)}$, is larger than the minimum average cost. `"
+        - html: "` Il minimo costo medio è $AC_{\\\\text{min}} = ${calcs.acmin.toFixed(2)}$. `"
+        - html: "` Il prezzo dell'output, $P = ${params.p.toFixed(2)}$, è maggiore del minimo costo medio. `"
           show: (calcs.accprofit > 0)
-        - html: "` The firm's long-run optimal choice is therefore to produce the quantity at which
-                   $MC=P$, that is, $Q=${calcs.xopt.toFixed(1)}$
-                  units. `"
+        - html: "` La scelta ottima di lungo periodo dell'impresa è quindi produrre la quantità in corrispondenza della
+                  quale $MC=P$, ovvero $Q=${calcs.xopt.toFixed(1)}$
+                  unità. `"
           show: (calcs.accprofit > 0)
-        - html: "` Maximum profit (blue area in the top graph, length of the blue segment in the bottom graph)
-                is positive: $$ R - C = ${calcs.accprofit.toFixed(2)}$$ `"
+        - html: "` Il massimo profitto (area blu nel grafico di sopra, lunghezza del segmento blu nel grafico
+                di sotto) è positivo: $$ R - C = ${calcs.accprofit.toFixed(2)}$$ `"
           show: (calcs.accprofit > 0)
-        - html: "` The market price of output, $P = ${params.p.toFixed(2)}$, is smaller than the minimum average cost. `"
+        - html: "` Il prezzo dell'output, $P = ${params.p.toFixed(2)}$, è minore del minimo costo medio. `"
           show: (calcs.accprofit < 0)
-        - html: "` The firm's long-run optimal choice is to shut down ($Q=0$). `"
+        - html: "` La scelta ottima di lungo periodo dell'impresa è quindi chiudere l'attività, $Q=0$. `"
           show: (calcs.accprofit < 0)
-        - html: "` The firm cannot do better. For example, producing the quantity at which 
-                $MC=P$, namely $Q=${calcs.xopt.toFixed(1)}$, the short-run optimal choice,
-                <i>is not</i> the long-run optimal choice.  `"
+        - html: "` L'impresa non può fare di meglio. Per esempio, produrre la quantità in corrispondenza della
+                quale $MC=P$, ovvero $Q=${calcs.xopt.toFixed(1)}$, la scelta ottima di breve periodo,
+                <i>non è</i> la scelta ottima di lungo periodo.  `"
           show: (calcs.accprofit < 0)
-        - html: "` Indeed, profit would be negative (red area in the top graph, or red segment in the bottom graph). 
-                By shutting down the firm instead obtains zero revenue but also pays zero costs
-                (the fixed cost is avoidable in the long run), thus making zero profits.  `"
+        - html: "` Infatti il profitto sarebbe negativo (area rossa 
+                nel grafico di sopra, o segmento rosso nel grafico di sotto). Chiudendo, invece, l'impresa ottiene
+                zero ricavi ma ha zero costi (il costo fisso è evitabile 
+                nel lungo periodo), quindi ottiene zero profitti.  `"
           show: (calcs.accprofit < 0)
-        - html: "` The market price of output, $P = ${params.p.toFixed(2)}$, equals the minimum average cost. `"
+        - html: "` Il prezzo dell'output, $P = ${params.p.toFixed(2)}$, è uguale al minimo costo medio. `"
           show: (params.p.toFixed(1) == 2.0)
-        - html: "` In the long run the firm is therefore indifferent between shutting down ($Q=0$)
-                  and producing the quantity at which $MC=P$, namely 
+        - html: "` Nel lungo periodo l'impresa è quindi indifferente tra chiudere l'attività (e quindi produrre $Q=0$)
+                  e produrre la quantità in corrispondenza della quale $MC=P$, ovvero 
                   $Q=Q^{\\\\text{eff}}=${calcs.qeff.toFixed(2)}$. `"
           show: (params.p.toFixed(1) == 2.0)
-        - html: "` Both choices are optimal. In both cases, profit (which is the maximum profit) is zero. `"
+        - html: "` Entrambe le scelte sono scelte ottime. In entrambi
+                  i casi, il profitto (che è il massimo profitto) è zero. `"
           show: (params.p.toFixed(1) == 2.0)
 
     explanation:
       divs:
-        - html: "` In the long run, the fixed cost is an avoidable cost, hence it must be taken into account
-                  in determining the firm's optimal choice. Only in Case 2 is the firm's long-run optimal choice 
-                  the same as its short-run optimal choice. That is, only if the market price of output
-                  is sufficiently high (larger than minimum average cost). `"
+        - html: "` Nel lungo periodo, il costo fisso è un costo evitabile 
+                  e va quindi tenuto in considerazione per determinare la scelta
+                  ottima dell'impresa. La scelta ottima di lungo periodo è 
+                  uguale a quella di breve periodo solo se il prezzo di vendita
+                  dell'output è sufficientemente alto (maggiore del 
+                  minimo costo medio). `"
           show: params.p > 0
 
 

@@ -140,9 +140,10 @@ layout:
 
       controls:
 
-      - title: Utilità marginali e saggio marginale di sostituzione (beni sostituti)
-        description: Selezionare un valore del parametro 𝑠 per vedere come cambia la mappa di curve di indifferenza
-                    al variare del parametro. Selezionare poi un paniere
+      - title: Utilità marginali e saggio marginale di sostituzione
+        description: Selezionare valori dei parametri 𝛼, 𝛽 e 𝜎 per vedere come cambia la
+                   famiglia di curve di indifferenza
+                    al variare dei parametri. Selezionare poi un paniere
                        per calcolare utilità marginali e 
                     saggio marginale di sostituzione di 𝑋 con 𝑌 in quel paniere.
 
@@ -203,8 +204,7 @@ layout:
 
     explanation:
       divs:
-        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
-                  e carne, le preferenze del consumatore
+        - html: "` Le preferenze del consumatore
                   sono descritte dalla funzione di utilità 
                   $$U(X,Y)=(X+${params.s})^{${params.a}} \\\\times (Y+${params.s})^{${params.b}} $$
                     `"

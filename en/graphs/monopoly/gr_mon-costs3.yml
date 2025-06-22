@@ -1,0 +1,197 @@
+---
+schema: EconSchema
+version: 1
+params:
+
+- {name: cap, value: 20, min: 0, max: 30}
+
+- {name: dslope, value: 0.05, min: 0.02, max: 0.08, round: 0.01} # abs value of slope of inverse demand
+- {name: dint, value: 10, min: 8, max: 12} # intercept of inverse demand
+- {name: fc, value: 100} # fixed cost per plant
+- {name: a, value: 100} # plant productivity parameter
+- {name: w, value: 100} # wage
+- {name: np, value: 1, min: 1, max: 4} # number of plants
+
+
+- {name: Q, value: 100, min: 8, max: 200}
+
+- {name: mcslope, value: 0.5} # slope of marginal cost function
+
+- {name: dslopefix, value: 0.04, min: 0.02, max: 0.08, round: 0.01} # abs value of slope of inverse demand
+- {name: dintfix, value: 12, min: 8, max: 12} # intercept of inverse demand
+- {name: mcfix, value: 0.5} # slope of marginal cost function
+
+
+- {name: showCS, value: 0}
+- {name: showPS, value: 0}
+- {name: showDWL, value: 0}
+
+- {name: tgl, value: 40} #  half-length of tangent line
+
+calcs:
+
+  mc: 2 * sqrt(params.fc) / (params.a)
+
+  maxQ: (1.7)*(params.dintfix)/(params.dslopefix) # max displayed quantity
+  maxP: (1.15)*(params.dintfix) # max displayed price
+  minP: -(0.2)*(calcs.maxP) # max displayed price
+  maxR: ((params.dintfix)-(params.dslopefix)*((params.dintfix)/(2*(params.dslopefix))))*(params.dintfix)/(2*(params.dslopefix)) # max revenues
+  maxC: (params.mcfix)*(calcs.maxQ) # max costs
+  maxEUR: (1.1)*max((calcs.maxR),(calcs.maxC)) # max displayed revenues and costs
+
+  Q0: ( (params.dint) - (params.cap) ) / (params.dslope) # quantity demanded at price cap
+  Qmon: ( (params.dint) - (params.mc) ) / ( (2)*(params.dslope) ) # monopolistic quantity
+  Pmon: (params.dint)-(params.dslope)*(calcs.Qmon) # monopolistic price
+  Qcomp: (params.dint) / ( (params.dslope) + (params.mcslope) ) # competitive quantity
+  Pcomp: ( (params.dint)*(params.mcslope) ) / ( (params.dslope) + (params.mcslope) ) # competitive price
+
+  eqP: min ( params.cap , calcs.Pmon ) # equilibrium price
+  eqQ: min(max(calcs.Q0,calcs.Qmon),(params.cap)/(params.mcslope)) # equilibrium quantity
+
+
+
+
+
+# aspectRatio: 1
+
+layout:
+
+  type: ThreeHorizontalGraphs
+
+  def:
+
+
+    leftGraph:
+      xAxis:
+        orient: bottom
+        min: 0
+        max: (calcs.maxQ)
+        ticks: 0
+        title: "` 1 impianto `"
+      yAxis:
+        orient: left
+        min: 0
+        max: (calcs.maxEUR)
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [calcs.maxQ, 0]
+            text: "` \\\\text{unità} `"
+            xPixelOffset: 5
+
+      - Label:
+            coordinates: [0, calcs.maxrev]
+            text: "` \\\\text{€}  `"
+            xPixelOffset: -5
+
+# cost function with 1 plant
+      - Curve:
+          fn: (1) * (params.fc) + ( (params.w) / (1) ) * ( ((x)^2) / ((params.a)^2) )
+          color: Red
+          strokeWidth: 1.5
+          position: c
+          label:
+            text: C_1
+            x: sqrt((((calcs.maxEUR)-(0.99)*(params.fc))*(0.99)*((params.a)^2))/(params.w))
+
+
+
+
+
+
+
+
+
+    middleGraph:
+      xAxis:
+        orient: bottom
+        min: 0
+        max: (calcs.maxQ)
+        ticks: 0
+        title: "` 2 impianti `"
+      yAxis:
+        orient: left
+        min: 0
+        max: (calcs.maxEUR)
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [calcs.maxQ, 0]
+            text: "` \\\\text{unità} `"
+            xPixelOffset: 5
+      - Label:
+            coordinates: [0, calcs.maxrev]
+            text: "` \\\\text{€}  `"
+            xPixelOffset: -5
+
+# cost function with 2 plants
+      - Curve:
+          fn: (2) * (params.fc) + ( (params.w) / (2) ) * ( ((x)^2) / ((params.a)^2) )
+          color: Red
+          strokeWidth: 1.5
+          position: c
+          label:
+            text: C_2
+            x: sqrt((((calcs.maxEUR)-(2)*(params.fc))*(2)*((params.a)^2))/(params.w))
+
+
+
+
+    rightGraph:
+      xAxis:
+        orient: bottom
+        min: 0
+        max: (calcs.maxQ)
+        ticks: 0
+        title: "` 3 impianti `"
+      yAxis:
+        orient: left
+        min: 0
+        max: (calcs.maxEUR)
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [calcs.maxQ, 0]
+            text: "` \\\\text{unità} `"
+            xPixelOffset: 5
+      - Label:
+            coordinates: [0, calcs.maxrev]
+            text: "` \\\\text{€}  `"
+            xPixelOffset: -5
+
+# cost function with 3 plants
+      - Curve:
+          fn: (3) * (params.fc) + ( (params.w) / (3) ) * ( ((x)^2) / ((params.a)^2) )
+          color: Red
+          strokeWidth: 1.5
+          position: c
+          label:
+            text: C_3
+            x: sqrt((((calcs.maxEUR)-(2.8)*(params.fc))*(2.8)*((params.a)^2))/(params.w))
+
+
+    leftControls:
+      title: Funzione di costo del monopolista
+      sliders:
+      - param: Q
+        label: Q
+
+    # rightControls:
+    #   title: Funzione di costo del monopolista
+    #   sliders:
+    #   - param: share1
+    #     label: "` s `"
+
+
+
+
+
+
+
+

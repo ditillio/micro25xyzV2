@@ -52,13 +52,13 @@ layout:
 
         - Label:
                 coordinates: [210, 0]
-                text: "` \\\\text{Output (kg)} `"
+                text: "` \\\\text{output (kg)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 600]
-                text: "` \\\\text{Euro}  `"
+                text: "` \\\\text{euro}  `"
                 xPixelOffset: -3
 
 # revenue
@@ -130,13 +130,13 @@ layout:
 
         - Label:
                 coordinates: [210, 0]
-                text: "` \\\\text{Output (kg)} `"
+                text: "` \\\\text{output (kg)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 350  ]
-                text: "` \\\\text{Euro}  `"
+                text: "` \\\\text{euro}  `"
                 xPixelOffset: -3
 
 # accounting profit
@@ -183,38 +183,41 @@ layout:
 
     sidebar:
       controls:
-      - title: The Price-Taking Firm's Long-Run Optimal Choice
+      - title: Scelta ottima di un'impresa price-taker nel lungo periodo
         sliders:
         - param: p
           label: P
         divs:
-        - html: "` At price $P = ${params.p.toFixed(2)}$ it is possible to make a positive profit by producing a positive
-                quantity of output (we are in Case 2). Indeed, the top graph shows that
-                  the $C$ curve does not lie entirely above the $R$ curve. The bottom graph shows that, equivalently,
-                  the $R-C$ curve does not lie entirely below the horizontal axis.
-                  The firm's optimal choice is to produce ${calcs.xopt.toFixed(1)}
-                  units. Maximum profit (length of blue segment) is $$ R - C = ${calcs.accprofit.toFixed(2)}$$ `"
+        - html: "` Quando il prezzo è $P = ${params.p.toFixed(2)}$, è possibile ottenere un profitto positivo
+                  producendo una quantità positiva di output (siamo nel Caso 2). Come si vede dal grafico di sopra,
+                  infatti, la curva $C$ non giace interamente al di sopra della curva $R$. O, che è lo stesso, 
+                  come si vede dal grafico di sotto, la funzione $R-C$ non giace interamente sotto
+                  l'asse orizzontale. La scelta ottima dell'impresa è produrre ${calcs.xopt.toFixed(1)}
+                  unità. Il massimo profitto (lunghezza del segmento blu) è  $$ R - C = ${calcs.accprofit.toFixed(2)}$$ `"
           show: (calcs.accprofit > 0)
-        - html: "` At price $P = ${params.p.toFixed(2)}$ it is not possible to make a positive profit by producing a positive
-                quantity of output (we are in Case 1). Indeed, the top graph shows that
-                  the $C$ curve lies entirely above the $R$ curve. The bottom graph shows that, equivalently,
-                  the $R-C$ curve lies entirely below the horizontal axis. The firm's optimal choice is to shut down.
-                  If the firm were to produce any positive quantity, profit would be negative. 
-                  By shutting down, instead, the firm makes zero profit (the fixed cost is avoidable in the long run). `"
+        - html: "` Quando il prezzo è $P = ${params.p.toFixed(2)}$, non è possibile ottenere un profitto
+                 positivo producendo una quantità positiva di output (siamo nel Caso 1). Come si vede dal grafico di sopra,
+                  infatti, la curva $C$ giace interamente al di sopra della curva $R$. O, che è lo stesso, 
+                  come si vede dal grafico di sotto, la funzione $R-C$ giace interamente sotto
+                  l'asse orizzontale. La scelta ottima dell'impresa è chiudere l'attività. Producendo una 
+                  quantità positiva, il massimo profitto sarebbe negativo. Chiudendo, invece, l'impresa ottiene
+                  zero ricavi ma ha zero costi (il costo fisso è evitabile nel lungo periodo), quindi ottiene
+                  zero profitti. `"
           show: (calcs.accprofit < 0)
-        - html: "` At price $P = ${params.p.toFixed(2)}$, in the long run the firm is indifferent between
-                 shutting down and producing ${calcs.xopt.toFixed(1)}
-                  units (we are in Case 3). Both choices are optimal. In both cases, the firm's profit
-                  (which is the maximum profit) is zero. `"
+        - html: "` Quando il prezzo è $P = ${params.p.toFixed(2)}$, nel lungo periodo l'impresa
+                è indifferente tra chiudere l'attività (e quindi produrre zero) e produrre ${calcs.xopt.toFixed(1)}
+                  unità (siamo nel Caso 3). Entrambe le scelte sono scelte ottime. In entrambi i casi, il profitto (che è il massimo profitto)
+                  è zero. `"
           show: (params.p.toFixed(1) == 2.0)
 
     explanation:
       divs:
-        - html: "` In the long run the fixed cost is an avoidable cost, hence it must be taken into account
-                  in determining the firm's optimal choice. The firm's long-run optimal choice is the same as
-                  its short-run optimal choice only if we are in Case 2. That is, only if the fixed cost is
-                  sufficiently small relative to the market price of the firm's output, so that $R(Q)> TC(Q)$
-                  for at least some positive values of $Q$.`"
+        - html: "` Nel lungo periodo, il costo fisso è un costo evitabile 
+                  e va quindi tenuto in considerazione per determinare la scelta
+                  ottima dell'impresa. La scelta ottima di lungo periodo è 
+                  uguale a quella di breve periodo solo se siamo nel Caso 2, ovvero solo se il costo fisso è
+                  sufficientemente basso (relativamente al prezzo di vendita 
+                  dell'output), in modo che $R(Q)> TC(Q)$ per almeno qualche valore di $Q$.`"
           show: params.p > 0
 
 

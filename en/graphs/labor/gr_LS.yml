@@ -58,13 +58,13 @@ layout:
 
       - Label:
             coordinates: [8, 0]
-            text: "` \\\\text{dd} `"
+            text: "` \\\\text{gg} `"
             yPixelOffset: 0
             position: l
 
       - Label:
             coordinates: [0, 75]
-            text: "` \\\\text{Euro/dd}  `"
+            text: "` \\\\text{Euro/gg}  `"
             xPixelOffset: -5
 
 
@@ -91,7 +91,7 @@ layout:
           max: calcs.rC * 7
           position: b
           label:
-            text: \text{individual}
+            text: \text{offerta di lavoro}
             x: calcs.rC * 7 - calcs.rN * params.M / 60
       - Curve:
           fn: calcs.rN * params.M / ( - (x) + 7*calcs.rC )  
@@ -100,7 +100,7 @@ layout:
           max: calcs.rC * 7
           position: c
           label:
-            text: \text{labor supply}
+            text: \text{individuale}
             x: calcs.rC * 7 - calcs.rN * params.M / 60
       - Segment:
           a: [0.03,0]
@@ -163,13 +163,13 @@ layout:
 
       - Label:
             coordinates: [5000, 0]
-            text: "` \\\\text{dd} `"
+            text: "` \\\\text{gg} `"
             yPixelOffset: 0
             position: l
 
       - Label:
             coordinates: [0, 75]
-            text: "` \\\\text{Euro/dd}  `"
+            text: "` \\\\text{Euro/gg}  `"
             xPixelOffset: -5
 
 
@@ -183,7 +183,7 @@ layout:
           max: params.num * 4.66
           position: b
           label:
-            text: \text{market}
+            text: \text{offerta di lavoro}
             x: params.num * ( calcs.rC * 7 - calcs.rN * params.M / 60 )
       - Curve:
           fn: calcs.rN * params.M / ( - (x)/params.num + 7*calcs.rC )  
@@ -192,7 +192,7 @@ layout:
           max: params.num * 3.5
           position: c
           label:
-            text: \text{labor supply}
+            text: \text{di mercato}
             x: params.num * ( calcs.rC * 7 - calcs.rN * params.M / 60 )
       - Segment:
           a: [30,0]
@@ -238,7 +238,7 @@ layout:
     sidebar:
       controls:
 
-      - title: Individual and Market Labor Supply
+      - title: Offerta di lavoro individuale e di mercato
 #        description: The budget line for a worker who can choose how many hours to work at a constant wage
         sliders:
         - param: M
@@ -246,7 +246,7 @@ layout:
         - param: w
           label: W
         - param: num
-          label: \text{\# of workers}
+          label: \text{num. lav.}
 
         divs:
         - html: "`  `"

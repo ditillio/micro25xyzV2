@@ -331,20 +331,20 @@ layout:
 
     sidebar:
       controls:
-      - title: From costs to average costs
-        description: The total cost, variable cost and fixed cost functions are drawn in brown, orange and grey,
-                    respectively, in the top graph.
-                    The average cost, average variable cost and average fixed cost functions are drawn in brown,
-                    orange and grey, respectively, in the bottom graph.
+      - title: Dai costi ai costi medi
+        description: Le funzioni di costo totale, costo variabile e costo fisso sono
+                    rappresentate rispettivamente in marrone, arancione e grigio nel grafico di sopra.
+                    Le funzioni di costo medio, costo variabile medio e costo fisso medio sono
+                    rappresentate rispettivamente in marrone, arancione e grigio nel grafico di sotto.
         # sliders:
         # - param: p
         #   label: P
         radioGroup:
           param: d
           options:
-            - Labor hired by whole days
-            - Labor hired by half days
-            - Labor hired by small fractions of time
+            - Lavoro assunto a giornate
+            - Lavoro assunto a mezze giornate
+            - Lavoro assunto a frazioni di ora
         # checkboxes:
         # - param: showEFF
         #   label: "` \\\\textit{Evidenzia frontiera efficiente} `"
@@ -354,38 +354,41 @@ layout:
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
-        - html: "` The bottom graph shows that the average fixed cost function is decreasing.
-                  This is quite obvious: the larger the level of production, the smaller the impact of
-                  the fixed cost on each unit produced. `"
+        - html: "` Come si vede nel grafico di sotto, la funzione di costo fisso medio è decrescente.
+                  Questo è abbastanza ovvio: maggiori sono le unità di output prodotte,
+                  minore è l'impatto del costo fisso su ciascuna unità prodotta. `"
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
-        - html: "` The average variable cost function is increasing.
-                  This is due to the fact that the average product of labor is decreasing. Indeed,
-                  saying that $AP_L$ is increasing in $L$ (the more labor the firm hires, 
-                  the smaller the output produced on average by each unit of labor)
-                  is equivalent to saying that $AVC$ is increasing in $Q$
-                  (the larger the level of production, the larger the labor cost the firm must pay, on average,
-                  to produce one unit of output). `"
+        - html: "` La funzione di costo variabile medio è invece crescente.
+                  Questo è dovuto al fatto che il prodotto medio del lavoro è decrescente. In effetti,
+                  dire che $AP_L$ è una funzione decrescente di $L$ (più lavoro l'impresa impiega,
+                  minore è l'output prodotto in media da ciascuna 
+                  unità di lavoro) è equivalente a dire che $AVC$ è una funzione crescente di $Q$
+                  (più output l'impresa produce, maggiore è la spesa in lavoro necessaria, in media, a produrre
+                  una unità di output). `"
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
-        - html: "` Finally, the average cost function $AC$ is U-shaped, i.e. it is first decreasing and then
-                increasing in $Q$. To explain this shape, recall that average cost is the sum of average fixed cost
-                and average variable cost. For low levels of output, average fixed cost decreases more rapidly than
-                  average variable cost increases (in the example of this figure, average variable cost 
-                  is a straight line, i.e. it increases at a constant pace). Thus, average cost decreases as the level
-                  of output increases. 
-                  For high levels of output, instead, average fixed cost decreases less rapidly than 
-                  average variable cost increases, so average cost increases as the level
-                  of output increases. 
-                   We will say more about the U-shape of the average cost function at the end of this chapter.
+        - html: "` Infine, la funzione di costo medio ha la forma di una U: è cioè prima decrescente
+                e poi crescente in $Q$. 
+                Per spiegare questo, ricordiamo che il costo medio è 
+                la somma di costo fisso medio e costo variabile medio. 
+                  Per bassi livelli di output, il costo fisso medio decresce più velocemente
+                  di quanto cresca il costo variabile medio 
+                  (nell'esempio di questa figura, il costo variabile medio cresce 
+                  ad una velocità costante, essendo una linea retta), quindi il costo medio 
+                  diminuisce all'aumentare della quantità prodotta. 
+                  Per alti livelli di output, il costo fisso medio decresce invece più lentamente,
+                   quindi il costo medio aumenta
+                  all'aumentare della quantità prodotta. 
+                   Torneremo sulla forma a U della funzione di costo medio alla fine del capitolo.
                   `"
         - html: "`  `"
         - html: "`  `"
@@ -393,8 +396,8 @@ layout:
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
-        - html: "` Drag one of the points in one of the two graphs to see how costs and average costs
-                  vary, as the level of production varies. `"
+        - html: "` Trascinare uno dei punti in uno dei due grafici per vedere come
+        costi e costi medi variano al variare del livello di produzione. `"
           show: (params.d == 2)
 
     # explanation:

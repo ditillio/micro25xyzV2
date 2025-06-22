@@ -1,0 +1,143 @@
+---
+schema: EconSchema
+version: 1
+params:
+
+- {name: fc, value: 100} # fixed cost per plant
+- {name: a, value: 100} # plant productivity parameter
+- {name: w, value: 100} # wage
+
+- {name: Q, value: 300, min: 100, max: 1400, round: 100} # output level
+- {name: np, value: 1, min: 1, max: 25} # number of plants
+
+- {name: maxQ, value: 1100} #  half-length of tangent line
+- {name: maxEUR, value: 2800} #  half-length of tangent line
+- {name: showCOST, value: 0}
+
+- {name: dslope, value: 0.01, min: 0.005, max: 0.02, round: 0.005} # abs value of slope of inverse demand
+- {name: dint, value: 10, min: 8, max: 12} # intercept of inverse demand
+
+
+calcs:
+
+  R: ((params.dint)-(params.dslope)*(params.Q))*(params.Q)
+
+
+
+
+
+aspectRatio: 1.5
+
+layout:
+
+  type: OneGraphPlusSidebar
+
+  def:
+
+
+    graph:
+      xAxis:
+        orient: bottom
+        min: 0
+        max: params.maxQ
+        ticks: 0
+      yAxis:
+        orient: left
+        min: 0
+        max: params.maxEUR
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [params.maxQ, 0]
+            text: "` \\\\text{unità} `"
+            xPixelOffset: 1
+      - Label:
+            coordinates: [0, params.maxEUR]
+            text: "` \\\\text{€}  `"
+
+
+
+# revenue
+      - Curve:
+          fn: ( (params.dint) - (params.dslope)*(x) ) * (x)
+          color: Green
+          strokeWidth: 2
+          position: bl
+          label:
+            text: R
+            x: (0.99) * min( (params.dint)/(params.dslope), (params.maxQ) )
+
+      - Point:
+          coordinates: [(params.Q), (calcs.R)]
+          droplines:
+            vertical: (params.Q)
+            horizontal: calcs.R.toFixed(2)
+          color: Green
+          r: 3.5
+
+
+
+    sidebar:
+      controls:
+
+      - title: Funzione di costo del monopolista
+        sliders:
+        - param: Q
+          label: Q
+        - param: dint
+          label: a
+        - param: dslope
+          label: b
+
+        divs:
+
+        - html: "` `"
+        - html: "` `"
+        - html: "` `"
+        - html: "` Se il monopolista volesse produrre ${params.Q} unità di output, utilizzare
+                ${params.np} impianto non sarebbe ...
+                 `"
+          show: params.np == 1 && params.np !== (params.Q)/(calcs.Qeff)
+
+        - html: "` <font color=red><b>BINGO!</b></font> Se il monopolista volesse produrre
+                 ${params.Q} unità di output, utilizzare ${params.np} impianto sarebbe ...
+                 `"
+          show: params.np == 1 && params.np == (params.Q)/(calcs.Qeff)
+
+        - html: "` Se il monopolista volesse produrre ${params.Q} unità di output, utilizzare
+                ${params.np} impianti non sarebbe ...
+                 `"
+          show: params.np > 1 && params.np !== (params.Q)/(calcs.Qeff)
+
+        - html: "` <font color=red><b>BINGO!</b></font> Se il monopolista volesse produrre
+                ${params.Q} unità di output, utilizzare ${params.np} impianti sarebbe ...
+                `"
+          show: params.np > 1 && params.np == (params.Q)/(calcs.Qeff)
+
+        # checkboxes:
+        # - param: showCOST
+        #   label: "` \\\\text{Mostra funzione di costo del monopolista} `"
+
+    # explanation:
+    #   divs:
+    #     - html: "` In presenza di un prezzo massimo $P_\\\\text{max}=${params.cap}$ la curva di ricavo 
+    #               marginale $MR$ è piatta fino alla quantità domandata al prezzo massimo, ovvero
+    #                $Q=${((params.dint)-(params.cap))/(params.dslope)}$. 
+    #               In corrispondenza di quella quantità, la curva $MR$ presenta una discontinuità.
+    #               Oltre quella quantità, la curva coincide con la curva $MR$ in assenza di interventi.   `"
+
+
+
+
+
+
+
+
+
+
+
+
+
+

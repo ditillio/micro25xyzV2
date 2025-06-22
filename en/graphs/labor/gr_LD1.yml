@@ -27,13 +27,13 @@ layout:
 
         - Label:
                 coordinates: [13, 0]
-                text: "` \\\\text{Labor (dd)} `"
+                text: "` \\\\text{Lavoro (gg)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 150]
-                text: "` \\\\text{Wage (Euro/dd)}  `"
+                text: "` \\\\text{Salario (Euro/gg)}  `"
                 xPixelOffset: -6
 
 # points
@@ -74,11 +74,10 @@ layout:
 
     sidebar:
       controls:
-      - title: Individual Labor Demand Function
-        description: Move the first two sliders to vary the firm's production 
-                    function and the price of output. Move the third slider
-                    or drag the brown line in the graph to see how labor demanded
-                    varies with the price of labor.
+      - title: Funzione di domanda di lavoro individuale
+        description: Muovere i primi due cursori per modificare la funzione di 
+                    produzione o il prezzo dell'output. Muovere il terzo cursore o trascinare la retta marrone nel grafico
+                    per vedere come la quantità domandata di lavoro varia al variare del suo prezzo.
         sliders:
         - param: a
           label: A

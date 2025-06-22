@@ -37,13 +37,13 @@ layout:
 
       - Label:
             coordinates: [8, 0]
-            text: "` \\\\text{Time  (dd)} `"
+            text: "` \\\\text{Tempo  (gg)} `"
             yPixelOffset: 0
             position: l
 
       - Label:
             coordinates: [0, 32]
-            text: "` \\\\text{Consumption (kg)}  `"
+            text: "` \\\\text{Consumo (kg)}  `"
             xPixelOffset: -5
 
 
@@ -86,7 +86,7 @@ layout:
             horizontal: "`M_0/P = ${ calcs.consumptionEndowment.toFixed(2) } `"
           color: Black
           label:
-            text: \text{Initial Situation}
+            text: \text{Situazione iniziale}
 
       - type: Segment
         def:
@@ -101,7 +101,7 @@ layout:
           color: Red
           strokeWidth: 1
           label:
-            text: "`\\\\text{Labor $L=${params.L}$}`"
+            text: "`\\\\text{Lavoro $L=${params.L}$}`"
             location: 0.5
             yPixelOffset: 0
 
@@ -118,7 +118,7 @@ layout:
           color: Blue
           strokeWidth: 1
           label:
-            text: "`\\\\text{Leisure $N=${7-params.L}$}`"
+            text: "`\\\\text{Tempo libero $N=${7-params.L}$}`"
             location: 0.5
             yPixelOffset: 0
 
@@ -136,7 +136,7 @@ layout:
           color: Darkgreen
           strokeWidth: 1
           label:
-            text: "`\\\\text{Additional consumption}=${calcs.wageconsumption.toFixed(2)}`"
+            text: "`\\\\text{Consumo aggiuntivo}=${calcs.wageconsumption.toFixed(2)}`"
             location: 0.5
             xPixelOffset: 0
             align: center
@@ -144,7 +144,7 @@ layout:
     sidebar:
       controls:
 
-      - title: The Consumer / Worker Budget Constraint
+      - title: Vincolo di bilancio del consumatore / lavoratore
 #        description: The budget line for a worker who can choose how many hours to work at a constant wage
 
         sliders:
@@ -160,19 +160,19 @@ layout:
 
     explanation:
         divs:
-        - html: "` The price of consumption is $P = ${params.p.toFixed(2)}$.   `"
+        - html: "` Il prezzo del bene di consumo è $P = ${params.p.toFixed(2)}$.   `"
         - html: "`   `"
-        - html: "` The non-labor income
-                  $M_0 = ${params.M}$ therefore guarantees
-                  $M_0/P=${calcs.consumptionEndowment.toFixed(2)}$ units of consumption.  `"
+        - html: "` Il reddito non da lavoro
+                  $M_0 = ${params.M}$ garantisce quindi un livello di consumo
+                  pari a $M_0/P=${calcs.consumptionEndowment.toFixed(2)}$ unità.  `"
         - html: "`   `"
-        - html: "` By working $L = ${params.L}$ days at daily wage $W = ${params.w.toFixed(2)}$, 
-                   the individual obtains a labor income equal to  
+        - html: "` Lavorando $L = ${params.L}$ giorni al salario giornaliero $W = ${params.w.toFixed(2)}$, 
+                   si ottiene un reddito da lavoro pari 
                    a $WL = ${calcs.wageIncome.toFixed(2)}$
-                   euros and hence an additional consumption of $WL/P = ${calcs.wageconsumption.toFixed(2)}$
-                   units.   `"
+                   euro e quindi un consumo aggiuntivo di $WL/P = ${calcs.wageconsumption.toFixed(2)}$
+                   unità.   `"
         - html: "`   `"
-        - html: "` The real wage (absolute value of the slope of the budget constraint) 
-                  is $$\\\\frac{W}{P} = \\\\frac{${params.w.toFixed(2)} }{ ${params.p.toFixed(2)} } = ${calcs.realwage.toFixed(2)}$$ This means that,
-                  according to the market, the value of one day of labor, measured in terms of  
-                  consumption, is ${calcs.realwage.toFixed(2)} units.   `"
+        - html: "` Il salario reale (valore assoluto della pendenza del vincolo di bilancio) 
+                  è $$\\\\frac{W}{P} = \\\\frac{${params.w.toFixed(2)} }{ ${params.p.toFixed(2)} } = ${calcs.realwage.toFixed(2)}$$ Ciò vuol dire che,
+                  secondo il mercato, il valore di una giornata di lavoro, misurato 
+                  in termini del bene di consumo, è pari a ${calcs.realwage.toFixed(2)} unità.   `"

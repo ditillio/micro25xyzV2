@@ -157,20 +157,20 @@ layout:
 
     sidebar:
       controls:
-      - title: Producer Surplus
+      - title: Surplus del produttore
         sliders:
         - param: p
           label: P
         - param: x
           label: Q
         divs:
-        - html: "` The production function is $Q=A\\\\sqrt{L}=${params.a}\\\\sqrt{L}$, the inverse production 
-                function $L=Q^2/A^2=Q^2/${ params.a * params.a }$. The total cost function is therefore
-                $C=FC+WQ^2/A^2=${params.fc}+${params.w}Q^2/${ params.a * params.a }$, hence 
-                the marginal cost function is
+        - html: "` La funzione di produzione è $Q=A\\\\sqrt{L}=${params.a}\\\\sqrt{L}$, la funzione di produzione 
+                inversa $L=Q^2/A^2=Q^2/${ params.a * params.a }$. La funzione di costo totale è dunque
+                $C=FC+WQ^2/A^2=${params.fc}+${params.w}Q^2/${ params.a * params.a }$, quindi la funzione di costo
+                marginale è
                 $$MC=2WQ/A^2=${ 2 * params.w } Q / ${ params.a * params.a }
                 =${ 2 * params.w  /  ( params.a * params.a )  } Q $$ `"
-        - html: "` Thus, the firm's short-run supply function is
+        - html: "` La funzione di offerta di breve periodo dell'impresa è quindi
                 $$Q=(${ params.a * params.a } / ${ 2 * params.w })P$$ `"
 
 
@@ -179,22 +179,24 @@ layout:
 
     explanation:
       divs:
-        - html: "` When the output market price is $P=${params.p.toFixed(2)}$ and the firm produces
-                     $Q=${params.x}$ units, revenue is $R=${calcs.tr.toFixed(2)}$ (green-bordered rectangle). `"
-        - html: "` The avoidable cost (area below the supply curve), which in the short run is the variable cost,
-                  is $VC=${calcs.vc.toFixed(2)}$.  `"
-        - html: "` Producer surplus (area between market price and supply function),
-                     is $PS=${calcs.ps.toFixed(2)}$.  `"
-        - html: "` Given that at $Q=${params.x}$ we have $MC(Q)< P$, producing $Q=${params.x}$ is not the firm's
-                  optimal choice. It is possible to increase surplus by increasing the quantity of output produced. `"
+        - html: "` Quando il prezzo di mercato dell'output è $P=${params.p.toFixed(2)}$ e l'impresa produce
+                     $Q=${params.x}$ unità, il ricavo è $R=${calcs.tr.toFixed(2)}$ (rettangolo bordato di verde). `"
+        - html: "` Il costo evitabile (area sotto la curva di offerta), che nel breve periodo è il costo variabile,
+                  è $VC=${calcs.vc.toFixed(2)}$.  `"
+        - html: "` Il surplus del produttore (area compresa tra il prezzo e la funzione di offerta),
+                     è $PS=${calcs.ps.toFixed(2)}$.  `"
+        - html: "` Siccome in corrispondenza di $Q=${params.x}$ abbiamo $MC(Q)< P$, produrre $Q=${params.x}$ unità non è
+                  la scelta ottima dell'impresa. È possibile aumentare il surplus del produttore aumentando
+                  la quantità prodotta. `"
           show: params.x < calcs.xopt.toFixed(0)
-        - html: "` Given that at $Q=${params.x}$ we have $MC(Q)> P$, producing $Q=${params.x}$ is not the firm's
-                  optimal choice. It is possible to increase surplus by decreasing the quantity of output produced. `"
+        - html: "` Siccome in corrispondenza di $Q=${params.x}$ abbiamo $MC(Q)> P$, produrre $Q=${params.x}$ unità non è
+                  la scelta ottima dell'impresa. È possibile aumentare il surplus del produttore diminuendo
+                  la quantità prodotta. `"
           show: params.x > calcs.xopt.toFixed(0)
-        - html: "` Given that at $Q=${params.x}$ we have $MC(Q)= P$, producing $Q=${params.x}$ is  the firm's
-                  optimal choice. Producer surplus is maximized. `"
+        - html: "` Siccome in corrispondenza di $Q=${params.x}$ abbiamo $MC(Q)= P$, produrre $Q=${params.x}$ unità è
+                  la scelta ottima dell'impresa. Il surplus del produttore è massimo. `"
           show: params.x == calcs.xopt.toFixed(0)
-        - html: "` In the long run, producer surplus is
-                $PS=${calcs.ps.toFixed(2)}-FC=${calcs.ps.toFixed(2)-params.fc}$ (to compute it, we just subtract
-                the fixed cost from the surplus computed above, given that the fixed cost becomes  
-                avoidable in the long run). `"
+        - html: "` Nel lungo periodo, il surplus del produttore è
+                $PS=${calcs.ps.toFixed(2)}-FC=${calcs.ps.toFixed(2)-params.fc}$ (per ottenerlo basta sottrarre
+                il costo fisso dal surplus di breve periodo calcolato in precedenza, dato che tale costo diventa 
+                evitabile nel lungo periodo). `"

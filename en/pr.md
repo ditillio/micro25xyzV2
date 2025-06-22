@@ -2,12 +2,12 @@
 layout: page
 foreword: true
 ---
-These notes cover some topics for the 2024/25 microeconomics course at Bocconi.
+Queste note trattano alcuni argomenti affrontati nel corso di microeconomia 2024/25 dell'Università Bocconi.
 
-They are designed to substitute the corresponding treatment given in the course's textbook (Bernheim & Whinston's "Microeconomics") in a way that blends as seamlessly as possible (in terms of notation, terminology, etc.) with the rest of that book.
+Le note sostituiscono la trattazione degli stessi argomenti data nel libro di testo del corso ("Microeconomia" di Bernheim & Whinston) ma sono state preparate in modo da abbinarsi agevolmente (in termini di notazione, terminologia, ecc.) agli altri argomenti trattati nel libro.
 
-I thank
+Ringrazio 
 <a target="_blank" style="color: Blue" href="https://economics.stanford.edu/people/christopher-makler">Chris Makler</a>
-(Stanford University) for making available and training me in the use of his
-<a target="_blank" style="color: Blue" href="https://kineticgraphs.org/">KineticGraphs JavaScript Engine</a>,
-which I used to create the interactive graphs contained in these notes.
+(Stanford University) per avermi messo a disposizione e spiegato come usare la
+<a target="_blank" style="color: Blue" href="https://kineticgraphs.org/">KineticGraphs JavaScript Engine</a>
+da lui creata, con cui ho realizzato i grafici interattivi contenuti in queste note.

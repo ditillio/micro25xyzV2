@@ -445,7 +445,7 @@ layout:
           color: Red
           strokeWidth: 1
           label:
-            text: "` X=60/\\\\sqrt{P_X} `"
+            text: "` X^C_{U=${calcs.uold}} `"
             x: calcs.maxX
             position: l
           show: params.showCVEV == 1 && calcs.scheck == 0
@@ -484,7 +484,7 @@ layout:
           color: Red
           strokeWidth: 1
           label:
-            text: "` X=30/\\\\sqrt{P_X} `"
+            text: "` X^C_{U=${calcs.unew}} `"
             x: calcs.maxX
             position: b
             bgcolor: none
@@ -518,11 +518,62 @@ layout:
 
 
 
+# colored areas
+      - Area:
+          fn1: min((params.p1new),((params.m)/(2))/(x))
+          fn2: max(params.p1,((calcs.s1)*(calcs.unew)*(params.p2))/((calcs.s2)*((x)^2)))
+          fill: red
+          min: calcs.x1old
+          max: calcs.x1new
+      - Label:
+          coordinates: [30,36]
+          text: "` \\\\Delta CS = ${-calcs.deltaCS.toFixed(2)} = - \\\\text{area rossa} `"
+          color: Red
+          bgcolor: none
+          show: calcs.tcheck !== 0 || params.showCVEV !== 2
+      - Label:
+          coordinates: [30,36]
+          text: "` \\\\Delta CS = ${-calcs.deltaCS.toFixed(2)} = - (\\\\text{area rossa} + \\\\text{\\\\color{Purple} area viola}) `"
+          color: Red
+          bgcolor: none
+          show: calcs.tcheck == 0 && params.showCVEV == 2
+      - Area:
+          fn1: min((params.p1new),((calcs.s1)*(calcs.unew)*(params.p2))/((calcs.s2)*((x)^2)))
+          fn2: params.p1
+          fill: red
+          min: 0
+          max: calcs.x1cunew
+          show: calcs.tcheck !== 0 || params.showCVEV !== 2
 
 
+      - Area:
+          fn1: min((params.p1new),((calcs.s1)*(calcs.uold)*(params.p2))/((calcs.s2)*((x)^2)))
+          fn2: (calcs.s1)*(params.m)/(x)
+          fill: blue
+          min: calcs.x1new
+          max: calcs.x1old
+          show: params.showCVEV == 1 && calcs.scheck == 0
+      - Label:
+          coordinates: [30,32]
+          text: "` CV = ${calcs.CV.toFixed(2)} = \\\\text{\\\\color{red}area rossa} + \\\\text{area blu} `"
+          color: Blue
+          bgcolor: none
+          show: params.showCVEV == 1 && calcs.scheck == 0
 
 
-
+      - Area:
+          fn1: min((params.p1new),((calcs.s1)*(calcs.unew)*(params.p2))/((calcs.s2)*((x)^2)))
+          fn2: params.p1
+          fill: Purple
+          min: 0
+          max: calcs.x1cunew
+          show: params.showCVEV == 2 && calcs.tcheck == 0
+      - Label:
+          coordinates: [30,32]
+          text: "` EV = ${calcs.EV.toFixed(2)} = \\\\text{area viola} `"
+          color: Purple
+          bgcolor: none
+          show: params.showCVEV == 2 && calcs.tcheck == 0
 
 
 
@@ -542,7 +593,7 @@ layout:
             - Calcola variazione compensativa
             - Calcola variazione equivalente
         # divs:
-        #   - html: "`  `"
+        #   - html: "` $ ${calcs.tcheck} $ `"
         #   - html: "` `"
         #   - html: "` Il reddito del consumatore è $M=${params.m}$. `"
         #   - html: "` Quando $P_X=${params.p1}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $A$ 
@@ -559,7 +610,7 @@ layout:
         - param: s
           label: "` \\\\text{Sussidio} `"
         divs:
-          - html: "` `"
+          - html: "`  `"
           - html: "` Un sussidio di ${params.s} euro aumenta il reddito del consumatore a 
                       ${(params.m)+(params.s)} euro. `"
             show: params.showCVEV == 1 && params.s > 0
@@ -617,8 +668,8 @@ layout:
         #     show: params.showCV == 1
 
       - title: Variazione equivalente
-        description: Trova la compensazione necessaria a riportare il consumatore al livello di
-                        utilità che aveva prima che aumentasse il prezzo del consumo. 
+        description: Trova la riduzione di reddito che, ai vecchi prezzi, porterebbe il consumatore
+                     al livello di utilità che ha dopo l'aumento di prezzo del consumo. 
         sliders:
         - param: t
           label: "` \\\\text{Tassa} `"
@@ -677,12 +728,16 @@ layout:
                     $X=${calcs.x1old.toFixed(0)}$ e l'utilità $U=${calcs.uold.toFixed(0)}$.
                     `"
             show: calcs.scheck == 0 && params.showCVEV == 1
-          - html: "` La curva rossa è la <b>curva di domanda compensata</b>
+          - html: "` La curva rossa indicata con $X^C_{U=${calcs.uold}}$ è la <b>curva di domanda compensata</b>
                      di $X$ corrispondente al livello di utilità $U=${calcs.uold.toFixed(0)}$.
                       Essa misura, per ogni possibile valore di $P_X$, la quantità di $X$ che il
                       consumatore <i>domanderebbe</i> se avesse esattamente tanto reddito
                       quanto serve per raggiungere
                       un livello di utilità pari a $U=${calcs.uold.toFixed(0)}$.
+                      La variazione compensativa è uguale all'area a sinistra della 
+                      curva $X^C_{${calcs.uold}}$. 
+                      Approfondiremo il concetto di domanda compensata e spiegheremo questa
+                      uguaglianza alla fine di questa  sezione.
                     `"
             show: calcs.scheck == 0 && params.showCVEV == 1
 
@@ -695,12 +750,15 @@ layout:
                     $X=${calcs.x1new.toFixed(0)}$ e l'utilità $U=${calcs.unew.toFixed(0)}$.
                     `"
             show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
-          - html: "` La curva rossa è la <b>curva di domanda compensata</b>
+          - html: "` La curva rossa indicata con $X^C_{U=${calcs.unew}}$ è la <b>curva di domanda compensata</b>
                      di $X$ corrispondente al livello di utilità $U=${calcs.unew.toFixed(0)}$.
                       Essa misura, per ogni possibile valore di $P_X$, la quantità di $X$ che il
                       consumatore <i>domanderebbe</i> se avesse esattamente tanto reddito
                       quanto serve per raggiungere
                       un livello di utilità pari a $U=${calcs.unew.toFixed(0)}$.
+                      La variazione equivalente è uguale all'area a sinistra della curva $X^C_{${calcs.unew}}$. 
+                      Approfondiremo il concetto di domanda compensata e spiegheremo questa
+                      uguaglianza alla fine di questa sezione.
                     `"
             show: calcs.tcheck.toFixed(0) == 0 && params.showCVEV == 2
 

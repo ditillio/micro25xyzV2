@@ -57,7 +57,7 @@ layout:
 
         - Label:
               coordinates: [3.1, 0]
-              text: "` \\\\text{Labor (dd)} `"
+              text: "` \\\\text{Lavoro (gg)} `"
               yPixelOffset: 0
               position: l
         - Label:
@@ -122,12 +122,12 @@ layout:
 
         - Label:
               coordinates: [3.1, 0]
-              text: "` \\\\text{Labor (dd)} `"
+              text: "` \\\\text{Lavoro (gg)} `"
               yPixelOffset: 0
               position: l
         - Label:
               coordinates: [0, 120]
-              text: "` \\\\text{kg/dd}  `"
+              text: "` \\\\text{kg/gg}  `"
               xPixelOffset: -5
 
 # MP whole labor units
@@ -178,18 +178,18 @@ layout:
 
     sidebar:
       controls:
-      - title: Production Function and Marginal Product
-        description: The production function is represented in blue in the top graph. The marginal product function is
-                      represented in red in the bottom graph.
+      - title: Funzione di produzione e prodotto marginale
+        description: La funzione di produzione è rappresentata in blu nel grafico di sopra.
+                    La funzione di prodotto marginale è rappresentata in rosso nel grafico di sotto.
         # sliders:
         # - param: p
         #   label: P
         radioGroup:
           param: d
           options:
-            - Labor hired by whole days
-            - Labor hired by half days
-            - Labor hired by small fractions of time
+            - Lavoro assunto a giornate
+            - Lavoro assunto a mezze giornate
+            - Lavoro assunto a frazioni di ora
         # checkboxes:
         # - param: showEFF
         #   label: "` \\\\textit{Evidenzia frontiera efficiente} `"
@@ -197,36 +197,36 @@ layout:
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
-        - html: "` The production function is $Q=F(L)=80\\\\sqrt{L}$. `"
-        - html: "` The minimum quantity of labor that the firm can hire is one unit, that is,
-                  $\\\\Delta L=1$.
-                  If the firm hires one unit of labor, marginal product is
+        - html: "` La funzione di produzione è $Q=F(L)=80\\\\sqrt{L}$. `"
+        - html: "` La quantità minima di lavoro che l'impresa può
+                  utilizzare è una giornata, quindi $\\\\Delta L=1$.
+                  Se l'impresa impiega una giornata, il prodotto marginale è quindi
                   $$ \\\\frac{80-0}{1}=80, $$
-                  If the firm hires two units of labor, marginal product is
+                  se ne impiega due è
                   $$ \\\\frac{113-80}{1}=33, $$
-                  If the firm hires three units of labor, marginal product is
+                  se ne impiega tre è
                   $$ \\\\frac{138-113}{1}=25, $$
-                  etc.
+                  ecc.
                     `"
           show: (params.d == 0)
-        - html: "` The minimum quantity of labor that the firm can hire is half a unit, that is, $\\\\Delta L=1/2$.
-                  If the firm hires half a unit of labor, marginal product is
+        - html: "` La quantità minima di lavoro che l'impresa può
+                  utilizzare è mezza giornata, quindi $\\\\Delta L=1/2$.
+                  Se l'impresa impiega una mezza giornata, il prodotto marginale è quindi
                   $$ \\\\frac{56-0}{1/2}=112, $$
-                  if the firm hires one unit of labor, marginal product is
+                  se ne impiega due è
                   $$ \\\\frac{80-56}{1/2}=48, $$
-                  if the firm hires one and a half units of labor, marginal product is
+                  se ne impiega tre è
                   $$ \\\\frac{98-80}{1/2}=36, $$
-                  etc.
+                  ecc.
                     `"
           show: (params.d == 1)
-        - html: "` Labor is finely divisible, i.e. the firm can hire arbitrarily small fractions of units of labor,
-                that is, $\\\\Delta L \\\\to 0$. Therefore, the marginal product function is the derivative 
-                of the production function:
+        - html: "` Il lavoro è divisibile, cioè l'impresa può impiegare anche frazioni molto piccole di ora. Abbiamo dunque $\\\\Delta L \\\\to 0$
+                  e quindi la funzione di prodotto marginale è la derivata della funzione di produzione:
                   $$ MP_L = F'(L) = 40L^{-0.5}. $$
                     `"
           show: (params.d == 2)
-        - html: "` Drag the blue point or the red point to see how output and marginal product vary, as the quantity of 
-                      labor hired by the firm varies. `"
+        - html: "` Spostare il punto blu o quello rosso per vedere come variano output e prodotto marginale al 
+                      variare della quantità di lavoro impiegata dall'impresa. `"
           show: (params.d == 2)
 
     # explanation:
