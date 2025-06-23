@@ -24,12 +24,12 @@ layout:
       objects:
       - Label:
             coordinates: [4500, 0]
-            text: "` \\\\text{gg} `"
+            text: "` \\\\text{dd} `"
             yPixelOffset: 0
             position: l
       - Label:
             coordinates: [0, 90]
-            text: "` \\\\text{Euro/gg}  `"
+            text: "` \\\\text{Euro/dd}  `"
             xPixelOffset: -5
 # mkt labor supply function
       - Line:
@@ -136,7 +136,7 @@ layout:
     sidebar:
       controls:
 
-      - title: Monopsonio nel mercato del lavoro
+      - title: Monopsony in the Labor Market
 #        description: The budget line for a worker who can choose how many hours to work at a constant wage
         # sliders:
         # - param: M
@@ -144,12 +144,12 @@ layout:
         radioGroup:
           param: welfare
           options:
-            - Non mostrare surplus
-            - Mostra profitto/costi del monopsonista
-            - Mostra surplus del lavoratore
+            - Do not show surplus
+            - Show monopsonist's profits/costs
+            - Show worker's surplus
         checkboxes:
         - param: DWL
-          label: "` \\\\text{Mostra perdita secca} `"
+          label: "` \\\\text{Show deadweight loss} `"
 
         divs:
         - html: "`  `"

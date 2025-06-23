@@ -51,7 +51,7 @@ layout:
 
         - Label:
               coordinates: [3.1, 0]
-              text: "` \\\\text{Lavoro (gg)} `"
+              text: "` \\\\text{Labor (dd)} `"
               yPixelOffset: 0
               position: l
         - Label:
@@ -306,19 +306,19 @@ layout:
 
     sidebar:
       controls:
-      - title: Possibilità produttive
+      - title: Production Possibilities
         # sliders:
         # - param: p
         #   label: P
         radioGroup:
           param: d
           options:
-            - Lavoro assunto a giornate
-            - Lavoro assunto a mezze giornate
-            - Lavoro assunto a frazioni di ora
+            - Labor hired by whole days
+            - Labor hired by half days
+            - Labor hired by small fractions of time
         checkboxes:
         - param: showEFF
-          label: "` \\\\textit{Evidenzia frontiera efficiente} `"
+          label: "` \\\\textit{Highlight Efficient Frontier} `"
         divs:
         - html: "`  `"
         - html: "`  `"
@@ -326,34 +326,39 @@ layout:
 
     explanation:
       divs:
-        - html: "` I punti nel grafico rappresentano le possibilità produttive dell'impresa quando i lavoratori devono essere assunti 
-                  a giornata. Non assumendo lavoratori, l'output è zero. Assumendo un lavoratore per una giornata, l'impresa può scegliere se ottenere
-                  un output pari a zero (per es. chiedendo al lavoratore di non fare nulla), pari a 80 (il massimo output ottenibile con una giornata
-                  di lavoro) oppure pari a 30 o 56 (sfruttando, ma non al massimo, la produttività del lavoratore). Assumendo un lavoratore per due
-                  giornate (o due lavoratori per una giornata ciascuno), l'impresa può ottenere un output pari a 0, 30, 56, 80, 98 o 113, e così via. `"
+        - html: "` The points in the graph represent the production possibilities available to the firm
+                  when workers must be hired in multiples of full days. When the firm hires zero labor, output is zero.
+                  By hiring a worker for a day, the firm can obtain an output equal to zero (e.g. by asking the
+                  worker to relax and do nothing), equal to 80 (the maximum output obtainable with a full day of
+                  work), or 30, or 56 (by exploiting to a less than full extent the worker's productivity).
+                  By hiring a worker for two days (or two workers for one day each) the firnm can obtain an 
+                  output equal to 0, 30, 56, 80, 98 or 113, and so on. `"
           show: params.d == 0
-        - html: "` Fra tutte le possibilità produttive a sua disposizione, l'impresa è interessata solo a quelle
-                   <b>efficienti</b>, ovvero quelle possibilità tali per cui, in corrispondenza di un dato livello di impiego di lavoro,
-                   la quantità di output è massima (quando parleremo di massimizzazione del profitto diventerà ovvio il perché). Selezionare la casella di controllo <i>Evidenzia frontiera efficiente</i> per visualizzare le possibilità produttive
-                   efficienti (punti blu nel grafico). `"
+        - html: "` Among all production possibilities, the firm is interested only in the
+                   <b>efficient</b> ones, namely those for which output is maximum (when discussing profit 
+                   maximization later on, the reason why this is so will become obvious). Toggle the checkbox
+                   <i>Highlight Efficient Frontier</i> to highlight the efficient production possibilities
+                    (blue points in the graph). `"
           show: params.d == 0
-        - html: "` I punti nel grafico rappresentano le possibilità produttive dell'impresa quando i lavoratori devono essere assunti in multipli di
-                  mezza giornata. In questo caso, oltre alle possibilità produttive già disponibili quando i lavoratori devono essere assunti a giornata,
-                  l'impresa ha a disposizione nuove possibilità, come per es. produrre 126 unità di output impiegando 2.5 giornate di lavoro. `"
+        - html: "` The points in the graph represent the production possibilities available to the firm
+                  when workers must be hired in multiples of half days. In this case, besides the production
+                   possibilities already available when workers must be hired by full days,
+                  the firm has new possibilities, such as producing 126 units of output by using 2.5 days of labor. `"
           show: params.d == 1
-        - html: "` Fra tutte le possibilità produttive a sua disposizione, l'impresa è interessata solo a quelle
-                   <b>efficienti</b>, ovvero quelle possibilità tali per cui, in corrispondenza di un dato livello di impiego di lavoro,
-                   la quantità di output è massima 
-                   (quando parleremo di massimizzazione del profitto diventerà ovvio il perché). Selezionare la casella di controllo <i>Evidenzia frontiera efficiente</i> per visualizzare le possibilità produttive
-                   efficienti (punti blu nel grafico). `"
+        - html: "` Among all production possibilities, the firm is interested only in the
+                   <b>efficient</b> ones, namely those for which output is maximum (when discussing profit 
+                   maximization later on, the reason why this is so will become obvious). Toggle the checkbox
+                   <i>Highlight Efficient Frontier</i> to highlight the efficient production possibilities
+                    (blue points in the graph). `"
           show: params.d == 1
-        - html: "` Quando l'input è infinitamente divisibile, cioè quando l'impresa può assumere
-                 il lavoro a frazioni anche piccolissime di ora, oltre alle possibilità produttive già disponibili quando i lavoratori devono essere assunti 
-                  in multipli di mezza giornata, l'impresa ha a disposizione tante altre possibilità (qualunque punto nell'area grigia). `"
+        - html: "` When labor is a finely divisible input, i.e. when the firm can hire workers for small fractions of
+                 time, besides the production
+                   possibilities already available when workers must be hired by half days, the firm has 
+                   many more production possibilities (any point in the grey area). `"
           show: params.d == 2
-        - html: "` Fra tutte le possibilità produttive a sua disposizione, l'impresa è interessata solo a quelle
-                   <b>efficienti</b>, ovvero quelle tali per cui, in corrispondenza di un dato livello di impiego di lavoro,
-                   la quantità di output è massima
-                   (quando parleremo di massimizzazione del profitto diventerà ovvio il perché). Selezionare la casella di controllo <i>Evidenzia frontiera efficiente</i> per visualizzare le possibilità produttive
-                   efficienti (in questo caso, l'intera curva blu). `"
+        - html: "` Among all production possibilities, the firm is interested only in the
+                   <b>efficient</b> ones, namely those for which output is maximum (when discussing profit 
+                   maximization later on, the reason why this is so will become obvious). Toggle the checkbox
+                   <i>Highlight Efficient Frontier</i> to highlight the efficient production possibilities
+                    (the blue curve in the graph). `"
           show: params.d == 2

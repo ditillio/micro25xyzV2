@@ -52,13 +52,13 @@ layout:
 
         - Label:
                 coordinates: [210, 0]
-                text: "` \\\\text{output (kg)} `"
+                text: "` \\\\text{Output (kg)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 600]
-                text: "` \\\\text{euro}  `"
+                text: "` \\\\text{Euro}  `"
                 xPixelOffset: -3
 
 # revenue
@@ -130,13 +130,13 @@ layout:
 
         - Label:
                 coordinates: [210, 0]
-                text: "` \\\\text{output (kg)} `"
+                text: "` \\\\text{Output (kg)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 350  ]
-                text: "` \\\\text{euro}  `"
+                text: "` \\\\text{Euro}  `"
                 xPixelOffset: -3
 
 # accounting profit
@@ -183,46 +183,44 @@ layout:
 
     sidebar:
       controls:
-      - title: Scelta ottima dell'impresa price-taker nel breve periodo
+      - title: Short-Run Optimal Choice by a Price-Taking Firm
         sliders:
         - param: p
           label: P
         divs:
         - html: "` `"
-        - html: "` La funzione di produzione è $Q=80\\\\sqrt{L}$. `"
-        - html: "` Il salario è $W=${params.w}$, il costo fisso $FC=${params.fc}$. `"
-        - html: "` Le funzioni di costo variabile e costo totale sono quindi `"
+        - html: "` The production function is $Q=80\\\\sqrt{L}$. `"
+        - html: "` The daily wage is $W=${params.w}$, the fixed cost $FC=${params.fc}$. `"
+        - html: "` The variable cost and total cost functions are therefore `"
         - html: "` 
                     $$VC(Q)=\\\\frac{${params.w}}{80^2}Q^2 \\\\qquad 
                     C(Q)=${params.fc} + \\\\frac{${params.w}}{80^2}Q^2 $$ `"
-        - html: "` Quando il prezzo è $P = ${params.p.toFixed(2)}$, la scelta ottima dell'impresa è produrre ${calcs.xopt.toFixed(1)}
-                  unità. Il massimo profitto (lunghezza del segmento blu) è  $$ R - TC = ${calcs.accprofit.toFixed(2)}$$ `"
+        - html: "` When the output price is $P = ${params.p.toFixed(2)}$, the firm's optimal choice is to produce ${calcs.xopt.toFixed(1)}
+                  units. Maximum profit (length of the blue segment) is $$ R - TC = ${calcs.accprofit.toFixed(2)}$$ `"
           show: (calcs.accprofit > 0)
-        - html: "` Quando il prezzo è $P = ${params.p.toFixed(2)}$, la scelta ottima dell'impresa è produrre ${calcs.xopt.toFixed(1)}
-                  unità. Il massimo profitto (negativo della lunghezza del segmento rosso) 
-                  è  $$ R - TC = ${calcs.accprofit.toFixed(2)}$$ `"
+        - html: "` When the output price is $P = ${params.p.toFixed(2)}$, the firm's optimal choice is to produce ${calcs.xopt.toFixed(1)}
+                  units. Maximum profit (minus the length of the red segment) 
+                  is  $$ R - TC = ${calcs.accprofit.toFixed(2)}$$ `"
           show: (calcs.accprofit < 0)
-        - html: "` L'impresa non può fare di meglio. Per esempio, non producendo affatto i ricavi sarebbero
-                  pari a zero e i costi sarebbero pari al costo fisso, quindi il profitto sarebbe minore:
+        - html: "` The firm cannot do better. For example, producing zero output gives a revenue of zero, but 
+                  cost would be equal to fixed cost. Hence, profit would be lower:
                   $$0-${params.fc}=-${params.fc}<${calcs.accprofit.toFixed(2)}$$
-                  Producendo una quantità positiva, invece, l'impresa
-                  riesce almeno a coprire una parte (segmento verde) dei costi fissi.`"
+                  By producing a positive quantity, instead, the firm is able to cover at least part
+                   (green segment) of the fixed cost.`"
           show: (calcs.accprofit < 0)
-        - html: "` Quando il prezzo è $P = ${params.p.toFixed(2)}$, la scelta ottima dell'impresa è produrre ${calcs.xopt.toFixed(1)}
-                  unità. Il massimo profitto  è zero:  $$ R - TC = ${calcs.accprofit.toFixed(2)}$$ `"
+        - html: "` When the output price is $P = ${params.p.toFixed(2)}$, the firm's optimal choice is to produce ${calcs.xopt.toFixed(1)}
+                  units. Maximum profit is zero:  $$ R - TC = ${calcs.accprofit.toFixed(2)}$$ `"
           show: (params.p.toFixed(1) == 2.0)
-        - html: "` L'impresa non può fare di meglio. Per esempio, non producendo affatto i ricavi sarebbero
-                  pari a zero e i costi sarebbero pari al costo fisso, quindi il profitto sarebbe minore:
+        - html: "` The firm cannot do better. For example, producing zero output gives a revenue of zero, but 
+                  cost would be equal to fixed cost. Hence, profit would be lower:
                   $$0-${params.fc}=-${params.fc}<${calcs.accprofit.toFixed(2)}$$
-                  Producendo una quantità positiva, invece, l'impresa
-                  riesce almeno a coprire i costi fissi.`"
+                  By producing a positive quantity, instead, the firm is able to cover its fixed cost.`"
           show: (params.p.toFixed(1) == 2.0)
 
     explanation:
       divs:
-        - html: "` Nel breve periodo, il costo fisso è irrecuperabile e va quindi ignorato.
-        La scelta ottima di breve periodo è infatti <i><b>indipendente dal valore del costo 
-                  fisso</b></i>.  `"
+        - html: "` In the short run, the fixed cost is sunk and hence it must be ignored.
+        The firm's short-run optimal choice is the same <i><b>independently of the value of the fixed cost</b></i>.  `"
           show: params.p > 0
 
 

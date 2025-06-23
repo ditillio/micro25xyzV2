@@ -27,7 +27,7 @@ layout:
 
         - Label:
                 coordinates: [6, 0]
-                text: "` \\\\text{Lavoro (gg)} `"
+                text: "` \\\\text{Labor (dd)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
@@ -58,12 +58,10 @@ layout:
 
     sidebar:
       controls:
-      - title: Funzione di produzione
-        description: Muovere i primi due cursori per modificare i parametri della funzione di 
-                    produzione. Muovere il terzo cursore o trascinare il punto blu nel grafico
-                    per vedere come,
-                    dati i parametri scelti, la quantità di output varia al variare
-                     della quantità di input.
+      - title: Production Function
+        description: Move the first two sliders to modify the parameters of the production function. 
+                  Move the third slider, or drag the blue point in the graph, to see how,
+                    given those parameters, the quantity of output varies with the quantity of input.
         sliders:
         - param: alpha
           label: \alpha

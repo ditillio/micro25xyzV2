@@ -18,6 +18,7 @@ calcs:
   mc: calcs.xopt / 50
   avc: (calcs.xopt) / 100
   atc: calcs.xopt / 100 + (params.fc) / calcs.xopt
+  zzz: max(calcs.mc,calcs.atc)
 
 aspectRatio: 1.2
 
@@ -74,8 +75,9 @@ layout:
             fn: ( 2 * params.w / ( params.a * params.a ) ) * (x)
             color: Red
             label:
-              text: S^i_{SR} \; ( = MC)
+              text: S \; ( = MC)
               x: 210
+              position: l
             strokeWidth: 2
 
 # average variable cost curve
@@ -103,7 +105,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Offerta di breve periodo dell'impresa price-taker
+      - title: The Firm's Short-Run Supply Function
         sliders:
         - param: p
           label: P
@@ -114,17 +116,17 @@ layout:
         - param: fc
           label: FC
         divs:
-        - html: "` La funzione di produzione è $Q=A\\\\sqrt{L}=${params.a}\\\\sqrt{L}$, la funzione di produzione 
-                inversa $L=Q^2/A^2=Q^2/${ params.a * params.a }$. La funzione di costo totale è dunque
-                $C=FC+WQ^2/A^2=${params.fc}+${params.w}Q^2/${ params.a * params.a }$, quindi la funzione di costo
-                marginale è $$MC=2WQ/A^2=${ 2 * params.w } Q / ${ params.a * params.a }$$ `"
-        - html: "` Nel breve periodo l'impresa massimizza il profitto producendo la quantità che risolve l'equazione 
-                $MC=P$, ovvero $ ${ 2 * params.w } Q / ${ params.a * params.a }=P$.
+        - html: "` The production function is $Q=A\\\\sqrt{L}=${params.a}\\\\sqrt{L}$, its inverse $L=Q^2/A^2=Q^2/${ params.a * params.a }$.
+                  The firm's total cost function is therefore
+                $C=FC+WQ^2/A^2=${params.fc}+${params.w}Q^2/${ params.a * params.a }$, hence the marginal cost function is
+                 $$MC=2WQ/A^2=${ 2 * params.w } Q / ${ params.a * params.a }$$ `"
+        - html: "` In the short run, the firm maximizes its profit by producing the quantity at which  
+                $MC=P$, namely $ ${ 2 * params.w } Q / ${ params.a * params.a }=P$.
 
-                La funzione di offerta di breve periodo dell'impresa è quindi
+                The firm's short-run supply function is then
                 $$Q=(${ params.a * params.a } / ${ 2 * params.w })P$$ `"
-        - html: "` Quando $P = ${params.p.toFixed(2)}$, la quantità offerta dall'impresa nel breve periodo è
-                 $Q=(${ params.a * params.a } / ${ 2 * params.w }) * ${params.p.toFixed(2)} = ${calcs.xopt.toFixed(2)}$. `"
+        - html: "` When $P = ${params.p.toFixed(2)}$, in the short run the firm supplies
+                 $Q=(${ params.a * params.a } / ${ 2 * params.w }) * ${params.p.toFixed(2)} = ${calcs.xopt.toFixed(2)}$ units. `"
 
 
 
@@ -132,11 +134,11 @@ layout:
 
     explanation:
       divs:
-        - html: "` Un aumento del prezzo di mercato dell'output, $P$, provoca uno spostamento <i>lungo la curva</i>
-                di offerta. La quantità offerta, cioè la quantità che massimizza il profitto dell'impresa, aumenta. `"
-        - html: "` Un miglioramento della produttività (un aumento di $A$) provoca uno spostamento <i>della 
-                  curva</i> di offerta verso destra. Per ogni dato prezzo $P$, la quantità offerta è maggiore.  `"
-        - html: "` Un aumento del costo del lavoro (un aumento di $W$) provoca uno spostamento <i>della 
-                  curva</i> di offerta verso sinistra. Per ogni dato prezzo $P$, la quantità offerta è minore.  `"
-        - html: "` Al variare del costo fisso $FC$, la curva di offerta non si sposta. Nel breve periodo, il costo fisso
-                è irrecuperabile, quindi non incide sulle decisioni di produzione dell'impresa. `"
+        - html: "` An increase in the market price of output, $P$, causes a movement <i>along the supply curve</i>. 
+                  The quantity supplied, i.e. the quantity maximizing the firm's profit, increases. `"
+        - html: "` A technological improvement (an increase in $A$) causes instead a <i>shift of the supply curve</i>
+                  to the right. After the shift, for any given price $P$, the supplied quantity is larger than before.  `"
+        - html: "` An increase in the cost of labor, $W$, causes a shift of the supply curve 
+                  to the left. After the shift, for any given price $P$ the supplied quantity is smaller than before.  `"
+        - html: "` A change in the fixed cost $FC$ causes no change in supply. in the short run, the fixed cost
+                is sunk, so it has no impact on the firm's production decisions. `"

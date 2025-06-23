@@ -30,7 +30,7 @@ layout:
 
         - Label:
                 coordinates: [6, 0]
-                text: "` \\\\text{Lavoro (gg)} `"
+                text: "` \\\\text{Labor (dd)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
@@ -71,13 +71,13 @@ layout:
 
         - Label:
                 coordinates: [6, 0]
-                text: "` \\\\text{Lavoro (gg)} `"
+                text: "` \\\\text{Labor (dd)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 200]
-                text: "` \\\\text{kg/gg}  `"
+                text: "` \\\\text{kg/dd}  `"
                 xPixelOffset: -6
 
 # points
@@ -121,7 +121,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Funzione di produzione, prodotto medio e prodotto marginale
+      - title: Production Function, Average Product and Marginal Product
         sliders:
         - param: alpha
           label: \alpha
@@ -130,7 +130,7 @@ layout:
         - param: l
           label: L
         divs:
-        - html: "` Quando l'impresa impiega $L=${params.l.toFixed(1)}$ unità di lavoro, la quantità di output, il prodotto medio ed il
-                      prodotto marginale 
-                    sono rispettivamente $Q=${calcs.x.toFixed(1)}$, $AP_L=${calcs.ap.toFixed(1)}$ e $MP_L=${calcs.mp.toFixed(1)}$. `"
+        - html: "` When the firm hires $L=${params.l.toFixed(1)}$ units of labor, the quantity of output,
+                   average product and marginal product are respectively 
+                     $Q=${calcs.x.toFixed(1)}$, $AP_L=${calcs.ap.toFixed(1)}$ and $MP_L=${calcs.mp.toFixed(1)}$. `"
           show: params.alpha > 0

@@ -15,7 +15,7 @@ params:
 - {name: b32, value: 24}
 
 - {name: w, value: 64}
-- {name: fc, value: 100}
+- {name: fc, value: 80}
 
 - {name: x, value: 80, min: 0, max: 140, round: 0.01}
 
@@ -50,19 +50,19 @@ calcs:
   afc31: (params.fc)/(calcs.t31)
   afc32: (params.fc)/(calcs.t32)
 
-  # avc11: (params.w) * 0.5 / (calcs.t11)
-  # avc12: (params.w) * 1 / (calcs.t12)
-  # avc21: (params.w) * 1.5 / (calcs.t21)
-  # avc22: (params.w) * 2 / (calcs.t22)
-  # avc31: (params.w) * 2.5 / (calcs.t31)
-  # avc32: (params.w) * 3 / (calcs.t32)
+  avc11: (params.w) * 0.5 / (calcs.t11)
+  avc12: (params.w) * 1 / (calcs.t12)
+  avc21: (params.w) * 1.5 / (calcs.t21)
+  avc22: (params.w) * 2 / (calcs.t22)
+  avc31: (params.w) * 2.5 / (calcs.t31)
+  avc32: (params.w) * 3 / (calcs.t32)
 
-  # atc11: (calcs.afc11) + (calcs.avc11)
-  # atc12: (calcs.afc12) + (calcs.avc12)
-  # atc21: (calcs.afc21) + (calcs.avc21)
-  # atc22: (calcs.afc22) + (calcs.avc22)
-  # atc31: (calcs.afc31) + (calcs.avc31)
-  # atc32: (calcs.afc32) + (calcs.avc32)
+  atc11: (calcs.afc11) + (calcs.avc11)
+  atc12: (calcs.afc12) + (calcs.avc12)
+  atc21: (calcs.afc21) + (calcs.avc21)
+  atc22: (calcs.afc22) + (calcs.avc22)
+  atc31: (calcs.afc31) + (calcs.avc31)
+  atc32: (calcs.afc32) + (calcs.avc32)
 
   mc11: (params.w) * 0.5 / (calcs.t11)
   mc12: (params.w) * 0.5 / ((calcs.t12)-(calcs.t11))
@@ -70,46 +70,6 @@ calcs:
   mc22: (params.w) * 0.5 / ((calcs.t22)-(calcs.t21))
   mc31: (params.w) * 0.5 / ((calcs.t31)-(calcs.t22))
   mc32: (params.w) * 0.5 / ((calcs.t32)-(calcs.t31))
-
-  vc11: (56^2)/100
-  vc12: (80^2)/100
-  vc21: (98^2)/100
-  vc22: (113^2)/100
-  vc31: (126^2)/100
-  vc32: (138^2)/100
-
-  tc11: 56^2/100 + (params.fc)
-  tc12: 80^2/100 + (params.fc)
-  tc21: 98^2/100 + (params.fc)
-  tc22: 113^2/100 + (params.fc)
-  tc31: 126^2/100 + (params.fc)
-  tc32: 138^2/100 + (params.fc)
-
-  avc11: calcs.vc11 / 0.5
-  avc12: calcs.vc12 / 1.0
-  avc21: calcs.vc21 / 1.5
-  avc22: calcs.vc22 / 2.0
-  avc31: calcs.vc31 / 2.5
-  avc32: calcs.vc32 / 3.0
-
-  atc11: calcs.tc11 / 0.5
-  atc12: calcs.tc12 / 1.0
-  atc21: calcs.tc21 / 1.5
-  atc22: calcs.tc22 / 2.0
-  atc31: calcs.tc31 / 2.5
-  atc32: calcs.tc32 / 3.0
-
-  mc12whole: (calcs.vc12) / 80
-  mc22whole: ( (calcs.vc22) - (calcs.vc12) ) / 33
-  mc32whole: ( (calcs.vc32) - (calcs.vc22) ) / 25
-
-  mc11half: calcs.vc11 / 56
-  mc12half: ( (calcs.vc12) - (calcs.vc11) ) / 24
-  mc21half: ( (calcs.vc21) - (calcs.vc12) ) / 18
-  mc22half: ( (calcs.vc22) - (calcs.vc21) ) / 15
-  mc31half: ( (calcs.vc31) - (calcs.vc22) ) / 13
-  mc32half: ( (calcs.vc32) - (calcs.vc31) ) / 12
-
 
 aspectRatio: 1
 
@@ -137,8 +97,7 @@ layout:
 
 # FC whole labor units
         - Point: {coordinates: [0,(params.fc)], color: Gray, opacity: 0.7, show: params.d < 2 && params.showEFF == true, r: 5}
-        - Point: {coordinates: [0,(params.fc)+5], color: Gray, opacity: 0.7, droplines: {vertical: , horizontal: (params.fc)}, show: params.d < 2 && params.showEFF == true, r: 0}
-        - Point: {coordinates: [calcs.b1,(params.fc)], color: Gray, opacity: 0.7, droplines: {vertical: calcs.b1, horizontal: }, show: params.d < 2 && params.showEFF == true, r: 5}
+        - Point: {coordinates: [calcs.b1,(params.fc)], color: Gray, opacity: 0.7, droplines: {vertical: calcs.b1, horizontal: (params.fc)}, show: params.d < 2 && params.showEFF == true, r: 5}
         - Point: {coordinates: [calcs.b1+calcs.b2,(params.fc)], color: Gray, opacity: 0.7, droplines: {vertical: calcs.b1+calcs.b2, horizontal: }, show: params.d < 2 && params.showEFF == true, r: 5}
         - Point: {coordinates: [calcs.b1+calcs.b2+calcs.b3,(params.fc)], color: Gray, opacity: 0.7, droplines: {vertical: calcs.b1+calcs.b2+calcs.b3, horizontal: }, show: params.d < 2 && params.showEFF == true, r: 5}
 
@@ -275,17 +234,14 @@ layout:
               xPixelOffset: 0
 
 # MC whole labor units
-        - Point: {coordinates: [calcs.t12,calcs.mc12whole], color: Red, droplines: {vertical: calcs.t12, horizontal: calcs.mc12whole.toFixed(2)}, show: params.d == 0 && params.showEFF == true, r: 5}
-        - Point: {coordinates: [calcs.t22,calcs.mc22whole], color: Red, droplines: {vertical: calcs.t22, horizontal: calcs.mc22whole.toFixed(2)}, show: params.d == 0 && params.showEFF == true, r: 5}
-        - Point: {coordinates: [calcs.t32,calcs.mc32whole], color: Red, droplines: {vertical: calcs.t32, horizontal: calcs.mc32whole.toFixed(2)}, show: params.d == 0 && params.showEFF == true, r: 5}
+        - Point: {coordinates: [calcs.t12,calcs.mc12], color: Red, droplines: {vertical: calcs.t12, horizontal: calcs.mc12.toFixed(2)}, show: params.d < 2 && params.showEFF == true, r: 5}
+        - Point: {coordinates: [calcs.t22,calcs.mc22], color: Red, droplines: {vertical: calcs.t22, horizontal: calcs.mc22.toFixed(2)}, show: params.d < 2 && params.showEFF == true, r: 5}
+        - Point: {coordinates: [calcs.t32,calcs.mc32], color: Red, droplines: {vertical: calcs.t32, horizontal: calcs.mc32.toFixed(2)}, show: params.d < 2 && params.showEFF == true, r: 5}
 
 # MC half labor units
-        - Point: {coordinates: [calcs.t11,calcs.mc11half], color: Red, droplines: {vertical: calcs.t11, horizontal: calcs.mc11half.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
-        - Point: {coordinates: [calcs.t12,calcs.mc12half], color: Red, droplines: {vertical: calcs.t12, horizontal: calcs.mc12half.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
-        - Point: {coordinates: [calcs.t21,calcs.mc21half], color: Red, droplines: {vertical: calcs.t21, horizontal: calcs.mc21half.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
-        - Point: {coordinates: [calcs.t22,calcs.mc22half], color: Red, droplines: {vertical: calcs.t22, horizontal: calcs.mc22half.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
-        - Point: {coordinates: [calcs.t31,calcs.mc31half], color: Red, droplines: {vertical: calcs.t31, horizontal: calcs.mc31half.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
-        - Point: {coordinates: [calcs.t32,calcs.mc32half], color: Red, droplines: {vertical: calcs.t32, horizontal: calcs.mc32half.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
+        - Point: {coordinates: [calcs.t11,calcs.mc11], color: Red, droplines: {vertical: calcs.t11, horizontal: calcs.mc11.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
+        - Point: {coordinates: [calcs.t21,calcs.mc21], color: Red, droplines: {vertical: calcs.t21, horizontal: calcs.mc21.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
+        - Point: {coordinates: [calcs.t31,calcs.mc31], color: Red, droplines: {vertical: calcs.t31, horizontal: calcs.mc31.toFixed(2)}, show: params.d == 1 && params.showEFF == true, r: 5}
 
 
 # MC divisible labor
@@ -327,21 +283,20 @@ layout:
 
     sidebar:
       controls:
-      - title: Dai costi al costo marginale
-        description: Le funzioni di costo totale, costo variabile e costo fisso sono
-                    rappresentate rispettivamente in marrone, arancione e grigio nel grafico di sopra.
-                    La funzione di costo marginale è
-                    rappresentata in rosso nel grafico di sotto.
+      - title: From total cost to marginal cost
+        description: The total cost, variable cost and fixed cost functions are drawn in brown, orange and grey,
+                    respectively, in the top graph.
+                    The marginal cost function is drawn in red in the bottom graph.
         # sliders:
         # - param: p
         #   label: P
         radioGroup:
           param: d
           options:
-            - Lavoro assunto a giornate
-            - Lavoro assunto a mezze giornate
-            - Lavoro assunto a frazioni di ora
-        # checkboxes:
+            - Labor hired by whole days
+            - Labor hired by half days
+            - Labor hired by small fractions of time
+       # checkboxes:
         # - param: showEFF
         #   label: "` \\\\textit{Evidenzia frontiera efficiente} `"
         divs:
@@ -350,14 +305,13 @@ layout:
         - html: "`  `"
         - html: "`  `"
         - html: "`  `"
-        - html: "` Come si vede nel grafico di sotto, 
-                  la funzione di costo marginale è crescente.
-                  Questo è dovuto al fatto che il prodotto marginale del lavoro è decrescente. In effetti,
-                  dire che $MP_L$ è una funzione decrescente di $L$ (più lavoro l'impresa impiega,
-                  minore è l'output aggiuntivo che l'impresa ottiene impiegando una unità di 
-                  lavoro in più) è equivalente a dire che $MC$ è una funzione crescente di $Q$
-                  (più output l'impresa produce, maggiore è la spesa in lavoro necessaria a produrre
-                  una unità di output in più). `"
+        - html: "` The bottom graph shows that the marginal cost function is increasing.
+                  This is due to the fact that marginal product is decreasing. Indeed,
+                  saying that $MP_L$ is decreasing in $L$ (the more labor the firm hires, 
+                  the smaller the additional output deriving from the last unit of labor hired)
+                  is equivalent to saying that $MC$ is increasing in $Q$
+                  (the more output the firm produces, the larger the labor cost needed to obtain the last
+                  unit of output produced). `"
 
     # explanation:
     #   divs:

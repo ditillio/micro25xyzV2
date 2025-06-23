@@ -29,13 +29,13 @@ layout:
 
         - Label:
                 coordinates: [13, 0]
-                text: "` \\\\text{gg} `"
+                text: "` \\\\text{dd} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 150]
-                text: "` \\\\text{Euro/gg}  `"
+                text: "` \\\\text{Euro/dd}  `"
                 xPixelOffset: -6
 
 # points
@@ -69,7 +69,7 @@ layout:
             fn: ( (params.p) * (params.a) ) / ( 2 * (x)^(0.5) )
             color: Blue
             label:
-              text: \text{domanda di lavoro}
+              text: \text{individual}
               x: 13
               position: b
             strokeWidth: 1.7
@@ -77,7 +77,7 @@ layout:
             fn: ( (params.p) * (params.a) ) / ( 2 * (x)^(0.5) )
             color: Blue
             label:
-              text: \text{individuale}
+              text: \text{labor demand}
               x: 13
               position: c
             strokeWidth: 0
@@ -108,13 +108,13 @@ layout:
 
         - Label:
                 coordinates: [1300, 0]
-                text: "` \\\\text{gg} `"
+                text: "` \\\\text{dd} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 150]
-                text: "` \\\\text{Euro/gg}  `"
+                text: "` \\\\text{Euro/dd}  `"
                 xPixelOffset: -6
 
 # points
@@ -147,7 +147,7 @@ layout:
             fn: ( (params.num)^(0.5) ) * ( (params.p) * (params.a) ) / ( 2 * (x)^(0.5) )
             color: Blue
             label:
-              text: \text{domanda di lavoro}
+              text: \text{market}
               x: 1300
               position: b
             strokeWidth: 1.7
@@ -155,7 +155,7 @@ layout:
             fn: ( (params.num)^(0.5) ) * ( (params.p) * (params.a) ) / ( 2 * (x)^(0.5) )
             color: Blue
             label:
-              text: \text{di mercato}
+              text: \text{labor demand}
               x: 1300
               position: c
             strokeWidth: 0
@@ -163,7 +163,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Funzione di domanda di lavoro individuale e di mercato
+      - title: Individual and Market Labor Demand
         # description: Muovere i primi due cursori per modificare la funzione di 
         #             produzione o il prezzo dell'output. Muovere il terzo cursore o trascinare la retta verde nel grafico
         #             per vedere come la quantità domandata di lavoro varia al variare del suo prezzo.
@@ -175,7 +175,7 @@ layout:
         - param: w
           label: W
         - param: num
-          label: \text{num. imprese}
+          label: \text{\# of firms}
         # divs:
         # - html: "`   `"
 

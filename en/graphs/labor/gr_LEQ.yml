@@ -62,13 +62,13 @@ layout:
 
       - Label:
             coordinates: [7000, 0]
-            text: "` \\\\text{gg} `"
+            text: "` \\\\text{dd} `"
             yPixelOffset: 0
             position: l
 
       - Label:
             coordinates: [0, 75]
-            text: "` \\\\text{Euro/gg}  `"
+            text: "` \\\\text{Euro/dd}  `"
             xPixelOffset: -5
 
 
@@ -82,7 +82,7 @@ layout:
           max: params.num * 4.666
           position: b
           label:
-            text: \text{offerta di lavoro}
+            text: \text{market}
             x: params.num * ( calcs.rC * 7 - calcs.rN * params.M / 60 )
       - Curve:
           fn: calcs.rN * params.M / ( - (x)/params.num + 7*calcs.rC )  
@@ -91,7 +91,7 @@ layout:
           max: params.num * 3.5
           position: c
           label:
-            text: \text{di mercato}
+            text: \text{labor supply}
             x: params.num * ( calcs.rC * 7 - calcs.rN * params.M / 60 )
       - Segment:
           a: [30,0]
@@ -104,7 +104,7 @@ layout:
           fn: ( (params.numimp)^(0.5) ) * ( (params.pimp) * (params.k) ) / ( 2 * (x)^(0.5) )
           color: Blue
           label:
-            text: \text{domanda di lavoro}
+            text: \text{market}
             x: 6000
             position: b
           strokeWidth: 1.7
@@ -112,7 +112,7 @@ layout:
           fn: ( (params.numimp)^(0.5) ) * ( (params.pimp) * (params.k) ) / ( 2 * (x)^(0.5) )
           color: Blue
           label:
-            text: \text{di mercato}
+            text: \text{labor demand}
             x: 6000
             position: c
           strokeWidth: 0
@@ -133,17 +133,17 @@ layout:
     sidebar:
       controls:
 
-      - title: Equilibrio concorrenziale nel mercato del lavoro
+      - title: Competitive Equilibrium in the Labor Market
 #        description: The budget line for a worker who can choose how many hours to work at a constant wage
         sliders:
         - param: M
           label: M_0
         - param: num
-          label: \text{num. lav.}
+          label: \text{\# workers}
         - param: k
           label: A
         - param: numimp
-          label: \text{num. imprese}
+          label: \text{\# firms}
 
         divs:
         - html: "`  `"

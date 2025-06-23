@@ -11,7 +11,7 @@ layout:
     graph:
       xAxis:
         max: 1.2
-        title: Periodo
+        title: Period
         ticks: 1
       yAxis:
         max: 3000
@@ -34,7 +34,7 @@ layout:
             coordinates: [1,calcs.fv1]
             r: 4
             label:
-              text: "`\\\\text{ aumenta a } ${calcs.fv1.toFixed(2)}`"
+              text: "`\\\\text{ grows to } ${calcs.fv1.toFixed(2)}`"
               position: tl
 
         - Curve:
@@ -60,7 +60,7 @@ layout:
             r: 4
             color: Darkgreen
             label:
-              text: "`\\\\text{valore futuro } = ${calcs.fv2.toFixed(2)}`"
+              text: "`\\\\text{End up with } ${calcs.fv2.toFixed(2)}`"
               position: b
 
 
@@ -86,10 +86,8 @@ layout:
 
     sidebar:
       controls:
-        - title: Valore attuale di un flusso di introiti
-          description: Il valore attuale di un flusso di introiti è quella somma che, 
-                      se risparmiata nel periodo 0, avrebbe in futuro lo stesso valore
-                      del flusso.
+        - title: Present Value for Payoffs in Two Periods
+          description: The present value of a payoff stream is the amount which, if invested at the prevailing interest rate at the beginning of period 0, would grow to the same value as the stream of payoffs.
           sliders:
             - param: x1
               label: X_0
@@ -98,37 +96,12 @@ layout:
             - param: r
               label: R
           divs:
-            - html: "`Il grafico illustra il $\\\\color{${colors.Darkgreen}}\\\\text{valore attuale }(PV)$
-                     di un flusso di introiti pari a  $\\\\color{${colors.blue}}X_0 = ${params.x1.toFixed(2)}$ 
-                     nel periodo presente 
-                     (periodo 0) e $\\\\color{${colors.red}}X_1 = ${params.x2.toFixed(2)}$ nel periodo 
-                     futuro (periodo 1), dato un tasso di interesse $R = ${params.r.toFixed(2)}$, 
-                     ovvero ${(params.r*100).toFixed(0)}\\%. Muovere i cursori per vedere come
-                     varia il valore attuale al variare di queste tre variabili.`"
+            - html: "`This graph illustrates the $\\\\color{${colors.Darkgreen}}\\\\text{present value }(PV)$ of a payoff stream of $\\\\color{${colors.blue}}x_0 = ${params.x1.toFixed(2)}$ now (in period 0) and $\\\\color{${colors.red}}x_1 = ${params.x2.toFixed(2)}$ in the future (period 1), given an interest rate of $R = ${params.r.toFixed(2)}$, or ${(params.r*100).toFixed(0)}\\%. Use the sliders to see how changing these three variables affects the present value.`"
     explanation:
       divs:
-        - html: "`Supponiamo di risparmiare l'introito del periodo 0, ovvero 
-                  $\\\\color{${colors.blue}}X_0 = ${params.x1.toFixed(2)}$, ad un tasso d'interesse 
-                  pari a $R = ${params.r.toFixed(2)}$. La somma aumenterebbe fino a diventare
-                   $$\\\\color{${colors.blue}}(1 + R)X_0 = (1+${params.r.toFixed(2)})
-                    \\\\times ${params.x1.toFixed(2)} = ${calcs.fv1.toFixed(2)}$$ nel periodo 1. 
-                    Questa somma, aggiunta all'introito del periodo 1, ovvero
-                     $\\\\color{${colors.red}}X_1 =
-                     ${params.x2.toFixed(2)}$, fa sì che nel periodo 1 avremo in totale 
-                      $$\\\\color{${colors.blue}}(1 + R)X_0\\\\color{000000}+
-                      \\\\color{${colors.red}}X_1 \\\\color{000000} =
-                       \\\\color{${colors.blue}}${calcs.fv1.toFixed(2)}\\\\color{000000}+
-                        \\\\color{${colors.red}}${params.x2.toFixed(2)} \\\\color{000000} =
-                         \\\\color{${colors.Darkgreen}}${calcs.fv2.toFixed(2)}$$`"
-        - html: "`Se avessimo risparmiato $\\\\color{${colors.Darkgreen}}PV = 
-                  ${calcs.pv.toFixed(2)}$ allo stesso tasso di interesse 
-                  $R = ${params.r.toFixed(2)}$, il nostro risparmio sarebbe aumentato fino a diventare
-                  esattamente pari a quella somma nel periodo 1:
-                   $$\\\\color{${colors.Darkgreen}}(1 + R)PV
-                   = (1+${params.r.toFixed(2)}) \\\\times ${calcs.pv.toFixed(2)}
-                    = ${calcs.fv2.toFixed(2)}$$`"
-
-
-
-
-
+        - html: "`Suppose you invested the period-0 payoff of $\\\\color{${colors.blue}}X_0 = ${params.x1.toFixed(2)}$ at the interest rate of $R = ${params.r.toFixed(2)}$. It would  grow to become $$\\\\color{${colors.blue}}(1 + R)X_0 = (1+${params.r.toFixed(2)}) \\\\times ${params.x1.toFixed(2)} = ${calcs.fv1.toFixed(2)}$$ in period 1. This, added to the period-1 payoff $\\\\color{${colors.red}}X_1 = ${params.x2.toFixed(2)}$, means you end up with a total value of: $$\\\\color{${colors.blue}}(1 + R)X_0\\\\color{000000}+ \\\\color{${colors.red}}X_1 \\\\color{000000} = \\\\color{${colors.blue}}${calcs.fv1.toFixed(2)}\\\\color{000000}+ \\\\color{${colors.red}}${params.x2.toFixed(2)} \\\\color{000000} = \\\\color{${colors.Darkgreen}}${calcs.fv2.toFixed(2)}$$`"
+        - html: "`If instead you had invested $\\\\color{${colors.Darkgreen}}PV 
+                = ${calcs.pv.toFixed(2)}$ at the interest rate of $R = ${params.r.toFixed(2)}$, 
+                it would have grown to become the same amount in period 1: 
+                $$\\\\color{${colors.Darkgreen}}(1 + R)PV = (1+${params.r.toFixed(2)}) 
+                \\\\times ${calcs.pv.toFixed(2)} = ${calcs.fv2.toFixed(2)}$$`"

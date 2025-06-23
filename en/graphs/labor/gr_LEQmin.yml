@@ -48,7 +48,7 @@ calcs:
   Leq: (params.num)*(1/3)*(14-params.M/calcs.Weq)
 
 
-aspectRatio: 1.3
+aspectRatio: 1.6
 
 layout:
   type: OneGraphPlusSidebar
@@ -69,13 +69,13 @@ layout:
 
       - Label:
             coordinates: [7000, 0]
-            text: "` \\\\text{gg} `"
+            text: "` \\\\text{dd} `"
             yPixelOffset: 0
             position: l
 
       - Label:
             coordinates: [0, 75]
-            text: "` \\\\text{Euro/gg}  `"
+            text: "` \\\\text{Euro/dd}  `"
             xPixelOffset: -5
 
 
@@ -89,7 +89,7 @@ layout:
           max: params.num * 4.666
           position: b
           label:
-            text: \text{offerta di lavoro}
+            text: \text{market}
             x: params.num * ( calcs.rC * 7 - calcs.rN * params.M / 60 )
       - Curve:
           fn: calcs.rN * params.M / ( - (x)/params.num + 7*calcs.rC )  
@@ -98,7 +98,7 @@ layout:
           max: params.num * 3.5
           position: c
           label:
-            text: \text{di mercato}
+            text: \text{labor supply}
             x: params.num * ( calcs.rC * 7 - calcs.rN * params.M / 60 )
       - Segment:
           a: [30,0]
@@ -111,7 +111,7 @@ layout:
           fn: ( (params.numimp)^(0.5) ) * ( (params.pimp) * (params.k) ) / ( 2 * (x)^(0.5) )
           color: Blue
           label:
-            text: \text{domanda di lavoro}
+            text: \text{market}
             x: 1200
             position: b
           strokeWidth: 1.7
@@ -119,7 +119,7 @@ layout:
           fn: ( (params.numimp)^(0.5) ) * ( (params.pimp) * (params.k) ) / ( 2 * (x)^(0.5) )
           color: Blue
           label:
-            text: \text{di mercato}
+            text: \text{labor demand}
             x: 1200
             position: c
           strokeWidth: 0
@@ -131,7 +131,7 @@ layout:
             vertical: calcs.Leq.toFixed(2)
             horizontal: calcs.Weq.toFixed(2)
           color: Green
-          r: 4
+          r: 6
           show: params.minwage <= calcs.Weq
 # equilibrium point shadow
       - Point:
@@ -152,7 +152,7 @@ layout:
           endArrow: true
           color: Purple
           label:
-            text: "\\begin{matrix}\\text{ECCESSO} \\\\ \\text{DI OFFERTA}\\end{matrix}"
+            text: "\\begin{matrix}\\text{EXCESS} \\\\ \\text{SUPPLY}\\end{matrix}"
             fontSize: 8
             bgcolor: none
             yPixelOffset: 14
@@ -160,7 +160,7 @@ layout:
           yIntercept: params.minwage
           color: Purple
           label:
-            text: W_\text{min}
+            text: W_0
             x: 7000
             position: l
           strokeWidth: 1
@@ -171,21 +171,14 @@ layout:
           coordinates: [calcs.Ldminwage, params.minwage]
           droplines: {vertical: calcs.Ldminwage.toFixed(2), horizontal: params.minwage.toFixed(2)}
           color: Green
-          r: 4
+          r: 6
           show: params.minwage > calcs.Weq
       - Point:
           coordinates: [calcs.Lsminwage, params.minwage]
           droplines: {vertical: , horizontal: params.minwage.toFixed(2)}
           color: Red
-          r: 4
+          r: 6
           show: params.minwage > calcs.Weq
-      - Point:
-          coordinates: [0, params.minwage]
-          droplines:
-            horizontal: params.minwage.toFixed(2)
-          color: Purple
-          r: 0
-          show: params.minwage < calcs.Weq
       - Segment:
           a: [5000,10]
           b: [calcs.Lsminwage,0]
@@ -210,23 +203,25 @@ layout:
     sidebar:
       controls:
 
-      - title: Salario minimo nel mercato concorrenziale del lavoro
+      - title: Minimum Wage in a Perfectly Competitive Labor market
 #        description: The budget line for a worker who can choose how many hours to work at a constant wage
         sliders:
         - param: minwage
-          label: W_\text{min}
+          label: W_0
         divs:
-        - html: "` In assenza di interventi statali, il salario è $W=${calcs.Weq.toFixed(2)} $
-                      e la quantità di lavoro scambiata è $L=${calcs.Leq.toFixed(2)} $. `"
-        - html: "` L'introduzione di un salario minimo pari a $W_\\\\text{min}=${params.minwage.toFixed(2)} $ non ha
-                    alcun effetto sul mercato. `"
+        - html: "` Without intervention, equilibrium wage is $W=${calcs.Weq.toFixed(2)} $
+                      and employment is $L=${calcs.Leq.toFixed(2)} $. `"
+        - html: "` Introducing a minimum wage $W_0=${params.minwage.toFixed(2)} $ 
+                    has no impact on the market. `"
           show: params.minwage <= calcs.Weq
-        - html: "` L'introduzione di un salario minimo pari a $W_\\\\text{min}=${params.minwage} $ crea un eccesso di offerta di lavoro.
-                    La quantità di lavoro scambiata è pari alla quantità domandata, $L=${calcs.Ldminwage.toFixed(2)}$, mentre la quantità offerta
-                    è $L=${calcs.Lsminwage.toFixed(2)}$.  `"
+        - html: "` Introducing a minimum wage $W_0=${params.minwage} $ 
+                    creates an excess supply of labor.
+                    Employment is equal to quantity demanded, $L=${calcs.Ldminwage.toFixed(2)}$,
+                    while quantity supplied is 
+                     $L=${calcs.Lsminwage.toFixed(2)}$.  `"
           show: params.minwage > calcs.Weq
-        - html: "` Il salario minimo ha ridotto la quantità di lavoro
-                    scambiata nel mercato, creando una perdita secca (area grigia). `"
+        - html: "` The minimum wage reduces employment, which 
+                    results in a deadweight loss (grey area). `"
           show: params.minwage > calcs.Weq
 
 

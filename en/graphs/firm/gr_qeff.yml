@@ -108,32 +108,31 @@ layout:
           label: W
         divs:
         - html: "` `"
-        - html: "` La funzione di produzione è $Q=A\\\\sqrt{L}$. `"
-        - html: "` Le funzioni di costo medio e costo marginale sono quindi `"
+        - html: "` The production function is $Q=A\\\\sqrt{L}$. `"
+        - html: "` The average and marginal cost functions are therefore `"
         - html: "` 
                     $$AC(Q)=\\\\frac{FC}{Q}+\\\\frac{W}{A^2}Q \\\\qquad 
                     MC(Q)=\\\\frac{2W}{A^2}Q$$
-                    Calcolando il
-                     loro punto di intersezione, otteniamo `"
+                    Calculating their point of intersection gives `"
         - html: "` `"
         - html: "` 
                     $$Q^\\\\text{eff}=A\\\\sqrt{\\\\frac{FC}{W}}
                     \\\\qquad 
                     AC^\\\\text{min}=\\\\frac{2\\\\sqrt{FC}\\\\sqrt{W}}{A}$$ `"
         - html: "` `"
-        - html: "` Dato che $A=${params.a}$, $FC=${params.fc}$ e $W=${params.w}$, abbiamo quindi `"
+        - html: "` Given that $A=${params.a}$, $FC=${params.fc}$ e $W=${params.w}$, we then have `"
         - html: "` 
                     $$Q^\\\\text{eff}=${calcs.qeff}
                     \\\\qquad 
                     AC_\\\\text{min}=${calcs.acmin}$$ `"
     explanation:
       divs:
-        - html: "` Come si vede dalle formule a lato del grafico (e spostando i cursori a lato del grafico), un miglioramento tecnologico 
-                  (cioè un aumento di $A$) fa aumentare la scala efficiente di produzione e diminuire
-                  il minimo costo medio.  `"
+        - html: "` As can be seen from the formulas beside the graph (try moving the sliders), a technological
+                   improvement (a larger value of $A$) increases the efficient scale of production
+                    and decreases the minimum average cost.  `"
         - html: "` `"
-        - html: "` L'opposto accade all'aumentare del costo del lavoro. Se $W$ aumenta, la scala efficiente di
-                   produzione diminuisce e il minimo costo medio aumenta.  `"
+        - html: "` The opposite happens when labor becomes more expensive. An increase in $W$ makes the
+                  efficient scale of production smaller, and the minimum average cost larger.  `"
         - html: "` `"
-        - html: "` Infine, un aumento del costo fisso $FC$ fa aumentare la scala efficiente di produzione e 
-                  aumentare il minimo costo medio.  `"
+        - html: "` Finally, an increase in the fixed cost $FC$ increases both the efficient scale of production
+                   and the minimum average cost.  `"

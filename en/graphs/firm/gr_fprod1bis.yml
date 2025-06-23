@@ -29,7 +29,7 @@ layout:
 
         - Label:
                 coordinates: [6, 0]
-                text: "` \\\\text{Lavoro (gg)} `"
+                text: "` \\\\text{Labor (dd)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
@@ -70,13 +70,13 @@ layout:
 
         - Label:
                 coordinates: [6, 0]
-                text: "` \\\\text{Lavoro (gg)} `"
+                text: "` \\\\text{Labor (dd)} `"
                 yPixelOffset: 0
                 xPixelOffset: -5
                 position: l
         - Label:
                 coordinates: [0, 200]
-                text: "` \\\\text{kg/gg}  `"
+                text: "` \\\\text{kg/dd}  `"
                 xPixelOffset: -6
 
 # points
@@ -101,7 +101,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Funzione di produzione e prodotto medio
+      - title: Production Function and Average Product
         sliders:
         - param: alpha
           label: \alpha

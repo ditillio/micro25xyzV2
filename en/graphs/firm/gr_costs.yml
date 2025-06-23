@@ -5,7 +5,7 @@ params:
 - {name: ops, value: 0.2}
 - {name: x, value: 120, min: 0, max: 200}
 - {name: a, value: 80, min: 60, max: 100, round: 5}
-- {name: alpha, value: 0.5, min: 0.3, max: 0.7, round: 0.1}
+- {name: alpha, value: 0.5, min: 0.5, max: 1, round: 0.5}
 - {name: w, value: 64, min: 40, max: 80, round: 1}
 - {name: fc, value: 100, min: 0, max: 200, round: 5}
 
@@ -252,12 +252,12 @@ layout:
 
     sidebar:
       controls:
-      - title: Costi e costi unitari dell'impresa
+      - title: Costs and Unit Costs
         sliders:
         - param: a
           label: A
-        # - param: alpha
-        #   label: \alpha
+        - param: alpha
+          label: \alpha
         - param: fc
           label: FC
         - param: w
@@ -270,11 +270,11 @@ layout:
         - html: "` `"
         - html: "` `"
         - html: "` `"
-        - html: "` Al livello di produzione $ Q = ${params.x} $ i costi dell'impresa sono
+        - html: "` At the level of production $ Q = ${params.x} $ the firm's costs are
                   $$ C(${params.x}) = ${calcs.tc.toFixed(2)} $$
                   $$ VC(${params.x}) = ${calcs.vc.toFixed(2)} $$
                   $$ FC = ${params.fc.toFixed(2)} $$
-                  In termini unitari, i costi sono
+                  On a per unit basis, costs are
                   $$ AC(${params.x}) = ${calcs.atc.toFixed(2)} $$
                   $$ AVC(${params.x}) = ${calcs.avc.toFixed(2)} $$
                   $$ AFC(${params.x}) = ${calcs.afc.toFixed(2)} $$
